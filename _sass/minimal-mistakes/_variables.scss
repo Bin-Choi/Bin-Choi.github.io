@@ -10,17 +10,18 @@ $doc-font-size: 16 !default;
 
 /* paragraph indention */
 $paragraph-indent: false !default; // true, false (default)
-$indent-var: 1.3em !default;
+$indent-var: 0.7lem !default;
 
 /* system typefaces */
 $serif: Georgia, Times, serif !default;
-$sans-serif: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI",
+$sans-serif: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Roboto", "Segoe UI",
   "Helvetica Neue", "Lucida Grande", Arial, sans-serif !default;
-$monospace: Monaco, Consolas, "Lucida Console", monospace !default;
+$monospace: "Fira Mono", "Pretendard", Monaco, Consolas, "Lucida Console", monospace !default;
 
 /* sans serif typefaces */
 $sans-serif-narrow: $sans-serif !default;
 $helvetica: Helvetica, "Helvetica Neue", Arial, sans-serif !default;
+$menufont: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', "Montserrat", "BioRhyme", "Pretendard", sans-serif !default;
 
 /* serif typefaces */
 $georgia: Georgia, serif !default;
@@ -28,6 +29,9 @@ $times: Times, serif !default;
 $bodoni: "Bodoni MT", serif !default;
 $calisto: "Calisto MT", serif !default;
 $garamond: Garamond, serif !default;
+$lobster: 'Lobster', cursive !default;
+$biorhyme: 'BioRhyme', serif !default;
+$creteround: 'Crete Round', serif !default;
 
 $global-font-family: $sans-serif !default;
 $header-font-family: $sans-serif !default;
@@ -76,7 +80,8 @@ $warning-color: #d67f05 !default;
 $danger-color: #ee5f5b !default;
 $info-color: #3b9cba !default;
 $focus-color: $primary-color !default;
-$active-color: mix(#fff, $primary-color, 80%) !default;
+// navigation background color
+$active-color: mix($primary-color, $background-color, 5%) !default;
 
 /* YIQ color contrast */
 $yiq-contrasted-dark-default: $dark-gray !default;
@@ -155,9 +160,14 @@ $max-width: $x-large !default;
    Grid
    ========================================================================== */
 
-$right-sidebar-width-narrow: 150px !default; // default 200px
-$right-sidebar-width: 200px !default;        // default 300px
-$right-sidebar-width-wide: 250px !default;   // default 400px
+   $left-sidebar-width-narrow: 240px !default;
+   $left-sidebar-width: 280px !default;
+   $left-sidebar-width-wide: 400px !default;
+   
+   /* changed right sidebar width 200 -> 240, 250 -> 280 */
+   $right-sidebar-width-narrow: 240px !default;
+   $right-sidebar-width: 280px !default;
+   $right-sidebar-width-wide: 400px !default;
 
 /*
    Other
