@@ -4,4 +4,10 @@ var store = [{
         "tags": [],
         "url": "/my-first-post/",
         "teaser": null
+      },{
+        "title": "Network 1",
+        "excerpt":" ","categories": [],
+        "tags": [],
+        "url": "/network-1/",
+        "teaser": null
       }]
