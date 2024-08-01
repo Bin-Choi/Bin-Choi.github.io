@@ -1,9 +1,8 @@
 ---
+title: "Hi all! I'm OOOOOO👋🏻"
 permalink: /about/
-title: "About"
-toc: true
-toc_sticky: true
-toc_label: "MYSELF"
+layout: single
+comments: false
 ---
-자기소개 수정
 
+본인 소개 여기에 입력

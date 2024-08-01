@@ -1,0 +1,861 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <style> 
+      ::-webkit-scrollbar{ 
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        width: 0px;
+        background-color: rgba(224, 224, 224, 0.2);
+        /* border-radius: 5px; */
+      }
+
+      ::-webkit-scrollbar-thumb {
+        width: 0px;
+        background-color: rgba(220, 219, 218, 0.6);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        width: 10px;
+        height: 20px;
+        /* background-color: rgba(190, 190, 190, 0.2); */
+        background-color: rgba(193, 192, 191, 0.7);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-track:hover {
+        width: 10px;
+        /* background-color: rgba(150, 150, 150, 0.1); */
+        background-color: rgba(224, 224, 224, 0.5);
+        border-radius: 5px;
+        /* background: transparent; */
+        /* border-radius: 10px; */
+      }
+
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment {
+          width:0px;
+          height: 0px;
+          /* background-color: rgb(14, 221, 24); */
+          /* border-radius: 50%; */
+      }
+    </style>
+    
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>  네트워크 첫 걸음 | your name here</title>
+<meta name="description" content="네트워크의 구조, 용어, LAN과 WAN, 가정과 회사에서의 LAN 구성에 대해 학습한 것을 정리하는 글입니다.">
+
+
+  <meta name="author" content="your name here">
+  
+  <meta property="article:author" content="your name here">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="Beans DevLog">
+<meta property="og:title" content="  네트워크 첫 걸음">
+<meta property="og:url" content="http://localhost:4000/Network/network1/">
+
+
+  <meta property="og:description" content="네트워크의 구조, 용어, LAN과 WAN, 가정과 회사에서의 LAN 구성에 대해 학습한 것을 정리하는 글입니다.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2024-06-05T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2024-06-10T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/Network/network1/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "dev.Choi",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Beans DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://github-account.github.io/assets/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://github-account.github.io/assets/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://github-account.github.io/assets/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://github-account.github.io/assets/images/favicon/site.webmanifest">
+    <link rel="mask-icon" href="https://github-account.github.io/assets/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#ffc40d">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Beans DevLog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="https://Bin-Choi.github.io/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/Bin-Choi">GitHub</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/meee.png" alt="your name here" itemprop="image">
+      
+    </div>
+  
+
+  <!-- 2022.02.17 author content hidden -->
+  <!-- <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">your name here</h3>
+    
+    
+  </div> -->
+
+  <div class="author__urls-wrapper">
+    <!-- <button class="btn btn--inverse">Follow</button> -->
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    <!-- <li>
+      <span class="nav__total">🌴 Total Posts: 6</span>
+    </li> -->
+    
+    
+      <li>
+        
+              <a href="/categories/Network/"><span class="nav__sub-title">Network</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/categories2/"><span class="nav__sub-title">Categories2</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/categories3/"><span class="nav__sub-title">Categories3</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/categories4/"><span class="nav__sub-title">Categories4</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="  네트워크 첫 걸음">
+    <meta itemprop="description" content="네트워크의 구조, 용어, LAN과 WAN, 가정과 회사에서의 LAN 구성에 대해 학습한 것을 정리하는 글입니다.">
+    <meta itemprop="datePublished" content="2024-06-05T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2024-06-10T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline"><ol>
+  <li>네트워크 첫 걸음</li>
+</ol>
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2024-06-05T00:00:00+09:00">June 5, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#시작하기에-앞서">시작하기에 앞서…</a></li><li><a href="#111-컴퓨터-네트워크">1.1.1 컴퓨터 네트워크</a></li><li><a href="#112-패킷">1.1.2 패킷</a></li><li><a href="#111-비트와-바이트">1.1.1 비트와 바이트</a></li><li><a href="#131-lan과-wan의-차이">1.3.1 LAN과 WAN의 차이</a></li><li><a href="#141-가정에서의-네트워크-구성">1.4.1 가정에서의 네트워크 구성</a></li><li><a href="#151-소규모-회사에서의-네트워크-구성">1.5.1 소규모 회사에서의 네트워크 구성</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h3 id="시작하기에-앞서">시작하기에 앞서…</h3>
+<p>“모두의 네트워크” 책을 읽고 학습한 내용을 정리하려 합니다.
+9개의 포스트가 올라갈 예정입니다.</p>
+
+<hr />
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>네트워크를 배우기 앞서 기초지식을 학습한다.
+</code></pre></div></div>
+<ul>
+  <li>1.1 네트워크의 구조
+    <ul>
+      <li>1.1.1 컴퓨터 네트워크</li>
+      <li>1.1.2 패킷</li>
+    </ul>
+  </li>
+  <li>1.2 정보의 양을 나타내는 단위
+    <ul>
+      <li>1.2.1 비트와 바이트</li>
+    </ul>
+  </li>
+  <li>1.3 LAN과 WAN
+    <ul>
+      <li>1.3.1 LAN과 WAN의 차이</li>
+      <li>1.3.2 인터넷 서비스 제공자(ISP)</li>
+    </ul>
+  </li>
+  <li>1.4 가정에서 하는 LAN 구성
+    <ul>
+      <li>1.4.1 가정에서의 네트워크 구성</li>
+    </ul>
+  </li>
+  <li>1.5 회사에서 하는 LAN 구성
+    <ul>
+      <li>
+        <h2 id="151-소규모-회사에서의-네트워크-구성온프레미스">1.5.1. 소규모 회사에서의 네트워크 구성(온프레미스)</h2>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <h2 id="11-네트워크의-구조">1.1 네트워크의 구조</h2>
+</blockquote>
+
+<blockquote>
+  <h3 id="111-컴퓨터-네트워크">1.1.1 컴퓨터 네트워크</h3>
+</blockquote>
+
+<blockquote>
+  <p><em>컴퓨터 간의 네트워크를 연결한 것. 두 대만 연결되어 있어도 네트워크가 되고, 정보를 서로 주고받을 수 있다.</em></p>
+</blockquote>
+
+<p>인터넷은 TCP/IP 프로토콜을 기반으로 전 세계적으로 연결되어있는 컴퓨터 네트워크 통신망을 말한다.</p>
+
+<blockquote>
+  <h3 id="112-패킷">1.1.2 패킷</h3>
+</blockquote>
+
+<blockquote>
+  <p><em>네트워크를 통해 전송되는 작은 데이터 조각</em></p>
+</blockquote>
+
+<p>큰 데이터를 그대로 네트워크에 송신할 경우, 네트워크의 대역폭을 너무 많이 점유해서 다른 데이터의 흐름을 막을 수 있다.
+따라서 데이터를 작은 크기의 패킷으로 분할하여 전송한다.
+데이터가 작은 단위로 분할되어 있고 전송 순서대로 도착하지 않을 수 있기 때문에 수신측 컴퓨터에서 다시 정렬할 수 있도록 정보를 담는다.</p>
+
+<blockquote>
+  <h2 id="12-정보의-양을-나타내는-단위">1.2 정보의 양을 나타내는 단위</h2>
+</blockquote>
+
+<p>디지털 데이터: 0과 1의 집합</p>
+
+<blockquote>
+  <h3 id="111-비트와-바이트">1.1.1 비트와 바이트</h3>
+</blockquote>
+
+<blockquote>
+  <p><em>비트(bit): 0과 1의 정보를 나타내는 최소단위</em></p>
+</blockquote>
+
+<blockquote>
+  <p><em>바이트(byte): 1byte = 8bit</em></p>
+</blockquote>
+
+<p>커뮤터는 기본적으로 바이트 단위로 데이터를 읽고 쓰는 작업을 한다.</p>
+
+<blockquote>
+  <h2 id="13-lan과-wan">1.3 LAN과 WAN</h2>
+</blockquote>
+
+<blockquote>
+  <h3 id="131-lan과-wan의-차이">1.3.1 LAN과 WAN의 차이</h3>
+</blockquote>
+
+<blockquote>
+  <p><em>LAN(Local Area Network)<br />
+근거리 통신망으로 집이나 빌딩같은 건물 안이나 지리적으로 제한된 곳에서 사용하는 네트워크.</em></p>
+</blockquote>
+
+<blockquote>
+  <p><em>WAN(Wide Area Network)<br />
+광역 통신망으로 LAN과 LAN을 연결한 네트워크이며 ISP(인터넷 서비스 제공자)가 제공하는 서비스를 사용하여 구축.</em></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>LAN</th>
+      <th>WAN</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>범위</td>
+      <td>좁다</td>
+      <td>넓다</td>
+    </tr>
+    <tr>
+      <td>속도</td>
+      <td>빠르다</td>
+      <td>느리다</td>
+    </tr>
+    <tr>
+      <td>오류</td>
+      <td>적다</td>
+      <td>많다</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <h2 id="14-가정에서-하는-lan-구성">1.4 가정에서 하는 LAN 구성</h2>
+</blockquote>
+
+<blockquote>
+  <h3 id="141-가정에서의-네트워크-구성">1.4.1 가정에서의 네트워크 구성</h3>
+</blockquote>
+
+<ul>
+  <li>인터넷 서비스 제공자
+인터넷 서비스를 제공하는 주체를 의미하며 인터넷 서비스에는 구체적으로 인터넷 통신망, IP 할당 그리고 인터넷 접속 서비스가 있다.</li>
+  <li>인터넷 공유기
+가정이나 소기업 등에서 사용하는 라우터를 말한다. 최근에는 라우터 기능 뿐 아니라 스위칭 허브, 방화벽과 같은 다양한 기능도 제공한다.</li>
+  <li>유선 랜과 무선 랜
+    <ul>
+      <li><strong>유선 랜</strong> 이더넷 케이블이라고도 불리며, 8가락의 구리선 케이블을 이용해 데이터를 송수신 한다.</li>
+      <li><strong>무선 랜</strong> IEEE 802.11 표준에 기반한 무선 네트워크 통신 기술이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <h2 id="15-회사에서-하는-lan-구성">1.5 회사에서 하는 LAN 구성</h2>
+</blockquote>
+
+<p>회사에서는 서버를 운영하기 위해 서버를 어디에 두느냐에 따라 크게 두 가지로 분류할 수 있다.</p>
+<ul>
+  <li>온 프레미스(on-premise)
+사내 또는 데이터 센터에 서버를 두고 운영하는  것</li>
+  <li>클라우드(cloud)
+외부의 서버 인프라를 이용하는 방식
+    <blockquote>
+      <h3 id="151-소규모-회사에서의-네트워크-구성">1.5.1 소규모 회사에서의 네트워크 구성</h3>
+    </blockquote>
+  </li>
+</ul>
+
+<blockquote>
+  <p><strong><em>DMZ:</em></strong> <em>외부에 공개하기 위한 네트워크</em></p>
+</blockquote>
+
+<p>내부 네트워크와 외부 네트워크에서 모두 접근이 가능하지만, DMZ 내의 컴퓨터는 오로지 외부 네트워크로만 접근이 가능하다.
+DMZ를 통해 외부에 서비스를 제공하면서, 내부 네트워크를 보호 할 수 있다.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#network" class="page__taxonomy-item" rel="tag">Network</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2024-06-10">June 10, 2024</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/categories4/post-name-here-4/" class="pagination--pager" title="[포스팅 예시] 이곳에 제목을 입력하세요
+">Prev</a>
+    
+    
+      <a href="/Network/network2/" class="pagination--pager" title="
+  네트워크의 기본 규칙
+
+">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/Network/network2/" rel="permalink"><ol>
+  <li>네트워크의 기본 규칙</li>
+</ol>
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2024-06-16T00:00:00+09:00">June 16, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">네트워크 통신의 기본 규칙인 프로토콜에 대해 학습한 것을 정리.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/categories4/post-name-here-4/" rel="permalink">[포스팅 예시] 이곳에 제목을 입력하세요
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2022-07-24T00:00:00+09:00">July 24, 2022</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본문의 주요 내용을 여기에 입력하세요
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/categories3/post-name-here-3/" rel="permalink">[포스팅 예시] 이곳에 제목을 입력하세요
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2022-07-24T00:00:00+09:00">July 24, 2022</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본문의 주요 내용을 여기에 입력하세요
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/categories2/post-name-here-2/" rel="permalink">[포스팅 예시] 이곳에 제목을 입력하세요
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2022-07-24T00:00:00+09:00">July 24, 2022</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본문의 주요 내용을 여기에 입력하세요
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 dev.Choi. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'github-account/repo-name');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>
