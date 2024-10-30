@@ -22,7 +22,7 @@
 </url>
 <url>
 <loc>http://localhost:4000/Network/network2/</loc>
-<lastmod>2024-06-16T00:00:00+09:00</lastmod>
+<lastmod>2024-08-09T00:00:00+09:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/about/</loc>
@@ -34,7 +34,7 @@
 <loc>http://localhost:4000/categories/Network/</loc>
 </url>
 <url>
-<loc>http://localhost:4000/categories/categories2/</loc>
+<loc>http://localhost:4000/categories/sql/</loc>
 </url>
 <url>
 <loc>http://localhost:4000/categories/categories3/</loc>

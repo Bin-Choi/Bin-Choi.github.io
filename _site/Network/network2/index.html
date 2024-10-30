@@ -81,7 +81,7 @@
 
 
 
-  <meta property="article:modified_time" content="2024-06-16T00:00:00+09:00">
+  <meta property="article:modified_time" content="2024-08-09T00:00:00+09:00">
 
 
 
@@ -370,7 +370,7 @@
     <meta itemprop="headline" content="  네트워크의 기본 규칙">
     <meta itemprop="description" content="네트워크 통신의 기본 규칙인 프로토콜에 대해 학습한 것을 정리.">
     <meta itemprop="datePublished" content="2024-08-09T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2024-06-16T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2024-08-09T00:00:00+09:00">
 
     <div class="page__inner-wrap">
       
@@ -409,8 +409,7 @@
             </nav>
           </aside>
         
-        <hr />
-<p><strong>네트워크 통신 규칙인 프로토콜에 대한 설명</strong></p>
+        <p><strong>네트워크 통신 규칙인 프로토콜에 대한 설명</strong></p>
 
 <hr />
 
@@ -459,18 +458,20 @@
 <h3 id="231-캡슐화와-역캡슐화">2.3.1 캡슐화와 역캡슐화</h3>
 
 <p>데이터를 보내려면 데이터의 앞부분에 전송하는데 필요한 정보를 붙여서 다음 계층으로 보내야 한다. <br />
-헤더에는 데이터를 전달받을 상대방에 대한 정보도 포함되어 있다.</p>
+헤더(데이터 링크 계층에서 붙는 트레일러도 포함)에는 데이터를 전달받을 상대방에 대한 정보도 포함되어 있다.</p>
 <blockquote>
   <p>계층을 거치면서 헤더를 붙여 나가는 것을 <strong>캡슐화</strong>라고 한다.</p>
 </blockquote>
 
-<p>전송 계층과 네트워크 계층, 데이터 링크 계층을 거치며 헤더를 추가하고 마지막에 트레일러를 붙인다.<br />
+<p>전송 계층과 네트워크 계층, 데이터 링크 계층을 거치며 헤더를 추가하고 마지막에 트레일러를 붙인다.
+(총 헤더가 3개지요.. 트레일러는 데이터 링크에서만 붙이기에 1개입니다…)<br />
 이렇게 데이터 링크 계층에서 만들어진 데이터는 최종적으로 <strong>전기 신호</strong>로 변환되어 수신 측에 도착한다.</p>
 <blockquote>
   <p>반대로 헤더를 제거하는 것을 <strong>역캡슐화</strong>라고 한다.</p>
 </blockquote>
 
 <p>데이터 링크 계층부터 헤드와 트레일러를 제거하여 순서대로 상위 계층으로 전달한다.</p>
+
 
         
       </section>
@@ -496,7 +497,7 @@
 
 
         
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2024-06-16">June 16, 2024</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2024-08-09">August 9, 2024</time></p>
 
 
       </footer>
