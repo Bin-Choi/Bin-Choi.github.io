@@ -100,7 +100,7 @@ analytics:
 # Site Author
 author:
   name: "Bean" # 블로그 닉네임
-  avatar: "/assets/images/profile.jpg" # 블로그 프로필 사진
+  avatar: "/assets/images/profile.JPG" # 블로그 프로필 사진
   bio              : "joyful day"
   # location         : "Seoul, Korea"
   # email            : "csb5268@gmail.com"
