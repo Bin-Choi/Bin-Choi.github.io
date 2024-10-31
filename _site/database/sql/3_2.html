@@ -694,14 +694,14 @@ COALESCE(arg1 [[, arg2] …])</p>
 </ul>
 
 <h4 id="case">CASE</h4>
-<p>칼럼이 특정 값을 가지면 이를 대체하는 새 값을 반환하는 연산을 정의
-```sql
-CASE 칼럼1
-WHEN 값a(칼럼1의 값) THEN 값1(새 값)
-WHEN 값b(칼럼1의 값) THEN 값2(새 값)
-…
-ELSE 나머지 칼럼값에 대한 반환 값
-END</p>
+<p>칼럼이 특정 값을 가지면 이를 대체하는 새 값을 반환하는 연산을 정의</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CASE</span> <span class="err">칼럼</span><span class="mi">1</span>
+<span class="k">WHEN</span> <span class="err">값</span><span class="n">a</span><span class="p">(</span><span class="err">칼럼</span><span class="mi">1</span><span class="err">의</span> <span class="err">값</span><span class="p">)</span> <span class="k">THEN</span> <span class="err">값</span><span class="mi">1</span><span class="p">(</span><span class="err">새</span> <span class="err">값</span><span class="p">)</span>
+<span class="k">WHEN</span> <span class="err">값</span><span class="n">b</span><span class="p">(</span><span class="err">칼럼</span><span class="mi">1</span><span class="err">의</span> <span class="err">값</span><span class="p">)</span> <span class="k">THEN</span> <span class="err">값</span><span class="mi">2</span><span class="p">(</span><span class="err">새</span> <span class="err">값</span><span class="p">)</span>
+<span class="p">...</span>
+<span class="k">ELSE</span> <span class="err">나머지</span> <span class="err">칼럼값에</span> <span class="err">대한</span> <span class="err">반환</span> <span class="err">값</span>
+<span class="k">END</span>
+</code></pre></div></div>
 
         
       </section>
