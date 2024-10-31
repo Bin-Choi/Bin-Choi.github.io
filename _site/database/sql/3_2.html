@@ -1,0 +1,945 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <style> 
+      ::-webkit-scrollbar{ 
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        width: 0px;
+        background-color: rgba(224, 224, 224, 0.2);
+        /* border-radius: 5px; */
+      }
+
+      ::-webkit-scrollbar-thumb {
+        width: 0px;
+        background-color: rgba(220, 219, 218, 0.6);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        width: 10px;
+        height: 20px;
+        /* background-color: rgba(190, 190, 190, 0.2); */
+        background-color: rgba(193, 192, 191, 0.7);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-track:hover {
+        width: 10px;
+        /* background-color: rgba(150, 150, 150, 0.1); */
+        background-color: rgba(224, 224, 224, 0.5);
+        border-radius: 5px;
+        /* background: transparent; */
+        /* border-radius: 10px; */
+      }
+
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment {
+          width:0px;
+          height: 0px;
+          /* background-color: rgb(14, 221, 24); */
+          /* border-radius: 50%; */
+      }
+    </style>
+    
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>SELECT문 &amp; 함수 | Bean</title>
+<meta name="description" content="SQLD 정리">
+
+
+  <meta name="author" content="Bean">
+  
+  <meta property="article:author" content="Bean">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="Beans DevLog">
+<meta property="og:title" content="SELECT문 &amp; 함수">
+<meta property="og:url" content="http://localhost:4000/database/sql/3_2">
+
+
+  <meta property="og:description" content="SQLD 정리">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2024-10-31T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2024-10-31T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/database/sql/3_2">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "dev.Choi",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Beans DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://github-account.github.io/assets/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://github-account.github.io/assets/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://github-account.github.io/assets/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://github-account.github.io/assets/images/favicon/site.webmanifest">
+    <link rel="mask-icon" href="https://github-account.github.io/assets/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#ffc40d">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Beans DevLog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="https://Bin-Choi.github.io/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/Bin-Choi">GitHub</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/profile.jpg" alt="Bean" itemprop="image">
+      
+    </div>
+  
+
+  <!-- 2022.02.17 author content hidden -->
+  <!-- <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Bean</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>joyful day</p>
+
+      </div>
+    
+  </div> -->
+
+  <div class="author__urls-wrapper">
+    <!-- <button class="btn btn--inverse">Follow</button> -->
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    <!-- <li>
+      <span class="nav__total">🌴 Total Posts: 4</span>
+    </li> -->
+    
+    
+      <li>
+        
+              <a href="/categories/Network/"><span class="nav__sub-title">Network</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/Database/"><span class="nav__sub-title">Database</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/java/"><span class="nav__sub-title">Java</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/categories4/"><span class="nav__sub-title">Categories4</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="SELECT문 &amp; 함수">
+    <meta itemprop="description" content="SQLD 정리">
+    <meta itemprop="datePublished" content="2024-10-31T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2024-10-31T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">SELECT문 &amp; 함수
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2024-10-31T00:00:00+09:00">October 31, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#sql문-작성지침">SQL문 작성지침</a></li><li><a href="#321-select">3.2.1 SELECT</a></li><li><a href="#322-산술연산자">3.2.2 산술연산자</a></li><li><a href="#323-합성연산자">3.2.3 합성연산자</a></li><li><a href="#331-문자함수">3.3.1 문자함수</a><ul><li><a href="#lower">LOWER</a></li><li><a href="#upper">UPPER</a></li><li><a href="#trim">TRIM</a></li><li><a href="#ltrim-rtrim">LTRIM, RTRIM</a></li><li><a href="#substr">SUBSTR</a></li><li><a href="#length">LENGTH</a></li><li><a href="#replace">REPLACE</a></li></ul></li><li><a href="#332-숫자함수">3.3.2 숫자함수</a><ul><li><a href="#abs">ABS</a></li><li><a href="#mod">MOD</a></li><li><a href="#round">ROUND</a></li><li><a href="#trunc">TRUNC</a></li><li><a href="#sign">SIGN</a></li><li><a href="#ceil">CEIL</a></li><li><a href="#floor">FLOOR</a></li></ul></li><li><a href="#333-날짜함수">3.3.3 날짜함수</a><ul><li><a href="#sysdate">SYSDATE</a></li><li><a href="#extract">EXTRACT</a></li></ul></li><li><a href="#334-변환함수">3.3.4 변환함수</a><ul><li><a href="#to_number">TO_NUMBER</a></li><li><a href="#to_char">TO_CHAR</a></li><li><a href="#to_date">TO_DATE</a></li></ul></li><li><a href="#335-null-관련-함수">3.3.5 NULL 관련 함수</a><ul><li><a href="#nvl-ifnull-isnull">NVL, IFNULL, ISNULL</a></li><li><a href="#nullif">NULLIF</a></li><li><a href="#coalesce">COALESCE</a></li><li><a href="#case">CASE</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <hr />
+<h3 id="sql문-작성지침">SQL문 작성지침</h3>
+<p><strong>1. 대소문자를 구별하지 않음</strong><br />
+<strong>SELECT</strong> 와 <strong>select</strong>는 동일하게 인식됨, 가독성을 위해 일반적으로 키워드(SELECT, FROM, WHERE 등)는 <strong>대문자</strong>로 작성하는 것이 관례<br />
+<strong>2. 여러 줄에 걸쳐 작성 가능</strong><br />
+  SQL문은 가독성을 위해 여러 줄에 걸쳐서 작성 가능<br />
+<strong>3. 키워드는 줄여 쓸수 없다</strong><br />
+  모든 키워드는 정확하게 작성해야 함<br />
+<strong>4. 세미콜론(;)으로 끝난다</strong><br />
+  반드시 세미콜론으로 마무리 해야함<br />
+<strong>5. 단일 따옴표(‘’) - 문자열 표현</strong><br />
+  문자열 값을 지정할 때 사용 (“”) X (‘’) O<br />
+<strong>6. 이중 인용부호(“”) - 열/테이블 이름</strong><br />
+  열 이름이나 테이블 이름을 구분할 때 사용됨. 예를 들어, 열 이름에 공백이나 SQL 예약어를 사용할 때 이중 인용부호를 사용 가능</p>
+
+<hr />
+
+<h2 id="32-select문">3.2 SELECT문</h2>
+
+<h3 id="321-select">3.2.1 SELECT</h3>
+<p>데이터를 조회하는 명령어.</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="err">열이름</span><span class="p">,</span> <span class="p">...</span> <span class="p">,</span> <span class="k">FROM</span> <span class="err">테이블명</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>SELECT는 절대로 데이터를 변경할 수 없음
+출력모습을 원하는 대로 변경</p>
+
+<p>AS 를 사용해 별명(Alias)을 부여할 수 있다. <em>(생략가능)</em></p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">number</span> <span class="k">AS</span> <span class="k">no</span> <span class="k">FROM</span> <span class="n">STUDENT</span><span class="p">;</span>
+<span class="k">SELECT</span> <span class="n">number</span> <span class="k">no</span> <span class="k">FROM</span> <span class="n">STUDENT</span><span class="p">;</span>
+</code></pre></div></div>
+<p><strong>[SELECT문을 이루는 절들의 실행순서]</strong></p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="k">SELECT</span><span class="err">문</span> <span class="err">구성</span><span class="p">]</span>                  <span class="o">&lt;</span><span class="err">실행순서</span><span class="o">&gt;</span>
+<span class="k">SELECT</span>                 <span class="mi">5</span><span class="p">.</span> <span class="err">지정된</span> <span class="err">칼럼을</span> <span class="err">조회하며</span><span class="p">,</span>
+<span class="k">FROM</span>                   <span class="mi">1</span><span class="p">.</span> <span class="err">테이블로부터</span><span class="p">,</span>
+<span class="k">WHERE</span>                  <span class="mi">2</span><span class="p">.</span> <span class="err">조건에</span> <span class="err">맞는</span> <span class="err">행을</span> <span class="err">필터링하고</span><span class="p">,</span>
+<span class="k">GROUP</span> <span class="k">BY</span>               <span class="mi">3</span><span class="p">.</span> <span class="err">그룹핑을</span> <span class="err">한</span> <span class="err">뒤</span><span class="p">,</span>
+<span class="k">HAVING</span>                 <span class="mi">4</span><span class="p">.</span> <span class="err">조건에</span> <span class="err">맞는</span> <span class="err">그룹만</span> <span class="err">필터링하고</span><span class="p">,</span>
+<span class="k">ORDER</span> <span class="k">BY</span>               <span class="mi">6</span><span class="p">.</span> <span class="err">정렬을</span> <span class="err">수행한다</span><span class="p">.</span>
+</code></pre></div></div>
+
+<h3 id="322-산술연산자">3.2.2 산술연산자</h3>
+<p>칼럼에 대한 산술연산자를 사용하면 동일한 행에서 칼럼 대 칼럼의 연산을 수행한다(단일행 연산).</p>
+<blockquote>
+  <p><strong>Null</strong>과의 선술연산 결과는 Null이며 0으로 나누면 오류 발생</p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">연산자</th>
+      <th style="text-align: center">설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">()</td>
+      <td style="text-align: center">먼저 계산할 식을 묶음</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">*</td>
+      <td style="text-align: center">곱셈을 수행</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">/</td>
+      <td style="text-align: center">나눗셈 수행</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">%</td>
+      <td style="text-align: center">mod 연산</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">덧셈</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">-</td>
+      <td style="text-align: center">뺄셈</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="323-합성연산자">3.2.3 합성연산자</h3>
+<p><strong>| |</strong> 는 합성연산자(연결연산자)로 문자열을 연결할 때 사용한다.
+문자열 값 또는 문자열형의 칼럼에 대해 사용 가능(단일행 연산)</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">FNAME</span> <span class="o">||</span> <span class="s1">' '</span> <span class="o">||</span> <span class="n">LNAME</span> <span class="k">AS</span> <span class="n">FULL_NAME</span> <span class="k">FROM</span> <span class="n">MEMBER</span><span class="p">;</span>
+
+<span class="o">#</span> <span class="o">-</span> <span class="n">Memeber</span> <span class="err">테이블에서</span> <span class="n">FNAME</span> <span class="err">칼럼과</span> <span class="n">LNAME</span> <span class="err">칼럼의</span> <span class="err">값을</span> <span class="err">공백을</span> <span class="err">가운데</span> <span class="err">두고</span> <span class="err">합성하여</span> <span class="n">FULL_NAME</span> <span class="err">칼럼으로</span> <span class="err">조회</span> <span class="p">(</span><span class="n">ex</span><span class="p">.</span> <span class="n">Mark</span> <span class="n">Cho</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="33-함수">3.3 함수</h2>
+<p><strong>단일행 함수</strong> <br />
+하나의 행에 대해서 연산을 수행한 후에 결과를 반환하는 함수. 연산 결과는 단일값을 반환<br />
+<strong>다중행 함수</strong><br />
+여러 행에 대해서 연산을 수행하여 결과를 반환하는 함수. 집계함수, 그룹함수, 윈도우함수 등이 해당한다. 여러 입력 인자에 대해 단일값을 반환하는 점은 단일행 함수와 같다</p>
+
+<h3 id="331-문자함수">3.3.1 문자함수</h3>
+<p><strong>[EMP 테이블]</strong><br />
+<img src="/assets/images/posts_img/table.png" alt="alt text" /></p>
+
+<h4 id="lower">LOWER</h4>
+<p>입력된 문자열을 모두 소문자로 변환하여 반환한다.</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="k">LOWER</span><span class="p">(</span><span class="n">NAME</span><span class="p">)</span> <span class="k">AS</span> <span class="n">NAME</span> <span class="k">FROM</span> <span class="n">MEMBER</span><span class="p">;</span>
+</code></pre></div></div>
+<p><img src="/assets/images/posts_img/lower.png" alt="alt text" /></p>
+<h4 id="upper">UPPER</h4>
+<p>입력된 문자열을 모두 대문자로 변환하여 반환한다.</p>
+
+<h4 id="trim">TRIM</h4>
+<p>문자열의 양 끝단에서 공백 또는 지정된 문자열을 제거하고 반환한다.
+TRIM([arg1] [arg2] [arg3])</p>
+<ul>
+  <li>arg1 : LEADING / TRAILING / BOTH, 생략시 BOTH</li>
+  <li>arg2 : 제거할 특정 문자 또는 문자열. 생략되면 공백 제거</li>
+  <li>arg3 : 문자열 값 또는 문자열형의 칼럼</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="k">TRIM</span><span class="p">(</span><span class="s1">' GOOD '</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">DUAL</span><span class="p">;</span>                      <span class="o">-&gt;</span> <span class="s1">'GOOD'</span>
+<span class="k">SELECT</span> <span class="k">TRIM</span><span class="p">(</span><span class="k">LEADING</span> <span class="s1">'가'</span> <span class="k">FROM</span> <span class="s1">'가나다라'</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">DUAL</span><span class="p">;</span>     <span class="o">-&gt;</span> <span class="s1">'나다라'</span>
+<span class="k">SELECT</span> <span class="k">TRIM</span><span class="p">(</span><span class="k">TRAILING</span> <span class="s1">'라'</span> <span class="k">FROM</span> <span class="s1">'가나다라'</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">DUAL</span><span class="p">;</span>    <span class="o">-&gt;</span> <span class="s1">'가나다'</span>
+<span class="k">SELECT</span> <span class="k">TRIM</span><span class="p">(</span><span class="k">BOTH</span> <span class="s1">'가'</span> <span class="k">FROM</span> <span class="s1">'가나다라가'</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">DUAL</span><span class="p">;</span>       <span class="o">-&gt;</span> <span class="s1">'나다라'</span>
+</code></pre></div></div>
+<h4 id="ltrim-rtrim">LTRIM, RTRIM</h4>
+<p>문자열의 왼쪽 또는 오른쪽 끝에서 공백 또는 지정된 문자열 제거하고 반환한다.</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">LTRIM</span><span class="p">(</span><span class="s1">' GOOD'</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">DUAL</span><span class="p">;</span>
+<span class="o">&gt;</span> <span class="n">GOOD</span>
+<span class="k">SELECT</span> <span class="n">RTRIM</span><span class="p">(</span><span class="s1">'GOOD'</span><span class="p">,</span> <span class="s1">'D'</span> <span class="k">FROM</span> <span class="n">DUAL</span><span class="p">);</span>
+<span class="o">&gt;</span> <span class="n">GOO</span>
+</code></pre></div></div>
+
+<h4 id="substr">SUBSTR</h4>
+<p>입력된 문자열의 부분 문자열을 추출하여 반환한다.
+SUBSTR(arg1, arg2 [, arg3])</p>
+<ul>
+  <li>arg1 : 문자열</li>
+  <li>arg2 : 부분 문자열을 추출할 시작점을 나타내는 정수</li>
+  <li>arg3 : 추출할 부분 문자열의 길이를 나타내는 정수, arg3가 생략되면 끝까지 반환</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">SUBSTR</span> <span class="p">(</span><span class="s1">'Good Morning'</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">Good</span>
+</code></pre></div></div>
+
+<h4 id="length">LENGTH</h4>
+<p>입력된 문자열의 길이를 반환한다.</p>
+<h4 id="replace">REPLACE</h4>
+<p>입력된 문자열에서 특정 문자열을 찾아 다른 문자열로 대체하여 반환한다.
+REPLACE(arg1, arg2 [, arg3])</p>
+<ul>
+  <li>arg1 : 문자열</li>
+  <li>arg2 : 변경할 대상 문자열</li>
+  <li>arg3 : 변경된 후의 문자열, 생략시 arg2를 삭제</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="k">REPLACE</span><span class="p">(</span><span class="s1">'Good Morning'</span><span class="p">,</span> <span class="s1">'Morning'</span><span class="p">,</span> <span class="s1">'Afternoon'</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">DUAL</span><span class="p">;</span>
+<span class="o">&gt;</span> <span class="n">Good</span> <span class="n">Afternoon</span> 
+<span class="k">SELECT</span> <span class="k">REPLACE</span><span class="p">(</span><span class="s1">'Good Morning'</span><span class="p">,</span> <span class="s1">'Good '</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">DUAL</span><span class="p">;</span>
+<span class="o">&gt;</span> <span class="n">Morning</span>
+</code></pre></div></div>
+
+<h3 id="332-숫자함수">3.3.2 숫자함수</h3>
+
+<h4 id="abs">ABS</h4>
+<p>절대값을 반환한다.</p>
+
+<h4 id="mod">MOD</h4>
+<p>첫 번째 인자를 두 번째 인자로 나눈 나머지를 반환한다.</p>
+
+<h4 id="round">ROUND</h4>
+<p>수를 반올림하여 반환한다.
+ROUND(arg1 [, arg2])</p>
+<ul>
+  <li>arg1 : 대상이 되는 숫자</li>
+  <li>arg2 : 소수점 아래 자릿수. 이 자릿수 아래에서 반올림하여 자릿수까지의 수를 만듬. 생략시 0
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">ROUND</span><span class="p">(</span><span class="mi">2</span><span class="p">.</span><span class="mi">68</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">DUAL</span><span class="p">;</span>
+<span class="o">&gt;</span> <span class="mi">2</span><span class="p">.</span><span class="mi">7</span>
+<span class="k">SELECT</span> <span class="n">ROUND</span><span class="p">(</span><span class="mi">2</span><span class="p">.</span><span class="mi">68</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">DUAL</span><span class="p">;</span>
+<span class="o">&gt;</span> <span class="mi">3</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="trunc">TRUNC</h4>
+<p>수를 반올림하지 않고 특정 자릿수에서 버림한 후 반환
+TRUNC(arg1 [, arg2])</p>
+<ul>
+  <li>arg1 : 대상이 되는 숫자</li>
+  <li>arg2 : 소수점 아래 자릿수. 이 자릿수까지만 남기고 아래를 버림, 생략시 0
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">TRUNC</span><span class="p">(</span><span class="mi">2</span><span class="p">.</span><span class="mi">37</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">DUAL</span><span class="p">;</span>
+<span class="o">&gt;</span> <span class="mi">2</span><span class="p">.</span><span class="mi">3</span>
+<span class="k">SELECT</span> <span class="n">TRUNC</span><span class="p">(</span><span class="mi">2</span><span class="p">.</span><span class="mi">37</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">DUAL</span><span class="p">;</span>
+<span class="o">&gt;</span> <span class="mi">2</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="sign">SIGN</h4>
+<p>입력된 값이 양수이면 1, 음수이면 -1, 0이면 0을 반환한다.</p>
+
+<h4 id="ceil">CEIL</h4>
+<p>입력된 값보다 크거나 같은 최소의 정수를 반환한다.</p>
+
+<h4 id="floor">FLOOR</h4>
+<p>입력된 값보다 작거나 같은 최대의 정수를 반환한다.</p>
+
+<h3 id="333-날짜함수">3.3.3 날짜함수</h3>
+<h4 id="sysdate">SYSDATE</h4>
+<p>오늘의 날짜를 날짜형으로 반환한다. (YYYY-MM-dd HH:MM:SS.SSS)</p>
+<blockquote>
+  <p>SQL SERVER에서는 SYSDATE 대신 GETDATE()를 사용한다.</p>
+</blockquote>
+
+<h4 id="extract">EXTRACT</h4>
+<p>날짜로부터 년, 월, 일을 추출해서 반환한다. (숫자형)
+EXTRACT(arg1 FROM arg2)</p>
+<ul>
+  <li>arg1 : YEAR / MONTH/ DAY / HOUR / MINUTE / SECOND</li>
+  <li>arg2 : 날짜</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">SYSDATE</span> <span class="k">AS</span> <span class="n">TODAY</span><span class="p">,</span> <span class="k">EXTRACT</span><span class="p">(</span><span class="k">MONTH</span> <span class="k">FROM</span> <span class="n">SYSDATE</span><span class="p">)</span> <span class="k">AS</span> <span class="n">MON</span><span class="p">,</span>
+<span class="k">EXTRACT</span><span class="p">(</span><span class="k">DAY</span> <span class="k">FROM</span> <span class="n">SYSDATE</span><span class="p">)</span> <span class="k">AS</span> <span class="k">DAY</span> <span class="k">FROM</span> <span class="n">DUAL</span><span class="p">;</span>
+<span class="o">#</span> <span class="err">오늘</span> <span class="err">날짜를</span> <span class="err">날짜형</span><span class="p">,</span> <span class="err">월</span><span class="p">,</span> <span class="err">일</span> <span class="err">형태로</span> <span class="err">출력한다</span><span class="p">.</span>
+<span class="o">&gt;</span> <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">14</span><span class="p">:</span><span class="mi">52</span><span class="p">:</span><span class="mi">13</span><span class="p">.</span><span class="mi">000</span> <span class="o">|</span> <span class="mi">10</span> <span class="o">|</span> <span class="mi">31</span> 
+</code></pre></div></div>
+
+<h3 id="334-변환함수">3.3.4 변환함수</h3>
+<p>형변환ㄴ에는 암시적 형변환가 명시적 형변환이 있다.
+SQL의 작성자가 형변환을 명시하는 것을 명시적 형변환,
+데이터베이스가 연산을 수행하면서 내부적으로 임의로 형변환을 수행하는 것을 암시적 형변환이라고 한다.</p>
+
+<p>암시적 형변환은 그 결과를 명확하게 예측할 수 없을 때가 많고, 성능 저하나 에러가 발생할 수 있으므로 가급적 명시적 형변환을 사용하는 것이 좋다.</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="err">암시적</span> <span class="err">형변환</span> <span class="err">시</span> <span class="err">성능</span> <span class="err">저하를</span> <span class="err">일으킬</span> <span class="err">수</span> <span class="err">있는</span> <span class="err">경우</span>
+<span class="k">SELECT</span> <span class="n">EMPNO</span><span class="p">,</span> <span class="n">ENAME</span><span class="p">,</span> <span class="n">JOB</span> <span class="k">FROM</span> <span class="n">EMP</span> <span class="k">WHERE</span> <span class="n">EMPNO</span> <span class="o">=</span> <span class="s1">'842'</span>
+<span class="o">#</span> <span class="n">EMPNO</span><span class="err">는</span> <span class="err">원래</span> <span class="err">숫자형이지만</span> <span class="k">WHERE</span><span class="err">절을</span> <span class="err">처리하기</span> <span class="err">위해</span> <span class="err">문자열형으로</span> <span class="err">암시적</span> <span class="err">형변환이</span> <span class="err">이루어진다</span><span class="p">.</span>
+</code></pre></div></div>
+
+<h4 id="to_number">TO_NUMBER</h4>
+<p>데이터 타입을 숫자형으로 변환</p>
+<h4 id="to_char">TO_CHAR</h4>
+<p>데이터 타입을 문자열형으로 변환</p>
+<ul>
+  <li>날짜형일 경우, 날짜 포맷을 나타내는 문자열을 같이 작성</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">TO_CHAR</span><span class="p">(</span><span class="n">SYSDATE</span><span class="p">,</span> <span class="s1">'YYYY/MM/DD'</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">DUAL</span><span class="p">;</span>
+<span class="o">&gt;</span> <span class="mi">2024</span><span class="o">/</span><span class="mi">10</span><span class="o">/</span><span class="mi">31</span>
+</code></pre></div></div>
+<h4 id="to_date">TO_DATE</h4>
+<p>데이터 타입을 날짜형으로 변환</p>
+<ul>
+  <li>날짜 포맷을 나타내는 문자열을 같이 작성</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">TO_DATE</span><span class="p">(</span><span class="s1">'20241031'</span><span class="p">,</span> <span class="s1">'YYYY-MM-DD'</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">DUAL</span><span class="p">;</span>
+<span class="o">&gt;</span> <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span>
+</code></pre></div></div>
+
+<h3 id="335-null-관련-함수">3.3.5 NULL 관련 함수</h3>
+<h4 id="nvl-ifnull-isnull">NVL, IFNULL, ISNULL</h4>
+<p>첫 번째 인자가 Null이 아니면 그대로 반환하고 Null이면 두번째 인자를 반환, 두 데이터 타입은 같아야한다.</p>
+<blockquote>
+  <p>SQL 서버에서는 ISNULL 을 사용한다. (MySQL은 IFNULL)</p>
+</blockquote>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">EMPNO</span><span class="p">,</span> <span class="n">ENAME</span><span class="p">,</span> <span class="k">ISNULL</span><span class="p">(</span><span class="n">COMM</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">AS</span> <span class="n">COMM</span> <span class="k">FROM</span> <span class="n">EMP</span><span class="p">;</span>
+<span class="o">&gt;</span> <span class="o">#</span> <span class="n">COMM</span> <span class="err">칼럼의</span> <span class="err">값이</span> <span class="k">NULL</span><span class="err">인</span> <span class="err">것을</span> <span class="mi">0</span><span class="err">으로</span> <span class="err">치환하여</span> <span class="err">반환</span>
+</code></pre></div></div>
+
+<h4 id="nullif">NULLIF</h4>
+<p>입력된 두 인자가 같으면 Null을 반환하고 다르면 첫 번째 인자를 반환한다.</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">EMPNO</span><span class="p">,</span> <span class="n">ENAME</span><span class="p">,</span> <span class="n">MGR</span><span class="p">,</span> <span class="k">NULLIF</span><span class="p">(</span><span class="n">MGR</span><span class="p">,</span> <span class="mi">1111</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">EMP</span><span class="p">;</span>
+<span class="o">&gt;</span> <span class="o">#</span> <span class="n">MGR</span> <span class="err">칼럼의</span> <span class="err">값이</span> <span class="mi">1111</span><span class="err">과</span> <span class="err">같은</span> <span class="err">것을</span> <span class="k">NULL</span><span class="err">로</span> <span class="err">치환하여</span> <span class="err">반환</span>
+</code></pre></div></div>
+
+<h4 id="coalesce">COALESCE</h4>
+<p>입력된 인자를 순서대로 평가하여 Null이 아닌 첫 번째 인자를 반환한다.
+COALESCE(arg1 [[, arg2] …])</p>
+<ul>
+  <li>arg1: 칼럼 또는 표현식.</li>
+  <li>arg2: 칼럼 또는 표현식. 단, arg1과 같은 데이터 타입을 가져야한다.</li>
+</ul>
+
+<h4 id="case">CASE</h4>
+<p>칼럼이 특정 값을 가지면 이를 대체하는 새 값을 반환하는 연산을 정의
+```sql
+CASE 칼럼1
+WHEN 값a(칼럼1의 값) THEN 값1(새 값)
+WHEN 값b(칼럼1의 값) THEN 값2(새 값)
+…
+ELSE 나머지 칼럼값에 대한 반환 값
+END</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#database" class="page__taxonomy-item" rel="tag">Database</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2024-10-31">October 31, 2024</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/database/sql/3_1" class="pagination--pager" title="관계형 데이터베이스
+">Prev</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/database/sql/3_1" rel="permalink">관계형 데이터베이스
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2024-10-31T00:00:00+09:00">October 31, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">SQLD 시험을 준비하며 공부한 것을 정리
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/Network/network2/" rel="permalink">네트워크의 기본 규칙
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2024-08-09T00:00:00+09:00">August 9, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">네트워크 통신의 기본 규칙인 프로토콜에 대해 학습한 것을 정리.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/Network/network1/" rel="permalink">네트워크 첫 걸음
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2024-06-05T00:00:00+09:00">June 5, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">네트워크를 배우기 앞서 기초지식을 학습한다.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/Bin-Choi" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 dev.Choi. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'github-account/repo-name');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>
