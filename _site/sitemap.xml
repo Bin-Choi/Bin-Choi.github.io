@@ -17,6 +17,14 @@
 <lastmod>2024-10-31T00:00:00+09:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/database/sql/3_3</loc>
+<lastmod>2024-11-05T00:00:00+09:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/database/sql/3_4</loc>
+<lastmod>2024-11-05T00:00:00+09:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/about/</loc>
 </url>
 <url>
@@ -36,5 +44,8 @@
 </url>
 <url>
 <loc>http://localhost:4000/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/page2/</loc>
 </url>
 </urlset>
