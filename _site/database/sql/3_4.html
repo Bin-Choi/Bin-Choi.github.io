@@ -321,7 +321,7 @@
   <label for="ac-toc">Toggle menu</label>
   <ul class="nav__items">
     <!-- <li>
-      <span class="nav__total">🌴 Total Posts: 6</span>
+      <span class="nav__total">🌴 Total Posts: 8</span>
     </li> -->
     
     
@@ -423,34 +423,40 @@ WHERE절의 조건이 등식인 경우에 발생한다.</p>
 <p><strong>Non EQUI JOIN</strong><br />
 WHERE절의 조건이 등식이 아니라 부등식을 사용해서 범위를 나타낸 조건일 때 발생하는 조인, 대부분의 조인이 해당</p>
 
-<p><strong>3개 이상 TABLE JOIN</strong><br />
+<p><strong>3개 이상 TABLE JOIN에 대하여…</strong><br />
 조인은 보통 2개의 테이블에서 수행하지면 많은 수의 테이블에 대한 조인이 필요할 때가 있다.
-이 경우 N개의 테이블에 대해 N-1 만큼의 조인이 발생한다. <br /></p>
-
-<p>3개 이상의 테이블에 대한 조인의 연산량은 기하급수적으로 증가하므로 조회성능이 매우 하락할 수 있다.
+이 경우 N개의 테이블에 대해 N-1 만큼의 조인이 발생한다. <br />
+3개 이상의 테이블에 대한 조인의 연산량은 기하급수적으로 증가하므로 조회성능이 매우 하락할 수 있다.
 -&gt; 반정규화를 통해 조인이 필요한 테이블의 개수를 줄여 성능을 최적화하는 것이 필요하다.</p>
 
-<p><strong>OUTER JOIN</strong>
+<p><strong>OUTER JOIN</strong><br />
 조인 조건에 맞지 않는 행까지 좀더 포괄적으로 병합하는 방법(합집합)</p>
 
 <h3 id="inner-join">INNER JOIN</h3>
 <p>두 개의 테이블을 조인할 때, 조인의 기준으로 지정된 키에 따른 칼럼값이 존재하는 것만 병합 (교집합)</p>
 
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span> <span class="err">테이블</span><span class="mi">1</span> <span class="k">JOIN</span> <span class="err">테이블</span><span class="mi">2</span>
+<span class="k">ON</span> <span class="err">테이블</span><span class="mi">1</span><span class="p">.</span><span class="err">칼럼</span><span class="n">a</span> <span class="o">=</span> <span class="err">테이블</span><span class="mi">2</span><span class="p">.</span><span class="err">칼럼</span><span class="n">b</span>
+<span class="o">#</span> <span class="o">-&gt;</span> <span class="err">테이블</span><span class="mi">1</span><span class="err">의</span> <span class="err">칼럼</span><span class="n">a</span><span class="err">값과</span> <span class="err">테이블</span><span class="mi">2</span><span class="err">의</span> <span class="err">칼럼</span><span class="n">b</span><span class="err">의</span> <span class="err">값이</span> <span class="err">같은</span> <span class="err">것들을</span> <span class="err">병합</span>
+</code></pre></div></div>
+
 <h3 id="outer-join">OUTER JOIN</h3>
-<p><strong>Left Outer Join</strong>
+<p><strong>Left Outer Join</strong><br />
 왼쪽 테이블의 모든 행을 포함시키면서 Join을 수행한다.</p>
 
-<p><strong>Right Outer Join</strong>
+<p><strong>Right Outer Join</strong><br />
 오른쪽 테이블의 모든 행을 포함시키면서 Join을 수행한다.</p>
 
-<p><strong>Full Outer Join</strong>
+<p><strong>Full Outer Join</strong><br />
 왼쪽 테이블의 모든 행과, 오른쪽 테이블의 모든 행을 포함하는 조인을 수행한다.</p>
 
 <h3 id="natural-join">NATURAL JOIN</h3>
 <p>조인이 대상이 되는 두 테이블에서 같은 이름의 칼럼에 대해서는 동일한 칼럼값을 가지는 행만 병합되는 조인</p>
 
 <h3 id="cross-join">CROSS JOIN</h3>
-<p>왼쪽 테이블의 각 행에 대한 오른쪽 테이블의 모든 행의 대응을 조합하여 결과를 출력하는 조인</p>
+<p>왼쪽 테이블의 각 행에 대한 오른쪽 테이블의 모든 행의 대응을 조합하여 결과를 출력하는 조인<br />
+카테시안 곱으로 각 테이블이 M, N행을 가진다면 연산 결과 M x N 행이 된다.<br />
+조인의 조건이 별도로 지정되지 않는다. (별도의 조인 조건 없이 FROM절에 두 개의 테이블을 열거하면 크로스 조인)</p>
 
         
       </section>
@@ -490,7 +496,8 @@ WHERE절의 조건이 등식이 아니라 부등식을 사용해서 범위를 �
 ">Prev</a>
     
     
-      <a href="#" class="pagination--pager disabled">Next</a>
+      <a href="/database/sql/4_1" class="pagination--pager" title="SQL 활용(1)
+">Next</a>
     
   </nav>
 
@@ -505,6 +512,78 @@ WHERE절의 조건이 등식이 아니라 부등식을 사용해서 범위를 �
     <div class="page__related">
       <h4 class="page__related-title">You may also enjoy</h4>
       <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/database/sql/4_2" rel="permalink">SQL 활용(2)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2024-11-07T00:00:00+09:00">November 7, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">SQLD 정리
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/database/sql/4_1" rel="permalink">SQL 활용(1)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2024-11-06T00:00:00+09:00">November 6, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">SQLD 정리
+</p>
+  </article>
+</div>
+
         
           
 
@@ -573,78 +652,6 @@ WHERE절의 조건이 등식이 아니라 부등식을 사용해서 범위를 �
 
 
     <p class="archive__item-excerpt" itemprop="description">SQLD 정리
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/database/sql/3_1" rel="permalink">관계형 데이터베이스
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        <time datetime="2024-10-31T00:00:00+09:00">October 31, 2024</time>
-      </span>
-    
-
-    
-
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">SQLD 시험을 준비하며 공부한 것을 정리
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/Network/network2/" rel="permalink">네트워크의 기본 규칙
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        <time datetime="2024-08-09T00:00:00+09:00">August 9, 2024</time>
-      </span>
-    
-
-    
-
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">네트워크 통신의 기본 규칙인 프로토콜에 대해 학습한 것을 정리.
 </p>
   </article>
 </div>

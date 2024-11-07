@@ -34,4 +34,16 @@ var store = [{
         "tags": ["tag1","tag2"],
         "url": "/database/sql/3_4",
         "teaser": null
+      },{
+        "title": "SQL 활용(1)",
+        "excerpt":"서브쿼리 함수가 들어갈 수 있는 위치에는 그 위치에 맞는 또 다른 독립적인 SQL문을 넣는 것이 가능하며 이를 서브쿼리라 한다. 서브 쿼리를 품고 있는 쿼리를 메인쿼리라고 부른다. 서브쿼리는 들어가는 위치에 따라 세 가지로 나눈다. 스칼라 서브쿼리 : SELECT 인라인 뷰 : FROM 중첩 서브쿼리 : WHERE, HAVING 메인쿼리의 칼럼 사용 여부에...","categories": ["Database"],
+        "tags": ["tag1","tag2"],
+        "url": "/database/sql/4_1",
+        "teaser": null
+      },{
+        "title": "SQL 활용(2)",
+        "excerpt":"TOP N 쿼리 상위 N 순위까지를 추출하는 쿼리를 Top N 쿼리락고 한다. 기본적으로 순위함수를 사용해서 쿼리를 작성 ROWNUM 함수 ROWNUM 함수는 ROW_NUMBER 함수와 달리 현재 저장된 데이터를 그대로 두고 각 행에 순차적인 번호를 붙여주는 함수. 테이블의 첫 행부터 차례로 순회 중간을 건너 뛸 수 없음 WHERE절에 사용할 경우 조건식이 FALSE가...","categories": ["Database"],
+        "tags": ["tag1","tag2"],
+        "url": "/database/sql/4_2",
+        "teaser": null
       }]
