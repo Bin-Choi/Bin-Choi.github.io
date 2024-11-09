@@ -19,9 +19,9 @@ main:
 # 2022.02.15 sidebar update : simple ver.
 categories:
   - title: "Network"
-    url: /categories/Network/
+    url: /categories/network/
   - title: "Database"
-    url: /categories/Database/
+    url: /categories/database/
   - title: "Java"
     url: /categories/java/
   - title: "Categories4"

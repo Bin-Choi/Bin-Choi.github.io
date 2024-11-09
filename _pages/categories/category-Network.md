@@ -1,7 +1,7 @@
 ---
 title: "Network"
 layout: category
-permalink: /categories/Network/
+permalink: /categories/network/
 author_profile: true
 taxonomy: Network
 sidebar:
