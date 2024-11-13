@@ -52,4 +52,10 @@ var store = [{
         "tags": ["tag1","tag2"],
         "url": "/database/sql/5_1",
         "teaser": null
+      },{
+        "title": "SQL 추가 정리",
+        "excerpt":"데이터 모델링의 이해 슈퍼 / 서브타입 데이터 모델의 변환타입 DB 모델링기법 중 슈퍼/서브타입 모델(엔티티가 상속관계)가 있는데, 논리 모델은 같지만 실제 물리모델은 RollUp(Single-Type), RollDown(Plus-Type), Identity(One-To-One Type) 중 하나로 구현한다. Single Type : 전체를 하나의 테이블로 통합 Plus Type : 각각의 서브타입에 슈퍼타입을 합하여 슈퍼타입+서브타입 테이블로 구성 One to One Type :...","categories": ["Database"],
+        "tags": ["tag1","tag2"],
+        "url": "/database/sql/6",
+        "teaser": null
       }]
