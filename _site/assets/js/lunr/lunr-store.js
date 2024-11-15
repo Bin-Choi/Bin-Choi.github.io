@@ -54,7 +54,7 @@ var store = [{
         "teaser": null
       },{
         "title": "SQL 추가 정리",
-        "excerpt":"데이터 모델링의 이해 슈퍼 / 서브타입 데이터 모델의 변환타입 DB 모델링기법 중 슈퍼/서브타입 모델(엔티티가 상속관계)가 있는데, 논리 모델은 같지만 실제 물리모델은 RollUp(Single-Type), RollDown(Plus-Type), Identity(One-To-One Type) 중 하나로 구현한다. Single Type : 전체를 하나의 테이블로 통합 Plus Type : 각각의 서브타입에 슈퍼타입을 합하여 슈퍼타입+서브타입 테이블로 구성 One to One Type :...","categories": ["Database"],
+        "excerpt":"데이터 모델링의 이해 속성 업무에서 필요로 하는 인스턴스로 관리하고자 하는 의미상 더 이상 분리되지 않는 최소의 데이터 단위 엔티티의 분류 유무형에 따른 분류 유형엔티티 : 물리적인 형태가 있고, 안정적이며 지속적으로 활용되는 엔티티 개념엔티티 : 물리적인 형태는 존재하지 않고 개념적 정보로 구분되는 엔티티 사건엔티티 : 업무를 수행함에 따라 발생되는 엔티티로 비교적...","categories": ["Database"],
         "tags": ["tag1","tag2"],
         "url": "/database/sql/6",
         "teaser": null
