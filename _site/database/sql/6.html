@@ -402,7 +402,7 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#데이터-모델링의-이해">데이터 모델링의 이해</a><ul><li><a href="#속성">속성</a></li><li><a href="#엔티티의-분류">엔티티의 분류</a></li><li><a href="#속성의-분류">속성의 분류</a></li><li><a href="#데이터-모델링시-주의점">데이터 모델링시 주의점</a></li><li><a href="#슈퍼--서브타입-데이터-모델의-변환타입">슈퍼 / 서브타입 데이터 모델의 변환타입</a></li><li><a href="#트랜잭션">트랜잭션</a></li><li><a href="#ansi-join-과-oracle-join">ANSI JOIN 과 Oracle Join</a></li><li><a href="#plsql-procedural-language-extension-to-sql">PL/SQL (Procedural Language extension to SQL)</a></li><li><a href="#nl-조인">NL 조인</a></li><li><a href="#해시-조인">해시 조인</a></li><li><a href="#비교연산자">비교연산자</a></li></ul></li></ul>
+              <ul class="toc__menu"><li><a href="#데이터-모델링의-이해">데이터 모델링의 이해</a><ul><li><a href="#속성">속성</a></li><li><a href="#엔티티의-분류">엔티티의 분류</a></li><li><a href="#속성의-분류">속성의 분류</a></li><li><a href="#모델링의-단계-중-가장-재사용성이-높은-모델링">모델링의 단계 중 가장 재사용성이 높은 모델링</a></li><li><a href="#스키마-구조">스키마 구조</a></li><li><a href="#데이터-모델링시-주의점">데이터 모델링시 주의점</a></li><li><a href="#관계-표기법">관계 표기법</a></li><li><a href="#슈퍼--서브타입-데이터-모델의-변환타입">슈퍼 / 서브타입 데이터 모델의 변환타입</a></li></ul></li><li><a href="#sql-기본-및-활용">SQL 기본 및 활용</a><ul><li><a href="#null">NULL</a></li><li><a href="#트랜잭션">트랜잭션</a></li><li><a href="#ansi-join-과-oracle-join">ANSI JOIN 과 Oracle Join</a></li><li><a href="#plsql-procedural-language-extension-to-sql">PL/SQL (Procedural Language extension to SQL)</a></li><li><a href="#nl-조인">NL 조인</a></li><li><a href="#해시-조인">해시 조인</a></li><li><a href="#비교연산자">비교연산자</a></li><li><a href="#테이블-생성-후-복제">테이블 생성 후 복제</a></li><li><a href="#to_date">TO_DATE</a></li></ul></li></ul>
 
             </nav>
           </aside>
@@ -454,12 +454,29 @@
   </li>
 </ul>
 
+<h3 id="모델링의-단계-중-가장-재사용성이-높은-모델링">모델링의 단계 중 가장 재사용성이 높은 모델링</h3>
+<ul>
+  <li>논리적 데이터 모델링 : 논리적 데이터 모델링은 키, 속성, 관계 등을 포현하여 재사용성이 높다.</li>
+</ul>
+
+<h3 id="스키마-구조">스키마 구조</h3>
+<ul>
+  <li>개념 스키마 : 모든 사용자 관점을 통합한 조직 전체 관점의 통합적 표현</li>
+</ul>
+
 <h3 id="데이터-모델링시-주의점">데이터 모델링시 주의점</h3>
 <p><strong>중복</strong> 최소화, <strong>비유연성</strong> 최소화, <strong>비일관성</strong> 최소화</p>
 <ul>
   <li><strong>중복</strong> : 여러 장소의 데이터베이스에 같은 정보를 저장하지 않도록 하여 중복성을 최소화</li>
   <li><strong>비유연성</strong> : 데이터의 정의를 데이터의 사용 프로세스와 분리하여 유연성을 높임(여러 데이터 모델에서 쓰기 편하게)</li>
   <li><strong>비일관성</strong> : 데이터간의 상호 연관관계를 명확하게 정의하여 일관성 있게 데이터가 유지</li>
+</ul>
+
+<h3 id="관계-표기법">관계 표기법</h3>
+<ul>
+  <li>관계명</li>
+  <li>관계차수</li>
+  <li>관계선택사양</li>
 </ul>
 
 <h3 id="슈퍼--서브타입-데이터-모델의-변환타입">슈퍼 / 서브타입 데이터 모델의 변환타입</h3>
@@ -523,6 +540,21 @@
     </tr>
   </tbody>
 </table>
+
+<h2 id="sql-기본-및-활용">SQL 기본 및 활용</h2>
+<hr />
+
+<h3 id="null">NULL</h3>
+<ul>
+  <li>Null 값은 아직 알려지지 않은 미지의 값.</li>
+</ul>
+
+<p>Null 의 비교는 IS NULL / NOT NULL 만 할수있음</p>
+
+<p>COL의 값으로 (2, NULL) 를 가지고 있을 때,</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">WHERE</span> <span class="n">A</span><span class="p">.</span><span class="n">COL</span> <span class="k">NOT</span> <span class="k">IN</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">COL</span> <span class="k">FROM</span> <span class="n">TBL</span><span class="p">);</span>
+</code></pre></div></div>
+<p>다음의 쿼리를 실행시 아무것도 조건에 선택되지 않음 (NOT IN에서 Null 과 비교시 무조건 FALSE를 반환)</p>
 
 <h3 id="트랜잭션">트랜잭션</h3>
 <p>트랜잭션은 명시적으로 <code class="language-plaintext highlighter-rouge">COMMIT</code> 이나 <code class="language-plaintext highlighter-rouge">ROLLBACK</code>을 호출하지 않으면 이전 트랜잭션이 열린 상태로 <strong>유지</strong>된다!!<br />
@@ -651,6 +683,12 @@ HASH JOIN은 비용 기반 옵티마이저를 사용할 때만 사용될 수 있
 <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">WHERE</span> <span class="err">컬럼</span> <span class="k">EXISTS</span> <span class="p">(</span><span class="o">~~~~~~</span><span class="p">);</span>
 <span class="o">-&gt;</span> <span class="err">불가능</span><span class="o">!!</span>
 </code></pre></div></div>
+<h3 id="테이블-생성-후-복제">테이블 생성 후 복제</h3>
+<p>(CREATE TABLE AS SELECT ~~) 시 NOU NULL 제약조건만 복제된다.</p>
+
+<h3 id="to_date">TO_DATE</h3>
+<p>문자열을 TO_DATE 함수로 DATE 형으로 밖꿀 때, 연도는 올해, 월은 이번 달, 일은 1일을 기본값으로 하여 생성한다.</p>
+
 
         
       </section>
