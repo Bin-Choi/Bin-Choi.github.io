@@ -58,4 +58,10 @@ var store = [{
         "tags": ["tag1","tag2"],
         "url": "/database/sql/6",
         "teaser": null
+      },{
+        "title": "물리 계층",
+        "excerpt":"OSI 1계층인 물리 계층에 대한 학습 물리 계층의 역할과 랜 카드의 구조 0과 1로 이루어진 데이터를 주고 받으려면 전기신호로 변환해야 한다. 전기 신호 전기 신호의 종류에는 아날로그 신호와 디지털 신호가 있다. 아날로그 신호는 물결 모양, 디지털 신호는 막대모양 파형을 가진다 아날로그 신호는 전화 회선이나 라디오 방송에 사용되는 신호 랜 카드...","categories": ["Network"],
+        "tags": ["tag1","tag2"],
+        "url": "/Network/network3",
+        "teaser": null
       }]

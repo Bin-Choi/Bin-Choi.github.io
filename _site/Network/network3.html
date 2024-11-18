@@ -52,8 +52,8 @@
     
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>WHERE, GROUP BY, HAVING, ORDER BY절 | Bean</title>
-<meta name="description" content="SQLD 정리">
+<!-- begin _includes/seo.html --><title>물리 계층 | Bean</title>
+<meta name="description" content="OSI 1계층">
 
 
   <meta name="author" content="Bean">
@@ -65,32 +65,32 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="Beans DevLog">
-<meta property="og:title" content="WHERE, GROUP BY, HAVING, ORDER BY절">
-<meta property="og:url" content="http://localhost:4000/database/sql/3_3">
+<meta property="og:title" content="물리 계층">
+<meta property="og:url" content="http://localhost:4000/Network/network3">
 
 
-  <meta property="og:description" content="SQLD 정리">
-
-
-
+  <meta property="og:description" content="OSI 1계층">
 
 
 
 
-  <meta property="article:published_time" content="2024-11-05T00:00:00+09:00">
 
 
 
-  <meta property="article:modified_time" content="2024-11-05T00:00:00+09:00">
+  <meta property="article:published_time" content="2024-11-18T00:00:00+09:00">
 
 
 
-  
+  <meta property="article:modified_time" content="2024-11-18T00:00:00+09:00">
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/database/sql/3_3">
+
+<link rel="canonical" href="http://localhost:4000/Network/network3">
 
 
 
@@ -367,15 +367,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="WHERE, GROUP BY, HAVING, ORDER BY절">
-    <meta itemprop="description" content="SQLD 정리">
-    <meta itemprop="datePublished" content="2024-11-05T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2024-11-05T00:00:00+09:00">
+    <meta itemprop="headline" content="물리 계층">
+    <meta itemprop="description" content="OSI 1계층">
+    <meta itemprop="datePublished" content="2024-11-18T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2024-11-18T00:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">WHERE, GROUP BY, HAVING, ORDER BY절
+          <h1 id="page-title" class="page__title" itemprop="headline">물리 계층
 </h1>
           
 
@@ -384,7 +384,7 @@
       
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        <time datetime="2024-11-05T00:00:00+09:00">November 5, 2024</time>
+        <time datetime="2024-11-18T00:00:00+09:00">November 18, 2024</time>
       </span>
     
 
@@ -402,121 +402,98 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#where절">WHERE절</a><ul><li><a href="#비교연산자">비교연산자</a></li><li><a href="#부정-비교연산자">부정 비교연산자</a></li><li><a href="#sql-연산자">SQL 연산자</a></li><li><a href="#부정-sql-연산자">부정 SQL 연산자</a></li><li><a href="#논리연산자">논리연산자</a></li></ul></li><li><a href="#group-by-having-절">GROUP BY, HAVING 절</a><ul><li><a href="#group-by">GROUP BY</a></li><li><a href="#집계함수">집계함수</a></li><li><a href="#having">HAVING</a></li><li><a href="#order-by-절">ORDER BY 절</a></li></ul></li></ul>
+              <ul class="toc__menu"><li><a href="#osi-1계층인-물리-계층에-대한-학습">OSI 1계층인 물리 계층에 대한 학습</a></li><li><a href="#물리-계층의-역할과-랜-카드의-구조">물리 계층의 역할과 랜 카드의 구조</a><ul><li><a href="#전기-신호">전기 신호</a></li><li><a href="#랜-카드">랜 카드</a></li></ul></li><li><a href="#케이블의-종류와-구조">케이블의 종류와 구조</a><ul><li><a href="#트위스트-페어-케이블">트위스트 페어 케이블</a><ul><li><a href="#utp-케이블">UTP 케이블</a></li><li><a href="#stp-케이블">STP 케이블</a></li></ul></li><li><a href="#다이렉트-케이블과-크로스-케이블">다이렉트 케이블과 크로스 케이블</a><ul><li><a href="#다이렉트-케이블">다이렉트 케이블</a></li><li><a href="#크로스-케이블">크로스 케이블</a></li></ul></li></ul></li><li><a href="#리피터와-허브의-구조">리피터와 허브의 구조</a><ul><li><a href="#리피터">리피터</a></li><li><a href="#허브">허브</a></li></ul></li></ul>
 
             </nav>
           </aside>
         
-        <h2 id="where절">WHERE절</h2>
-<p>특정 조건을 만족하는 행만을 대상으로 연산을 수행한다.
-SELECT뿐만 아니라, UPDATE, DELETE에도 사용할 수 있으나 INSERT에는 사용할 수 없다.<br />
-<em>FROM 절이 먼저 수행되므로 FROM절에서 정의한 별칭은 사용 가능하나 SELECT절에서 정의한 별칭은 사용할 수 없다.</em></p>
+        <h2 id="osi-1계층인-물리-계층에-대한-학습"><strong>OSI 1계층인 물리 계층에 대한 학습</strong></h2>
 
-<h3 id="비교연산자">비교연산자</h3>
-<p><strong>단일행 비교연산자</strong></p>
+<h2 id="물리-계층의-역할과-랜-카드의-구조">물리 계층의 역할과 랜 카드의 구조</h2>
+
+<blockquote>
+  <p>0과 1로 이루어진 데이터를 주고 받으려면 전기신호로 변환해야 한다.</p>
+</blockquote>
+
+<h3 id="전기-신호">전기 신호</h3>
+<p>전기 신호의 종류에는 아날로그 신호와 디지털 신호가 있다.</p>
 <ul>
-  <li>=, &lt;, &lt;=, &gt;=, &gt;</li>
-  <li>IS NULL : NULL 이면 참을 반환</li>
+  <li>아날로그 신호는 물결 모양, 디지털 신호는 막대모양 파형을 가진다</li>
+  <li>아날로그 신호는 전화 회선이나 라디오 방송에 사용되는 신호</li>
 </ul>
 
-<p><strong>다중행 비교연산자</strong></p>
+<h3 id="랜-카드">랜 카드</h3>
+<p>0과 1의 비트열 데이터가 랜 카드로 전송되고 랜 카드는 전기 신호로 변환하는 역할을 한다.<br /></p>
+
+<p>즉, <strong>물리 계층</strong>은 컴퓨터와 네트워크 장비를 연결하고 컴퓨터와 네트워크 장비 간에 전송되는 데이터를 전기 신호로 변환하는 계층이다.</p>
+
+<h2 id="케이블의-종류와-구조">케이블의 종류와 구조</h2>
+<blockquote>
+  <p>전송 매체는 데이터가 흐르는 물리적인 선로로 크게 유선과 무선으로 나눠진다.</p>
+</blockquote>
+
+<h3 id="트위스트-페어-케이블">트위스트 페어 케이블</h3>
+<p>가장 많이 사용되는 전송 매체로 <strong>UTP 케이블</strong>과<strong>STP 케이블</strong>이 있다.</p>
+
+<h4 id="utp-케이블">UTP 케이블</h4>
 <ul>
-  <li>IN : 리스트 중 동일한 값이 하나라도 있으면 참</li>
-  <li>EXISTS : 서브쿼리의 결과가 한 건이라도 있으면 참 (EXISTS는 서브쿼리를 대상으로만 사용 가능)</li>
-  <li>ALL : 리스트 각각의 원소와 비교하여 모두 참이면 참. 단일행 비교연산자와 결합하여 사용</li>
-  <li>ANY : 리스트 각각의 원소와 비교하여 하나라도 참이면 참. 단일행 비교연산자와 결합하여 사용
-    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">WHERE</span> <span class="n">C1</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
-<span class="o">#</span> <span class="o">-&gt;</span> <span class="n">C1</span> <span class="o">=</span> <span class="mi">10</span> <span class="k">OR</span> <span class="n">C1</span> <span class="o">=</span> <span class="mi">20</span> <span class="k">OR</span> <span class="n">C1</span> <span class="o">=</span> <span class="mi">30</span> 
-<span class="k">WHERE</span> <span class="k">EXISTS</span><span class="p">(</span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">TBL</span><span class="p">);</span>
-<span class="o">#</span> <span class="o">-&gt;</span> <span class="n">TBL</span> <span class="err">테이블에</span> <span class="err">데이터가</span> <span class="err">한</span> <span class="err">건이라도</span> <span class="err">존재</span> <span class="err">하는가</span>
-<span class="k">WHERE</span> <span class="n">C1</span> <span class="o">&lt;</span> <span class="k">ALL</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
-<span class="o">#</span> <span class="o">-&gt;</span> <span class="k">WHERE</span> <span class="n">C1</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="k">AND</span> <span class="n">C1</span> <span class="o">&lt;</span> <span class="mi">20</span> <span class="k">AND</span> <span class="n">C1</span> <span class="o">&lt;</span> <span class="mi">30</span>
-<span class="k">WHERE</span> <span class="n">C1</span> <span class="o">&lt;</span> <span class="k">ANY</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
-<span class="o">#</span> <span class="o">-&gt;</span> <span class="k">WHERE</span> <span class="n">C1</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="k">OR</span> <span class="n">C1</span> <span class="o">&lt;</span> <span class="mi">20</span> <span class="k">OR</span> <span class="n">C1</span> <span class="o">&lt;</span> <span class="mi">30</span>
-</code></pre></div>    </div>
-    <h3 id="부정-비교연산자">부정 비교연산자</h3>
-    <p><strong>단일행 부정 비교연산자</strong></p>
-  </li>
-  <li>!=, ^=, &lt;&gt; : 두 값이 서로 다르면 참</li>
-  <li>IS NOT NULL : NULL이 아니면 참</li>
+  <li>구리 선 여덟 개를 두 개씩 꼬아 만든 네 쌍의 전선으로 실드로 보호되어 있지 않다.</li>
+  <li>실드가 없기에 노이즈의 영향을 받기 쉽지만 저렴하여 일반적으로 많이 사용</li>
+  <li>데이터의 전송 품질에 따라 다양하게 분류 (속도, 규격)</li>
 </ul>
 
-<p><strong>다중행 부정 비교연산자</strong></p>
+<h4 id="stp-케이블">STP 케이블</h4>
 <ul>
-  <li>NOT IN     : 리스트 중 동일한 값이 하나도 없으면 참</li>
-  <li>NOT EXISTS : 서브쿼리의 결과가 한 건도 없으면 참</li>
-</ul>
-
-<h3 id="sql-연산자">SQL 연산자</h3>
-<ul>
-  <li>BETWEEN A AND B : A 이상 B 이하면 참</li>
-  <li>LIKE : 패턴문자열로 문자 검색시 사용
-    <ul>
-      <li>% : 0개 이상의 문자</li>
-      <li>_ : 임의의 문자 1개</li>
-    </ul>
-  </li>
-</ul>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">LIKE</span> <span class="o">%</span><span class="n">M</span><span class="o">%</span><span class="p">;</span>
-<span class="o">#</span> <span class="o">-&gt;</span> <span class="err">중간에</span> <span class="n">M</span><span class="err">이</span> <span class="err">있는</span> <span class="err">문자열</span>
-<span class="k">LIKE</span> <span class="n">_M</span><span class="p">;</span>
-<span class="o">#</span> <span class="o">-&gt;</span> <span class="n">M</span><span class="err">으로</span> <span class="err">끝나는</span> <span class="err">길이가</span> <span class="mi">2</span><span class="err">개인</span> <span class="err">문자열</span> 
-</code></pre></div></div>
-
-<h3 id="부정-sql-연산자">부정 SQL 연산자</h3>
-<ul>
-  <li>NOT BETWEEN A AND B : A 미만 B 초과시 참</li>
-  <li>NOT LIKE : 패턴에 매칭되는 것이 하나도 없으면 참</li>
-</ul>
-
-<h3 id="논리연산자">논리연산자</h3>
-<ul>
-  <li>AND : AND로 연결된 모든 조건이 참이면 참</li>
-  <li>OR : OR로 연결된 조건 중에 하나가 참이면 참</li>
-  <li>NOT : 뒤에 오는 식의 참 / 거짓의 반대를 반환</li>
-</ul>
-
-<h2 id="group-by-having-절">GROUP BY, HAVING 절</h2>
-<h3 id="group-by">GROUP BY</h3>
-<p>데이터를 그룹핑한다.<br />
-부하가 높은 연산이므로 WHERE절을 사용해서 필터링을 먼저 하는 것이 좋다.</p>
-
-<h3 id="집계함수">집계함수</h3>
-<p>집계함수는 그룹을 대상으로 연산을 수행하는 다중행 함수이다.<br />
-GROUP BY절이 없이 집계함수를 사용하면 전체 행을 하나의 그룹으로 보고 연산을 수행한다.</p>
-
-<ul>
-  <li>COUNT : 입력된 칼럼에서 값이 Null인 행을 제외한 행의 개수를 반환</li>
-  <li>SUM : 입력된 칼럼의 합을 반환</li>
-  <li>AVG : 입력된 칼럼의 평균을 반환</li>
-  <li>MIN : 입력된 칼럼의 최솟값을 반환</li>
-  <li>MAX : 입력된 칼럼의 최댓값을 반환</li>
+  <li>두 개씩 꼬아 만든 선을 실드로 보호한 케이블</li>
+  <li>실드가 있어 노이즈의 영향을 매우 적게 받지만 비싸다.</li>
 </ul>
 
 <blockquote>
-  <p><strong>DISTINCT</strong> 칼럼값의 중복을 제거한다.<br /> 따라서 집계함수의 인자로 입력되는 칼럼명에 사용하면 해당 그룹에서 첫 번째 행에 대해서만 연산을 수행한다.</p>
+  <p>노이즈는 케이블에 전기 신호가 흐를 때 발생한다. <br />
+노이즈의 영향을 적게 받기 위해 구리 선 두 개를 비틀어 꼬아서 케이블을 만든다.</p>
 </blockquote>
 
-<h3 id="having">HAVING</h3>
-<p>WHERE절과 달리 집계함수를 사용할 수 있다.
-일반적으로 GROUP BY 연산이 끝난 결과에 대해 필터링을 수행한다. <br />
-GROUP BY절이 없이 사용하면 전체 행을 하나의 그룹으로 보고 조건식을 수행하며,<br />
-조건식에 따라 조회하고자 하는 칼럼의 표현식이 적합하지 않으면 오류가 발생한다.</p>
+<p>노이즈의 영향을 받으면 전기 신호의 형태가 왜곡된다.</p>
 
-<h3 id="order-by-절">ORDER BY 절</h3>
-<p>관계형 데이터베이스가 가지는 <strong>튜플의 무순서성</strong>에 따라 테이블에 삽입된 데이터는 순서가 없이 저장된다.
--&gt; 조회시 임의의 순서로 출력이 되고 정렬시 비용 발생
-DBSM에 따라 Null값을 최소 / 최대로 다르게 처리한다.</p>
+<p>틔위스트 페어 케이블은 일반적으로 <strong>랜 케이블</strong>이라고 한다. <br />
+랜 케이블의 양쪽 끝에는 RJ-45라고 부르는 커넥터가 붙어 있다.</p>
 
+<h3 id="다이렉트-케이블과-크로스-케이블">다이렉트 케이블과 크로스 케이블</h3>
+
+<h4 id="다이렉트-케이블">다이렉트 케이블</h4>
 <ul>
-  <li>ASC : 오름차순 (생략시 오름차순)</li>
-  <li>DESC : 내림차순</li>
+  <li>다이렉트 케이블은 구리 선 여덟 개를 같은 순서로 커넥터에 연결</li>
+  <li>다이렉트 케이블은 컴퓨터와 스위치를 연결할 때 사용</li>
 </ul>
 
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">ORDER</span> <span class="k">BY</span> <span class="err">칼럼명</span> <span class="k">DESC</span><span class="p">;</span>
-<span class="o">#</span> <span class="err">칼럼명에</span> <span class="err">대해</span> <span class="err">내림차순</span> <span class="err">정렬</span>
-</code></pre></div></div>
+<h4 id="크로스-케이블">크로스 케이블</h4>
+<ul>
+  <li>크로스 케이블은 한쪽 커넥터의 1번과 2번에 연결되는 구리 선을 다른 쪽 케이블의 3번과 6번에 연결한 케이블</li>
+  <li>컴퓨터 간에 직접 랜 케이블로 연결할 때 사용</li>
+</ul>
+
+<blockquote>
+  <p>다이렉트 케이블, 크로스 케이블 보두 실제로는 1,2,3,6번 구리선을 사용하여 데이터를 전송한다.</p>
+</blockquote>
+
+<blockquote>
+  <p>컴퓨터 간에 직접 데이터를 보낼 때는 양쪽 컴퓨터 모두 1, 2번 선을 사용한다. 이 때, 다이렉트 케이블의 경우 데이터가 충돌한다.</p>
+</blockquote>
+
+<h2 id="리피터와-허브의-구조">리피터와 허브의 구조</h2>
+
+<h3 id="리피터">리피터</h3>
+<p>전기 신호를 정형(복원)하고 증폭하는 기능을 가진 네트워크 중계 장비</p>
+
+<h3 id="허브">허브</h3>
+<ul>
+  <li>리피터와 마찬가지로 전기 신호를 정형하고 증폭하는 기능을 한다.</li>
+  <li>포트를 여러 개 가지고 있고 리피터 허브라고 부르기도 한다.</li>
+  <li>리피터는 일대일 통신만 가능하지만 허브는 컴퓨터 여러 대와 통신할 수 있다.</li>
+  <li>허브는 어떤 특정 포트로부터 데이터를 받는다면 해당 포트를 제외한 <code class="language-plaintext highlighter-rouge">나머지 모든 포트로 받은 데이터를 전송</code>한다.</li>
+  <li>스스로 선택해서 보내지 못하기에 더미 허브라고 불린다.</li>
+</ul>
+
 
         
       </section>
@@ -535,14 +512,14 @@ DBSM에 따라 Null값을 최소 / 최대로 다르게 처리한다.</p>
     <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
     <span itemprop="keywords">
     
-      <a href="/categories/#database" class="page__taxonomy-item" rel="tag">Database</a>
+      <a href="/categories/#network" class="page__taxonomy-item" rel="tag">Network</a>
     
     </span>
   </p>
 
 
         
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2024-11-05">November 5, 2024</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2024-11-18">November 18, 2024</time></p>
 
 
       </footer>
@@ -552,12 +529,11 @@ DBSM에 따라 Null값을 최소 / 최대로 다르게 처리한다.</p>
       
   <nav class="pagination">
     
-      <a href="/database/sql/3_2" class="pagination--pager" title="SELECT문 &amp; 함수
+      <a href="/database/sql/6" class="pagination--pager" title="SQL 추가 정리
 ">Prev</a>
     
     
-      <a href="/database/sql/3_4" class="pagination--pager" title="JOIN
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -572,42 +548,6 @@ DBSM에 따라 Null값을 최소 / 최대로 다르게 처리한다.</p>
     <div class="page__related">
       <h4 class="page__related-title">You may also enjoy</h4>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/Network/network3" rel="permalink">물리 계층
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        <time datetime="2024-11-18T00:00:00+09:00">November 18, 2024</time>
-      </span>
-    
-
-    
-
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">OSI 1계층
-</p>
-  </article>
-</div>
-
         
           
 
@@ -702,6 +642,42 @@ DBSM에 따라 Null값을 최소 / 최대로 다르게 처리한다.</p>
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         <time datetime="2024-11-07T00:00:00+09:00">November 7, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">SQLD 정리
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/database/sql/4_1" rel="permalink">SQL 활용(1)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2024-11-06T00:00:00+09:00">November 6, 2024</time>
       </span>
     
 
