@@ -64,4 +64,10 @@ var store = [{
         "tags": ["tag1","tag2"],
         "url": "/Network/network3",
         "teaser": null
+      },{
+        "title": "데이터 링크 계층",
+        "excerpt":"데이터 링크 계층의 역할과 이더넷 랜에서 데이터를 주고받기 위해서 필요한 기술 데이터 링크 계층은 네트워크 장비 간에 신호를 주고받는 규칙을 정하는 계층 이더넷 일반적으로 가장 많이 사용되는 규칙 CSMA/CD 데이터가 동시에 케이블을 지나가면 충돌이 발생 데이터를 보내는 시점을 늦추어 충돌이 일어나지 않는 구조 CS는 데이터를 보내려고 하는 컴퓨터가 케이블에 신호가...","categories": ["Network"],
+        "tags": ["tag1","tag2"],
+        "url": "/Network/network4",
+        "teaser": null
       }]
