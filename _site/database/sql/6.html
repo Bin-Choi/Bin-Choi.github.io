@@ -321,7 +321,7 @@
   <label for="ac-toc">Toggle menu</label>
   <ul class="nav__items">
     <!-- <li>
-      <span class="nav__total">🌴 Total Posts: 13</span>
+      <span class="nav__total">🌴 Total Posts: 14</span>
     </li> -->
     
     
@@ -402,7 +402,7 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#데이터-모델링의-이해">데이터 모델링의 이해</a><ul><li><a href="#속성">속성</a></li><li><a href="#엔티티의-분류">엔티티의 분류</a></li><li><a href="#속성의-분류">속성의 분류</a></li><li><a href="#모델링의-단계-중-가장-재사용성이-높은-모델링">모델링의 단계 중 가장 재사용성이 높은 모델링</a></li><li><a href="#스키마-구조">스키마 구조</a></li><li><a href="#데이터-모델링시-주의점">데이터 모델링시 주의점</a></li><li><a href="#관계-표기법">관계 표기법</a></li><li><a href="#슈퍼--서브타입-데이터-모델의-변환타입">슈퍼 / 서브타입 데이터 모델의 변환타입</a></li></ul></li><li><a href="#sql-기본-및-활용">SQL 기본 및 활용</a><ul><li><a href="#null">NULL</a></li><li><a href="#트랜잭션">트랜잭션</a></li><li><a href="#group-by">GROUP BY</a></li><li><a href="#ansi-join-과-oracle-join">ANSI JOIN 과 Oracle Join</a></li><li><a href="#plsql-procedural-language-extension-to-sql">PL/SQL (Procedural Language extension to SQL)</a></li><li><a href="#nl-조인">NL 조인</a></li><li><a href="#해시-조인">해시 조인</a></li><li><a href="#비교연산자">비교연산자</a></li><li><a href="#테이블-생성-후-복제">테이블 생성 후 복제</a></li><li><a href="#to_date">TO_DATE</a></li></ul></li></ul>
+              <ul class="toc__menu"><li><a href="#데이터-모델링의-이해">데이터 모델링의 이해</a><ul><li><a href="#속성">속성</a></li><li><a href="#엔티티의-분류">엔티티의 분류</a></li><li><a href="#속성의-분류">속성의 분류</a></li><li><a href="#모델링의-단계-중-가장-재사용성이-높은-모델링">모델링의 단계 중 가장 재사용성이 높은 모델링</a></li><li><a href="#스키마-구조">스키마 구조</a></li><li><a href="#데이터-모델링시-주의점">데이터 모델링시 주의점</a></li><li><a href="#관계-표기법">관계 표기법</a></li><li><a href="#슈퍼--서브타입-데이터-모델의-변환타입">슈퍼 / 서브타입 데이터 모델의 변환타입</a></li></ul></li><li><a href="#sql-기본-및-활용">SQL 기본 및 활용</a><ul><li><a href="#null">NULL</a></li><li><a href="#트랜잭션">트랜잭션</a></li><li><a href="#group-by">GROUP BY</a></li><li><a href="#서브쿼리">서브쿼리</a></li><li><a href="#ansi-join-과-oracle-join">ANSI JOIN 과 Oracle Join</a></li><li><a href="#cross-join--natural-join">CROSS JOIN / NATURAL JOIN</a></li><li><a href="#plsql-procedural-language-extension-to-sql">PL/SQL (Procedural Language extension to SQL)</a></li><li><a href="#nl-조인">NL 조인</a></li><li><a href="#해시-조인">해시 조인</a></li><li><a href="#비교연산자">비교연산자</a></li><li><a href="#테이블-생성-후-복제">테이블 생성 후 복제</a></li><li><a href="#to_date">TO_DATE</a></li></ul></li></ul>
 
             </nav>
           </aside>
@@ -576,6 +576,14 @@
 <span class="n">EMPNO</span> <span class="err">는</span> <span class="err">들어갈</span> <span class="err">수</span> <span class="err">없다</span><span class="p">.</span>
 </code></pre></div></div>
 
+<h3 id="서브쿼리">서브쿼리</h3>
+<ul>
+  <li>서브쿼리에서는 정렬을 수행하기 위해서 내부에 ORDER BY를 사용하지 못한다.</li>
+  <li>메인쿼리를 작성할 때 서브쿼리에 있는 칼럼을 사용하지 못한다.</li>
+  <li>여러개의 행을 반환하는 서브쿼리는 다중행 연산자를 사용해야 한다.</li>
+  <li>EXIST는 TRUE 와 FALSE만을 반환한다.</li>
+</ul>
+
 <h3 id="ansi-join-과-oracle-join">ANSI JOIN 과 Oracle Join</h3>
 
 <p><strong>ANSI JOIN</strong></p>
@@ -620,6 +628,13 @@ Oracle Join이 조금 더 간결하다.</p>
        <span class="k">FROM</span> <span class="n">TABLE_1</span> <span class="n">T1</span><span class="p">,</span> <span class="n">TABLE_2</span> <span class="n">T2</span>
        <span class="k">WHERE</span> <span class="n">T1</span><span class="p">.</span><span class="k">COLUMN</span> <span class="o">=</span> <span class="n">T2</span><span class="p">.</span><span class="k">COLUMN</span><span class="p">(</span><span class="o">+</span><span class="p">);</span>
 </code></pre></div></div>
+
+<h3 id="cross-join--natural-join">CROSS JOIN / NATURAL JOIN</h3>
+<ul>
+  <li>NATURAL JOIN은 테이블 간 동일한 이름을 가진 칼럼들에 대하여 조인을 수행</li>
+  <li>CROSS JOIN은 테이블 간 조건이 없는 경우 생길 수 있는 모든 데이터의 조합을 의미</li>
+  <li>CROSS JOIN 은 ON 절에서 조건을 걸 수 있다 (NATURAL은 불가능)</li>
+</ul>
 
 <h3 id="plsql-procedural-language-extension-to-sql">PL/SQL (Procedural Language extension to SQL)</h3>
 <ul>
@@ -764,6 +779,53 @@ HASH JOIN은 비용 기반 옵티마이저를 사용할 때만 사용될 수 있
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
+        <a href="/Network/network6" rel="permalink">전송계층
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2024-12-02T00:00:00+09:00">December 2, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">전송 계층의 역할
+
+목적지에 신뢰할 수 있는 데이터를 전달하기 위해 필요한 계층
+
+전송 계층
+
+  오류를 점검하는 기능
+  전송된 데이터의 목적지가 어떤 애플리케이션인지 식별하는 기능
+
+
+연결형 통신과 비연결형 통신
+전송 계층의 특징은 신뢰성/정확성과 효울성으로 구분할 수 있다.
+...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
         <a href="/Network/network5" rel="permalink">네트워크 계층
 </a>
       
@@ -858,42 +920,6 @@ HASH JOIN은 비용 기반 옵티마이저를 사용할 때만 사용될 수 있
 
 
     <p class="archive__item-excerpt" itemprop="description">OSI 1계층
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/database/sql/5_1" rel="permalink">관리구문
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        <time datetime="2024-11-09T00:00:00+09:00">November 9, 2024</time>
-      </span>
-    
-
-    
-
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">DML, DDL, DCL
 </p>
   </article>
 </div>
