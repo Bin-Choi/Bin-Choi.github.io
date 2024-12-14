@@ -1,19 +1,19 @@
 # main links
 main:
   - title: "Home"
-    url: https://Bin-Choi.github.io/
+    url: /
 
   - title: "About"
     url: /about/
 
-  - title: "GitHub"
-    url: https://github.com/Bin-Choi
-
   # - title: "Projects"
   #   url: /projects/
 
-  # - title: "Categories"
-  #   url: /categories/
+  - title: "Categories"
+    url: /categories/
+
+  - title: "GitHub"
+    url: https://github.com/Bin-Choi
 
 # sidebar navigation (categories)
 # 2022.02.15 sidebar update : simple ver.
@@ -24,5 +24,7 @@ categories:
     url: /categories/database/
   - title: "Java"
     url: /categories/java/
-  - title: "Categories4"
-    url: /categories/categories4/
+  - title: "Spring"
+    url: /categories/spring/
+  - title: "React"
+    url: /categories/react/
