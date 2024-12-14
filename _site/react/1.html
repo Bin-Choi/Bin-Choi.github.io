@@ -52,8 +52,8 @@
     
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>SQL 활용(1) | Bean</title>
-<meta name="description" content="SQLD 정리">
+<!-- begin _includes/seo.html --><title>리액트 설치와 프로젝트 생성 | Bean</title>
+<meta name="description" content="리액트 설치하며 겪은 문제들과 해결 방법">
 
 
   <meta name="author" content="Bean">
@@ -65,23 +65,21 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="Beans DevLog">
-<meta property="og:title" content="SQL 활용(1)">
-<meta property="og:url" content="http://localhost:4000/database/sql/4_1">
+<meta property="og:title" content="리액트 설치와 프로젝트 생성">
+<meta property="og:url" content="http://localhost:4000/react/1">
 
 
-  <meta property="og:description" content="SQLD 정리">
-
-
-
+  <meta property="og:description" content="리액트 설치하며 겪은 문제들과 해결 방법">
 
 
 
 
-  <meta property="article:published_time" content="2024-11-06T00:00:00+09:00">
 
 
 
-  <meta property="article:modified_time" content="2024-11-06T00:00:00+09:00">
+  <meta property="article:published_time" content="2024-12-15T00:00:00+09:00">
+
+
 
 
 
@@ -90,7 +88,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/database/sql/4_1">
+<link rel="canonical" href="http://localhost:4000/react/1">
 
 
 
@@ -377,15 +375,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="SQL 활용(1)">
-    <meta itemprop="description" content="SQLD 정리">
-    <meta itemprop="datePublished" content="2024-11-06T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2024-11-06T00:00:00+09:00">
+    <meta itemprop="headline" content="리액트 설치와 프로젝트 생성">
+    <meta itemprop="description" content="리액트 설치하며 겪은 문제들과 해결 방법">
+    <meta itemprop="datePublished" content="2024-12-15T00:00:00+09:00">
+    
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">SQL 활용(1)
+          <h1 id="page-title" class="page__title" itemprop="headline">리액트 설치와 프로젝트 생성
 </h1>
           
 
@@ -394,7 +392,7 @@
       
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        <time datetime="2024-11-06T00:00:00+09:00">November 6, 2024</time>
+        <time datetime="2024-12-15T00:00:00+09:00">December 15, 2024</time>
       </span>
     
 
@@ -412,173 +410,115 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#서브쿼리">서브쿼리</a><ul><li><a href="#서브쿼리의-특징">서브쿼리의 특징</a></li><li><a href="#스칼라-서브쿼리">스칼라 서브쿼리</a></li><li><a href="#인라인-뷰">인라인 뷰</a></li><li><a href="#중첩-서브쿼리">중첩 서브쿼리</a></li></ul></li><li><a href="#집합연산자">집합연산자</a><ul><li><a href="#unione-all--union">UNIONE ALL / UNION</a></li><li><a href="#intersect">INTERSECT</a></li><li><a href="#minus--except">MINUS / EXCEPT</a></li></ul></li><li><a href="#그룹함수">그룹함수</a><ul><li><a href="#rollup">ROLLUP</a></li><li><a href="#cube">CUBE</a></li><li><a href="#grouping-sets">GROUPING SETS</a></li><li><a href="#grouping">GROUPING</a></li></ul></li><li><a href="#윈도우-함수">윈도우 함수</a><ul><li><a href="#rank">RANK</a></li><li><a href="#집계함수">집계함수</a></li><li><a href="#행-순서함수">행 순서함수</a></li><li><a href="#비율함수">비율함수</a></li></ul></li></ul>
+              <ul class="toc__menu"><li><a href="#개발환경">개발환경</a></li><li><a href="#프로젝트-생성">프로젝트 생성</a><ul><li><a href="#프로젝트-생성-오류">프로젝트 생성 오류</a></li><li><a href="#해결방법">해결방법</a></li></ul></li><li><a href="#리액트-실행">리액트 실행</a><ul><li><a href="#브라우저-캐시-문제">브라우저 캐시 문제</a></li><li><a href="#해결방법-1">해결방법</a></li></ul></li></ul>
 
             </nav>
           </aside>
         
-        <h2 id="서브쿼리">서브쿼리</h2>
-<p>함수가 들어갈 수 있는 위치에는 그 위치에 맞는 또 다른 독립적인 SQL문을 넣는 것이 가능하며 이를 서브쿼리라 한다.
-서브 쿼리를 품고 있는 쿼리를 메인쿼리라고 부른다.
-서브쿼리는 들어가는 위치에 따라 세 가지로 나눈다.</p>
-<ul>
-  <li>스칼라 서브쿼리 : SELECT</li>
-  <li>인라인 뷰 : FROM</li>
-  <li>중첩 서브쿼리 : WHERE, HAVING</li>
-</ul>
+        <p>프로젝트를 기획하는 중 의도치 않게 프론트 작업이 많아져 리액트를 사용하기로 했다. <br />
+(컴포넌트 재사용성과 상태관리를 고려하여 내린 결정)<br /> 걱정되는 점은 리액트 경험자가 나뿐이라는 점…<br />
+그리고 나도 찍먹 수준이라는 점… 우리팀 화이팅 ^__^ <br />
+기억을 더듬다 보니 역시 기록이 중요한 것 같아 하나씩 남겨보려한다</p>
 
-<p>메인쿼리의 칼럼 사용 여부에 따라 구분</p>
-<ul>
-  <li>연관 서브쿼리 : 메인쿼리의 칼럼을 서브쿼리에서 사용</li>
-  <li>비연관 서브쿼리 : 메인쿼리의 칼럼을 서브쿼리에서 사용하지 않음</li>
-</ul>
+<hr />
 
+<h3 id="개발환경">개발환경</h3>
+<p>리액트 프로젝트를 생성하기 위해서는 <a href="https://nodejs.org/ko">node.js</a> 설치가 필요하다.</p>
+
+<p>에디터는 <a href="https://code.visualstudio.com/">vscode</a> 를 사용한다.</p>
+
+<h3 id="프로젝트-생성">프로젝트 생성</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx create-react-app <span class="k">${</span><span class="p">프로젝트 이름</span><span class="k">}</span>
+</code></pre></div></div>
+<p>명령어를 입력하여 프로젝트를 생성하면…</p>
 <blockquote>
-  <p>서브쿼리는 반드시 괄호로 감싸서 표현해야 한다.</p>
+  <p>${} 없이 프로젝트 이름만 적어야한다. (npx create-react-app test1)</p>
 </blockquote>
 
-<h3 id="서브쿼리의-특징">서브쿼리의 특징</h3>
-<ul>
-  <li>서브쿼리에서는 메인쿼리의 칼럼을 모두 사용할 수 있다.</li>
-  <li>메인쿼리에서는 서브쿼리의 칼럼을 사용할 수 없다.</li>
-  <li>서브쿼리는 괄호로 감싸서 사용한다.</li>
-  <li>서브쿼리에서는 ORDER BY 절을 사용할 수 없다.</li>
-  <li>서브쿼리가 사용될 수 있는 곳은 SELECT절, FROM절, WHERE절, HAVING절, ORDER BY절, INSERT문의 VALUES절 ,UPDATE문의 SET절</li>
-  <li>서브쿼리가 단일행 비교연산자와 함께 사용될 경우 서브쿼리의 겨로가가 1건 이하여야 한다.</li>
-  <li>서브쿼리가 2건 이상의 결과를 반환하는 경우 반드시 다중행 비교연산자와 함께 사용해야 한다.</li>
-</ul>
+<h4 id="프로젝트-생성-오류">프로젝트 생성 오류</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Creating a new React app <span class="k">in</span> <span class="c">#############</span>
 
-<h3 id="스칼라-서브쿼리">스칼라 서브쿼리</h3>
-<p>SELECT문의 칼럼이 입력되는 위치에 들어가는 서브쿼리. <br />
-칼럼이 입력되는 위치에 삽입되므로 스칼라 서브쿼리는 하나의 칼럼만을 가져야 한다.</p>
+Installing template dependencies using npm...
+npm error code ERESOLVE
+npm error ERESOLVE unable to resolve dependency tree
+npm error
+npm error While resolving: my-app@0.1.0
+npm error Found: react@19.0.0
+npm error node_modules/react
+npm error   react@<span class="s2">"^19.0.0"</span> from the root project
+npm error
+npm error Could not resolve dependency:
+npm error peer react@<span class="s2">"^18.0.0"</span> from @testing-library/react@13.4.0
+npm error node_modules/@testing-library/react
+npm error   @testing-library/react@<span class="s2">"^13.0.0"</span> from the root project
+npm error
+npm error Fix the upstream dependency conflict, or retry
+npm error this <span class="nb">command </span>with <span class="nt">--force</span> or <span class="nt">--legacy-peer-deps</span>
+npm error to accept an incorrect <span class="o">(</span>and potentially broken<span class="o">)</span> dependency resolution.
+npm error
+npm error
+npm error For a full report see:
+npm error C:<span class="se">\U</span>sers<span class="se">\K</span>im_Seung_Yeon<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\n</span>pm-cache<span class="se">\_</span>logs<span class="se">\2</span>024-12-10T07_05_37_613Z-eresolve-report.txt
+npm error A <span class="nb">complete </span>log of this run can be found <span class="k">in</span>: C:<span class="se">\U</span>sers<span class="se">\K</span>im_Seung_Yeon<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\n</span>pm-cache<span class="se">\_</span>logs<span class="se">\2</span>024-12-10T07_05_37_613Z-debug-0.log
+<span class="sb">`</span>npm <span class="nb">install</span> <span class="nt">--no-audit</span> <span class="nt">--save</span> @testing-library/jest-dom@^5.14.1 @testing-library/react@^13.0.0 @testing-library/user-event@^13.2.1 web-vitals@^2.1.0<span class="sb">`</span> failed
+</code></pre></div></div>
+<p>라는 에러가 나와서 곤란하다!!!  … 프로젝트 생성부터 머리가 뜨거워진다…<br /></p>
 
-<h3 id="인라인-뷰">인라인 뷰</h3>
-<p>FROM절의 테이블이 입력되는 위치에 들어가는 서브쿼리다. <br />
-쿼리 실행 시 생성되는 동적 테이블이라고 볼 수 있다.</p>
+<p>2024/12/14일 기준 현재 이 문제는 React 버전과 @testing-library/react 패키지 간의 의존성 충돌이 있다 …
+몇일 전 리액트 19가 정식 릴리즈 해서 create-react-app이 자동으로 19로 생성하고,,, 충돌은 일어나고 어지러운 상황이다!</p>
 
-<blockquote>
-  <p>뷰의 특징</p>
-  <ul>
-    <li>편리성</li>
-    <li>보안성</li>
-    <li>독립성</li>
-  </ul>
-</blockquote>
-
-<h3 id="중첩-서브쿼리">중첩 서브쿼리</h3>
-<p>중첩 서브쿼리는 쿼리 안에 다른 쿼리가 중첩되어 들어간 경우를 지칭. <br />
-특히 WHERE절과 HAVING절에 들어감 -&gt; 다양한 반환값을 가질 수 있다. <br />
-중첩 서브쿼리의 경우 메인쿼리에서 참조하고 있는 테이블의 칼럼을 서브쿼리 내에서 다시 사용할 수 있다.</p>
-<ul>
-  <li>메인쿼리와 연관성이 있으면 연관 서브쿼리</li>
-  <li>없으면 비연관 서브쿼리</li>
-</ul>
-
-<h2 id="집합연산자">집합연산자</h2>
-<p>두 테이블에 대한 집합 연산을 수행하는 연산자.
-JOIN과 달리 특정한 기준키 없이 두 테이블의 레코드들에 대해서 합집합과 교집합 연산을 수행</p>
-<ul>
-  <li>두 테이블의 스키마가 동일해야 한다. (같은 수의 칼럼, 칼럼의 데이터 타입이 같아야함)</li>
-  <li>칼럼의 이름이 다르다면 첫 번째 테이블의 이름을 따른다.</li>
-</ul>
-
-<h3 id="unione-all--union">UNIONE ALL / UNION</h3>
-<p>합집합 연산을 수행한다. 두 테이블에 포함된 레코드들을 모두 포함시킨다.
-공통의 레코드를 중복 레코드라고 한다.</p>
-
-<ul>
-  <li>UNIONE ALL
+<h4 id="해결방법">해결방법</h4>
+<ol>
+  <li>yarn 을 사용하여 리액트 앱을 생성 &amp; 실행 (성공)
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">-g</span> yarn
+yarn create react-app <span class="k">${</span><span class="p">프로젝트 이름</span><span class="k">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>‘-force’ 또는 ‘-legacy-peer-deps’ 옵션 사용 (안해봄)
     <ul>
-      <li>중복레코드를 그대로 포함</li>
+      <li>잠재적으로 잘못된 의존성 해결을 강제하기 때문에, 프로젝트의 장기적인 안정성을 보장하지는 않는다.</li>
     </ul>
   </li>
-  <li>UNION
-    <ul>
-      <li>중복레코드를 한번만 포함</li>
-      <li>테이블 내에서의 중복까지도 제거됨 (중복을 허용하지 않음)</li>
-      <li>유니온의 실행결과는 최종적으로 동일한 데이터는 1건만 포함됨</li>
-    </ul>
+  <li>실제 충돌 해결 (호환 가능한 버전으로 변경) (성공)<br />
+  react, react-dom 을 다운그레이드
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  npx create-react-app <span class="k">${</span><span class="p">프로젝트 이름</span><span class="k">}</span>
+  <span class="nb">cd</span> <span class="k">${</span><span class="p">프로젝트 이름</span><span class="k">}</span>
+  npm <span class="nb">install </span>react@18 react-dom@18
+</code></pre></div>    </div>
   </li>
-</ul>
+</ol>
 
-<h3 id="intersect">INTERSECT</h3>
-<p>교집합 연산을 수행</p>
+<h3 id="리액트-실행">리액트 실행</h3>
 
-<h3 id="minus--except">MINUS / EXCEPT</h3>
-<p>차집합 연산을 수행한다. 왼쪽 테이블에서 두 테이블에 공통적으로 포함된 레코드들을 제외시킨 결과 반환</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm start
+</code></pre></div></div>
+<p>명령어가 참 쉽다.^^ 고 생각했더니 또 다른 난관이 나를 반겼다.<br /></p>
+<h4 id="브라우저-캐시-문제">브라우저 캐시 문제</h4>
+<p>리액트 앱을 생성하면 나오는 기본 index 화면이 아닌, 예전 프로젝트의 화면이 나를 반기는 곤란한 상황 발생…<br />
+이는 기존에 캐시가 남아있어서 발생하는 일이였다. 관리자 도구에서 제공하는 강력 새로고침을 사용할 경우, 새 프로젝트의 화면이 나온다!<br />
+그러나 새로 창을 열거나 localhost:3000 을 검색하면 항상 처음은 예전 프로젝트의 화면이 나왔다.
+캐시를 다 지워도, 인터넷 사용기록을 다 지워도, 혹시 몰라 해당 프로젝트를 지우고 Docker를 싹싹 비워도 같은 상황이 발생하였다!
+심지어 실행중인 리액트 앱을 종료하여도 localhost:3000 주소를 입력하면 예전 화면이 나온다!!!<br />
+지난 인연이 발목을 잡고 놔주지 않는다는게 이런것일까?</p>
 
-<h2 id="그룹함수">그룹함수</h2>
-<p>그룹 별로 연산을 수행하는 함수. <br />
-집계합수는 그룹함수의 한 종류이다.</p>
+<h4 id="해결방법-1">해결방법</h4>
+<p>내가 해결한 방법은 다음과 같다.<br />
+<strong>1.DNS 및 로컬 캐시 초기화</strong> (이것만 했을 경우 증상은 여전했다)</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#(mac)</span>
+<span class="nb">sudo </span>killall <span class="nt">-HUP</span> mDNSResponder
+<span class="c">#(windows)</span>
+ipconfig /flushdns
+</code></pre></div></div>
 
-<h3 id="rollup">ROLLUP</h3>
-<ul>
-  <li>GRUOP BY 절에 들어가는 칼럼을 대상으로 하위 그룹핑을 수행하는 함수</li>
-  <li>일반적으로 <strong>소계</strong>와 <strong>총계</strong>를 구할 때 사용한다.</li>
-  <li>인자별로 그룹핑을 하고, 그룹 별 (첫 인자별), 전체 순으로 그룹을 묶어준다.</li>
-</ul>
+<p><strong>2.서비스 워커 삭제</strong></p>
+<ol>
+  <li>브라우저 개발자 도구를 열고 Application 탭으로 이동</li>
+  <li>왼쪽 메뉴에서 Service Workers를 선택하고, “Unregister” 또는 “Update”를 눌러 서비스 워커를 삭제</li>
+  <li>Local Storage, Session Storage, IndexedDB 항목도 확인하여 예전 데이터를 삭제</li>
+</ol>
 
-<h3 id="cube">CUBE</h3>
-<ul>
-  <li>ROLLUP과 비슷하지만 조합 가능한 모든 경우로 그룹핑을 수행한다.</li>
-  <li>인자가 2개 이상일 경우 (모든 인자에 대해 그룹핑)</li>
-</ul>
+<p>이제 모든것을 잊고 새출발을 할 수 있게 되었다!</p>
 
-<h3 id="grouping-sets">GROUPING SETS</h3>
-<p>그루핑할 대상을 지정하는 함수</p>
-<ul>
-  <li>입력된 인자에 대해서만 <strong>소계</strong>를 구함</li>
-  <li>인자로 ROLLUP, CUBE 함수를 넣을 수 있다. 이경우, 함수의 결과인 소계와 총계들이 각각 별개의 인자로 취급된다.</li>
-</ul>
-
-<h3 id="grouping">GROUPING</h3>
-<p>ROLLUP, CUBE, GROUPING SETS 과 함께 사용하여 소계에 해당하는 결과 행과 그렇지 않은 행을 구분 <br /></p>
-<ul>
-  <li>소계에 해당하는 경우 1</li>
-  <li>그렇지 않은 경우 0</li>
-</ul>
-
-<h2 id="윈도우-함수">윈도우 함수</h2>
-
-<p>행과 행 간의 관계를 나타내는 연산을 쉽게 하기 위한 함수.
-GROUP BY연산과 비슷하지만 GROUP BY 연산은 각 행을 대상으로 연산을 수행한 다은 새로운 구성을 만드는데 비하여, <br />
-윈도우 함수는 각 행의 기존 구성을 유지한 상태로 해당 행에 대해서 새로운 값을 추출하거나 기존의 값을 변경한다는 차이점이 있음. <br />
-대표적으로 RANK 함수가 있으며 모든 윈도우함수는 OVER 키워드와 함께 사용</p>
-
-<h3 id="rank">RANK</h3>
-<ul>
-  <li>RANK : 공동 순위 존재, 하위 순위는 앞의 공동 순위에 영향을 준다 (1,1,3,4,5)</li>
-  <li>DENSE_RANK : 공동 순위 존재, 앞 순위와 상관없이 순위 부여 (1,1,2,3,4)</li>
-  <li>ROW_NUMBER : 공동 순위 없음, 각각의 행이 고유의 순위를 가짐 (1,2,3,4,5)</li>
-</ul>
-
-<h3 id="집계함수">집계함수</h3>
-<p>OVER절을 사용해서 파티션 별로 집계하거나 누적 집계를 계산할 수 있다.</p>
-<ul>
-  <li>COUNT</li>
-  <li>SUM</li>
-  <li>AVG</li>
-  <li>MIN</li>
-  <li>MAX</li>
-</ul>
-
-<h3 id="행-순서함수">행 순서함수</h3>
-<ul>
-  <li>FIRST_VALUE : 파티션 별로 그룹핑하여 가장 처음 값을 반환</li>
-  <li>LAST_VALEU : 파티션 별로 그룹핑하여 가장 마지막 값을 반환</li>
-  <li>LAG : 입력된 인자의 값만큼 이전 행의 값을 반환</li>
-  <li>LEAD : 입력된 인자의 값만큼 이후 행의 값을 반환</li>
-</ul>
-
-<h3 id="비율함수">비율함수</h3>
-<p>파티션 별로 합계를 구한 후, 그에 대한 비율을 구하는 함수
-누적 백분율, 순서별 백분율 등 다양한 연산을 수행하는 함수를 제공한다.</p>
-<ul>
-  <li>CUME_DIST : 누적 백분율을 소수점 단위로 계산하여 반환, 마지막 행의 값은 1</li>
-  <li>PERCENT_RANK : 백분위 순위값. 첫행 0 ~ 마지막 행 1</li>
-  <li>NTILE : N등분하여 1부터 N 까지의 등급 값을 반환, N 등분 시 나머지를 앞 등급 순서로 1개씩 배분</li>
-  <li>RATIO_TO_REPORT : 파티션 별 합계에 대한 비율을 계산하여 반환</li>
-</ul>
 
         
       </section>
@@ -597,14 +537,14 @@ GROUP BY연산과 비슷하지만 GROUP BY 연산은 각 행을 대상으로 연
     <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
     <span itemprop="keywords">
     
-      <a href="/categories/#database" class="page__taxonomy-item" rel="tag">Database</a>
+      <a href="/categories/#react" class="page__taxonomy-item" rel="tag">React</a>
     
     </span>
   </p>
 
 
         
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2024-11-06">November 6, 2024</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2024-12-15T00:00:00+09:00">December 15, 2024</time></p>
 
 
       </footer>
@@ -614,12 +554,11 @@ GROUP BY연산과 비슷하지만 GROUP BY 연산은 각 행을 대상으로 연
       
   <nav class="pagination">
     
-      <a href="/database/sql/3_4" class="pagination--pager" title="JOIN
+      <a href="/Network/network8" class="pagination--pager" title="네트워크의 전체 흐름
 ">Prev</a>
     
     
-      <a href="/database/sql/4_2" class="pagination--pager" title="SQL 활용(2)
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -634,42 +573,6 @@ GROUP BY연산과 비슷하지만 GROUP BY 연산은 각 행을 대상으로 연
     <div class="page__related">
       <h4 class="page__related-title">You may also enjoy</h4>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/react/1" rel="permalink">리액트 설치와 프로젝트 생성
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        <time datetime="2024-12-15T00:00:00+09:00">December 15, 2024</time>
-      </span>
-    
-
-    
-
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">리액트 설치하며 겪은 문제들과 해결 방법
-</p>
-  </article>
-</div>
-
         
           
 
@@ -774,6 +677,42 @@ GROUP BY연산과 비슷하지만 GROUP BY 연산은 각 행을 대상으로 연
 
 
     <p class="archive__item-excerpt" itemprop="description">OSI 전송계층
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/Network/network5" rel="permalink">네트워크 계층
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2024-11-20T00:00:00+09:00">November 20, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">OSI 3계층
 </p>
   </article>
 </div>
