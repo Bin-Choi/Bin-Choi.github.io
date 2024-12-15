@@ -95,9 +95,21 @@ var store = [{
         "url": "/Network/network8",
         "teaser": null
       },{
+        "title": "네트워크의 전체 흐름",
+        "excerpt":"랜 카드에서의 데이터 전달과 처리 웹 사이트에 방문했을 때 이루어지는 전체적인 데이터 처리 과정에 대해서 알아보자… 네트워크의 구성 OSI모델의 각 계층 간에 데이터가 전달되고 처리되는 전체 과정 응용 계층 : 애플리케이션 등에서 사용하는 데이터를 송수신하는 데 필요 전송 계층 : 목적지에 데이터를 정확하게 전달하는데 필요 네트워크 계층 : 다른 네트워크에...","categories": ["Network"],
+        "tags": ["tag1","tag2"],
+        "url": "/Network/network8",
+        "teaser": null
+      },{
         "title": "리액트 설치와 프로젝트 생성",
         "excerpt":"프로젝트를 기획하는 중 의도치 않게 프론트 작업이 많아져 리액트를 사용하기로 했다. (컴포넌트 재사용성과 상태관리를 고려하여 내린 결정) 걱정되는 점은 리액트 경험자가 나뿐이라는 점… 그리고 나도 찍먹 수준이라는 점… 우리팀 화이팅 ^__^ 기억을 더듬다 보니 역시 기록이 중요한 것 같아 하나씩 남겨보려한다 개발환경 리액트 프로젝트를 생성하기 위해서는 node.js 설치가 필요하다. 에디터는...","categories": ["React"],
         "tags": ["React"],
         "url": "/react/1",
+        "teaser": null
+      },{
+        "title": "기본적인 JSX문법과 useState",
+        "excerpt":"프로젝트 구조 리액트 프로젝트 생성시, node_modules, public, src 폴더가 생긴다. node_modules : 라이브러리 코드 보관함 public : static 파일 보관함 src : 소스 코드 보관함 className JSX문법에서는 class 대신 className을 사용하여 속성을 주어야한다. function App() { return ( &lt;div className=\"App\"&gt; &lt;div className=\"balck-nav\"&gt; &lt;h4&gt;class 넣을 땐 className&lt;/h4&gt; &lt;/div&gt; &lt;/div&gt; ); }...","categories": ["React"],
+        "tags": ["React","JSX"],
+        "url": "/react/2",
         "teaser": null
       }]
