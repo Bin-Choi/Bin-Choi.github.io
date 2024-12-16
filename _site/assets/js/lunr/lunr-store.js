@@ -118,4 +118,10 @@ var store = [{
         "tags": ["React","JSX"],
         "url": "/react/2",
         "teaser": null
+      },{
+        "title": "useState와 Component",
+        "excerpt":"state 변경 function App() { let post = '변수는 중괄호를 사용하여 집어넣을 수 있다.'; let [글제목, b] = useState(['남자코트 추천', '강남우동 맛집', '파이썬독학']); let [따봉, 따봉변경] = useState(0); return ( &lt;div className=\"App\"&gt; &lt;div className=\"balck-nav\"&gt; &lt;h4&gt;블로그임&lt;/h4&gt; &lt;/div&gt; &lt;h4&gt;{post}&lt;/h4&gt; &lt;div className='list'&gt; &lt;h4&gt;{글제목[0]}&lt;span onClick={()=&gt;{따봉변경(따봉+1)}}&gt;👍&lt;/span&gt;{따봉}&lt;/h4&gt; &lt;p&gt;2월 17일 발행&lt;/p&gt; &lt;/div&gt; &lt;div className='list'&gt; &lt;h4&gt;{글제목[1]}&lt;/h4&gt; &lt;p&gt;2월 17일...","categories": ["React"],
+        "tags": ["React","useState"],
+        "url": "/react/3",
+        "teaser": null
       }]

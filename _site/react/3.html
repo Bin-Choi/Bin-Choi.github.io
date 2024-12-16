@@ -1,0 +1,867 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <style> 
+      ::-webkit-scrollbar{ 
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        width: 0px;
+        background-color: rgba(224, 224, 224, 0.2);
+        /* border-radius: 5px; */
+      }
+
+      ::-webkit-scrollbar-thumb {
+        width: 0px;
+        background-color: rgba(220, 219, 218, 0.6);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        width: 10px;
+        height: 20px;
+        /* background-color: rgba(190, 190, 190, 0.2); */
+        background-color: rgba(193, 192, 191, 0.7);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-track:hover {
+        width: 10px;
+        /* background-color: rgba(150, 150, 150, 0.1); */
+        background-color: rgba(224, 224, 224, 0.5);
+        border-radius: 5px;
+        /* background: transparent; */
+        /* border-radius: 10px; */
+      }
+
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment {
+          width:0px;
+          height: 0px;
+          /* background-color: rgb(14, 221, 24); */
+          /* border-radius: 50%; */
+      }
+    </style>
+    
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>useState와 Component | Bean</title>
+<meta name="description" content="useState가 array/object일 때">
+
+
+  <meta name="author" content="Bean">
+  
+  <meta property="article:author" content="Bean">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="Beans DevLog">
+<meta property="og:title" content="useState와 Component">
+<meta property="og:url" content="http://localhost:4000/react/3">
+
+
+  <meta property="og:description" content="useState가 array/object일 때">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2024-12-16T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/react/3">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "dev.Choi",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Beans DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://github-account.github.io/assets/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://github-account.github.io/assets/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://github-account.github.io/assets/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://github-account.github.io/assets/images/favicon/site.webmanifest">
+    <link rel="mask-icon" href="https://github-account.github.io/assets/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#ffc40d">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Beans DevLog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/Bin-Choi">GitHub</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/profile.JPG" alt="Bean" itemprop="image">
+      
+    </div>
+  
+
+  <!-- 2022.02.17 author content hidden -->
+  <!-- <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Bean</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>joyful day</p>
+
+      </div>
+    
+  </div> -->
+
+  <div class="author__urls-wrapper">
+    <!-- <button class="btn btn--inverse">Follow</button> -->
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    <!-- <li>
+      <span class="nav__total">🌴 Total Posts: 21</span>
+    </li> -->
+    
+    
+      <li>
+        
+              <a href="/categories/network/"><span class="nav__sub-title">Network</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/database/"><span class="nav__sub-title">Database</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/java/"><span class="nav__sub-title">Java</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/spring/"><span class="nav__sub-title">Spring</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/react/"><span class="nav__sub-title">React</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="useState와 Component">
+    <meta itemprop="description" content="useState가 array/object일 때">
+    <meta itemprop="datePublished" content="2024-12-16T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">useState와 Component
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2024-12-16T00:00:00+09:00">December 16, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#state-변경">state 변경</a><ul><li><a href="#state-배열의-하나의-데이터만-변경하고-싶을때">state 배열의 하나의 데이터만 변경하고 싶을때</a></li><li><a href="#arrayobject는-복제하여-변경하기">array/object는 복제하여 변경하기</a></li></ul></li><li><a href="#component">Component</a><ul><li><a href="#컴포넌트-만드는-법">컴포넌트 만드는 법</a></li><li><a href="#컴포넌트로-만들면-좋은-경우">컴포넌트로 만들면 좋은 경우</a></li><li><a href="#컴포넌트-사용시-주의할-점">컴포넌트 사용시 주의할 점</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h2 id="state-변경">state 변경</h2>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">App</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="kd">let</span> <span class="nx">post</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">변수는 중괄호를 사용하여 집어넣을 수 있다.</span><span class="dl">'</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="p">[</span><span class="nx">글제목</span><span class="p">,</span> <span class="nx">b</span><span class="p">]</span> <span class="o">=</span> <span class="nf">useState</span><span class="p">([</span><span class="dl">'</span><span class="s1">남자코트 추천</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">강남우동 맛집</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">파이썬독학</span><span class="dl">'</span><span class="p">]);</span>
+  <span class="kd">let</span> <span class="p">[</span><span class="nx">따봉</span><span class="p">,</span> <span class="nx">따봉변경</span><span class="p">]</span> <span class="o">=</span> <span class="nf">useState</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+
+  <span class="k">return </span><span class="p">(</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="p">=</span><span class="s">"App"</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="p">=</span><span class="s">"balck-nav"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span>블로그임<span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span><span class="si">{</span><span class="nx">post</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="p">=</span><span class="s">'list'</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span><span class="si">{</span><span class="nx">글제목</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="p">&lt;</span><span class="nt">span</span> <span class="na">onClick</span><span class="p">=</span><span class="si">{</span><span class="p">()</span><span class="o">=&gt;</span><span class="p">{</span><span class="nf">따봉변경</span><span class="p">(</span><span class="nx">따봉</span><span class="o">+</span><span class="mi">1</span><span class="p">)}</span><span class="si">}</span><span class="p">&gt;</span>👍<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span><span class="si">{</span><span class="nx">따봉</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>2월 17일 발행<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="p">=</span><span class="s">'list'</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span><span class="si">{</span><span class="nx">글제목</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>2월 17일 발행<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="p">=</span><span class="s">'list'</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span><span class="si">{</span><span class="nx">글제목</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>2월 17일 발행<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>우리는 버튼 클릭 시, useState 변경 함수를 이용하여 state값을 변경하는 방법을 알았다. <br /></p>
+
+<p>버튼을 클릭함으로 글 제목이 바뀌게 되려면 어떻게 해야할까?</p>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">App</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="kd">let</span> <span class="nx">post</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">변수는 중괄호를 사용하여 집어넣을 수 있다.</span><span class="dl">'</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="p">[</span><span class="nx">글제목</span><span class="p">,</span> <span class="nx">글제목변경</span><span class="p">]</span> <span class="o">=</span> <span class="nf">useState</span><span class="p">([</span><span class="dl">'</span><span class="s1">남자코트 추천</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">강남우동 맛집</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">파이썬독학</span><span class="dl">'</span><span class="p">]);</span>
+  <span class="kd">let</span> <span class="p">[</span><span class="nx">따봉</span><span class="p">,</span> <span class="nx">따봉변경</span><span class="p">]</span> <span class="o">=</span> <span class="nf">useState</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+
+  <span class="k">return </span><span class="p">(</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="p">=</span><span class="s">"App"</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="p">=</span><span class="s">"balck-nav"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span>ReactBlog<span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onClick</span><span class="p">=</span><span class="si">{</span><span class="p">()</span><span class="o">=&gt;</span><span class="p">{</span>
+        <span class="nf">글제목변경</span><span class="p">([</span><span class="dl">'</span><span class="s1">바꿀 제목1</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">바꿀 제목2</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">바꿀 제목3</span><span class="dl">'</span><span class="p">])</span>
+      <span class="p">}</span><span class="si">}</span><span class="p">&gt;</span>글수정<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="p">=</span><span class="s">'list'</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span><span class="si">{</span><span class="nx">글제목</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="p">&lt;</span><span class="nt">span</span> <span class="na">onClick</span><span class="p">=</span><span class="si">{</span><span class="p">()</span><span class="o">=&gt;</span><span class="p">{</span><span class="nf">따봉변경</span><span class="p">(</span><span class="nx">따봉</span><span class="o">+</span><span class="mi">1</span><span class="p">)}</span><span class="si">}</span><span class="p">&gt;</span>👍<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span><span class="si">{</span><span class="nx">따봉</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>2월 17일 발행<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="p">=</span><span class="s">'list'</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span><span class="si">{</span><span class="nx">글제목</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>2월 17일 발행<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="p">=</span><span class="s">'list'</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span><span class="si">{</span><span class="nx">글제목</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>2월 17일 발행<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>이렇게 하면 글제목이 바뀔것이다… 그러나 과연 이게 맞는걸까?<br />
+array 크기가 커진다면 너무 힘들어질 것이다!</p>
+<h3 id="state-배열의-하나의-데이터만-변경하고-싶을때">state 배열의 하나의 데이터만 변경하고 싶을때</h3>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onClick</span><span class="p">=</span><span class="si">{</span><span class="p">()</span><span class="o">=&gt;</span><span class="p">{</span>
+        <span class="nx">글제목</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">하나만 바꿔요</span><span class="dl">'</span><span class="p">;</span>
+        <span class="nf">글제목변경</span><span class="p">(</span><span class="nx">글제목</span><span class="p">);</span>
+      <span class="p">}</span><span class="si">}</span><span class="p">&gt;</span>글수정<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</code></pre></div></div>
+<p>이런식으로 인덱스를 사용하여 바꿀 데이터만 바꿀 수 있다.(과연 그럴까?)<br />
+그러나 array/object 를 다룰 때는 원본은 보존하는 것이 좋다!</p>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onClick</span><span class="p">=</span><span class="si">{</span><span class="p">()</span><span class="o">=&gt;</span><span class="p">{</span>
+        <span class="kd">let</span> <span class="nx">copy</span> <span class="o">=</span> <span class="p">[...</span><span class="nx">글제목</span><span class="p">];</span>
+        <span class="nx">copy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">복제본에서 하나만 바꿔요</span><span class="dl">'</span><span class="p">;</span>
+        <span class="nf">글제목변경</span><span class="p">(</span><span class="nx">copy</span><span class="p">);</span>
+      <span class="p">}</span><span class="si">}</span><span class="p">&gt;</span>글수정<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</code></pre></div></div>
+<p>다음과 같이 복제하여 state값을 변경하는 것이 좋다!</p>
+<h3 id="arrayobject는-복제하여-변경하기">array/object는 복제하여 변경하기</h3>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">copy</span> <span class="o">=</span> <span class="nx">글제목</span><span class="p">;</span>  <span class="c1">// x</span>
+<span class="kd">let</span> <span class="nx">copy</span> <span class="o">=</span> <span class="p">[...</span><span class="nx">글제목</span><span class="p">];</span> <span class="c1">// o</span>
+</code></pre></div></div>
+<p>이 떄 자세히 보면 state 복제가 특이하다. <br /></p>
+
+<ol>
+  <li>[state변경함수의 특징]
+기존 state == 신규 state의 경우 변경을 안해준다.</li>
+  <li>[js에서의 array/object의 특징]
+    <div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">];</span>
+</code></pre></div>    </div>
+    <p>에서 arr 변수 안에는 [1,2,3] 이 아니라 [1,2,3]이 든 array의 위치 정보가 들어간다.</p>
+  </li>
+</ol>
+
+<p>이를 종합해보면</p>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onClick</span><span class="p">=</span><span class="si">{</span><span class="p">()</span><span class="o">=&gt;</span><span class="p">{</span>
+        <span class="c1">// copy에는 글제목과 같은 위치 정보가 복사된다//</span>
+        <span class="kd">let</span> <span class="nx">copy</span> <span class="o">=</span> <span class="nx">글제목</span><span class="p">;</span>
+        <span class="nx">copy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">복제본에서 하나만 바꿔요</span><span class="dl">'</span><span class="p">;</span>
+        <span class="c1">// copy[0] 값은 바뀌지만 위치 정보는 그대로...!!</span>
+        <span class="nf">글제목변경</span><span class="p">(</span><span class="nx">copy</span><span class="p">);</span>
+        <span class="c1">// 이경우 state는 변동된게 없다고 판단, 동작하지 않는다!!</span>
+      <span class="p">}</span><span class="si">}</span><span class="p">&gt;</span>글수정<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</code></pre></div></div>
+<blockquote>
+  <p>array, object는 reference data type이기 때문에 발생하는 일, reference data type 참고</p>
+</blockquote>
+
+<p>그럼 다음과 같이 복제를 하면 왜 state함수가 작동을 할까?</p>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">copy</span> <span class="o">=</span> <span class="p">[...</span><span class="nx">글제목</span><span class="p">];</span>
+</code></pre></div></div>
+<p>[…]는 괄호를 뗏다가 붙이는 동작이 발생한다 (즉 주소값이 바뀐다).
+독립적인 사본이 생성된다<br />
+state 함수가 변화를 인지하고 잘 작동한다!!</p>
+
+<h2 id="component">Component</h2>
+<p>div가 너무 많으면 html이 길어지고 알아보기가 힘들어진다.<br /></p>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="p">=</span><span class="s">"modal"</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span>제목<span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>날짜<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>상세내용<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div></div>
+<p>div들을 묶어서 Component를 만들어서 사용하면 깔끔하다!</p>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">&lt;</span><span class="nc">Modal</span><span class="p">&gt;&lt;/</span><span class="nc">Modal</span><span class="p">&gt;</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">&lt;Modal/&gt;</code> 이렇게 사용해도 상관없다.</p>
+</blockquote>
+
+<h3 id="컴포넌트-만드는-법">컴포넌트 만드는 법</h3>
+<ol>
+  <li>function 만들기</li>
+  <li>return() 안에 html 담기</li>
+  <li>
+    <함수명></함수명>
+    <p>으로 원하는 위치에 사용하기</p>
+  </li>
+</ol>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">Modal</span><span class="p">(){</span>
+  <span class="k">return </span><span class="p">(</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="p">=</span><span class="s">"modal"</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span>제목<span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>날짜<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>상세내용<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>다음과 같이 컴포넌트를 만들어 원하는 곳에 사용하면 된다!</p>
+
+<h3 id="컴포넌트로-만들면-좋은-경우">컴포넌트로 만들면 좋은 경우</h3>
+<ol>
+  <li>반복적인 html을 축약할 때</li>
+  <li>큼 페이지들</li>
+  <li>자주 변경되는 것들</li>
+</ol>
+
+<h3 id="컴포넌트-사용시-주의할-점">컴포넌트 사용시 주의할 점</h3>
+<ul>
+  <li>state 가져다쓸 때 문제가 생김
+    <ul>
+      <li>A 함수에 있던 변수는 B 함수에서 마음대로 가져다 쓸 수 없음</li>
+    </ul>
+  </li>
+</ul>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#react" class="page__taxonomy-item" rel="tag">React</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2024-12-16T00:00:00+09:00">December 16, 2024</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/react/2" class="pagination--pager" title="기본적인 JSX문법과 useState
+">Prev</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/react/2" rel="permalink">기본적인 JSX문법과 useState
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2024-12-16T00:00:00+09:00">December 16, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">JSX 문법, useState
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/Network/network10" rel="permalink">무선 랜의 구조 이해
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2024-12-16T00:00:00+09:00">December 16, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">무선 랜에 대해 설명
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/react/1" rel="permalink">리액트 설치와 프로젝트 생성
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2024-12-15T00:00:00+09:00">December 15, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">리액트 설치하며 겪은 문제들과 해결 방법
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/Network/network8" rel="permalink">무선 랜 이해하기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2024-12-14T00:00:00+09:00">December 14, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">무선 랜에 대해 설명”
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/Bin-Choi" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 dev.Choi. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'github-account/repo-name');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>
