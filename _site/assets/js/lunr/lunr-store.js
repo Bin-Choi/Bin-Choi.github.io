@@ -124,4 +124,10 @@ var store = [{
         "tags": ["React","useState"],
         "url": "/react/3",
         "teaser": null
+      },{
+        "title": "[리눅스] 디렉토리 계층 구조",
+        "excerpt":"리눅스의 디렉토리 계층 구조는 FHS(Filesystem Hierarchy Standard)에 따라 설계되었습니다. 이 표준은 리눅스 및 유닉스 계열 시스템에서 파일과 디렉토리가 어떻게 구성되고 배치되어야 하는지를 정의합니다. 이를 통해 사용자는 디렉토리의 역할과 파일의 위치를 쉽게 이해할 수 있습니다. 리눅스 디렉토리 계층 구조의 핵심 리눅스 파일 시스템은 루트 디렉토리(/)에서 시작하며, 모든 디렉토리와 파일은 이곳에서 파생됩니다....","categories": ["Categories4"],
+        "tags": ["tag1","tag2"],
+        "url": "/spring/1",
+        "teaser": null
       }]
