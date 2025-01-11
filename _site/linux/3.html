@@ -1,0 +1,1455 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <style> 
+      ::-webkit-scrollbar{ 
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        width: 0px;
+        background-color: rgba(224, 224, 224, 0.2);
+        /* border-radius: 5px; */
+      }
+
+      ::-webkit-scrollbar-thumb {
+        width: 0px;
+        background-color: rgba(220, 219, 218, 0.6);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        width: 10px;
+        height: 20px;
+        /* background-color: rgba(190, 190, 190, 0.2); */
+        background-color: rgba(193, 192, 191, 0.7);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-track:hover {
+        width: 10px;
+        /* background-color: rgba(150, 150, 150, 0.1); */
+        background-color: rgba(224, 224, 224, 0.5);
+        border-radius: 5px;
+        /* background: transparent; */
+        /* border-radius: 10px; */
+      }
+
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment {
+          width:0px;
+          height: 0px;
+          /* background-color: rgb(14, 221, 24); */
+          /* border-radius: 50%; */
+      }
+    </style>
+    
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>사용자 계정 | Bean</title>
+<meta name="description" content="사용자 계정">
+
+
+  <meta name="author" content="Bean">
+  
+  <meta property="article:author" content="Bean">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="Beans DevLog">
+<meta property="og:title" content="사용자 계정">
+<meta property="og:url" content="http://localhost:4000/linux/3">
+
+
+  <meta property="og:description" content="사용자 계정">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-01-11T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2025-01-11T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/linux/3">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "dev.Choi",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Beans DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://github-account.github.io/assets/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://github-account.github.io/assets/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://github-account.github.io/assets/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://github-account.github.io/assets/images/favicon/site.webmanifest">
+    <link rel="mask-icon" href="https://github-account.github.io/assets/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#ffc40d">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Beans DevLog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/Bin-Choi">GitHub</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/profile.JPG" alt="Bean" itemprop="image">
+      
+    </div>
+  
+
+  <!-- 2022.02.17 author content hidden -->
+  <!-- <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Bean</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>joyful day</p>
+
+      </div>
+    
+  </div> -->
+
+  <div class="author__urls-wrapper">
+    <!-- <button class="btn btn--inverse">Follow</button> -->
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    <!-- <li>
+      <span class="nav__total">🌴 Total Posts: 24</span>
+    </li> -->
+    
+    
+      <li>
+        
+              <a href="/categories/network/"><span class="nav__sub-title">Network</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/database/"><span class="nav__sub-title">Database</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/java/"><span class="nav__sub-title">Java</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/spring/"><span class="nav__sub-title">Spring</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/react/"><span class="nav__sub-title">React</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/linux/"><span class="nav__sub-title">Linux</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="사용자 계정">
+    <meta itemprop="description" content="사용자 계정">
+    <meta itemprop="datePublished" content="2025-01-11T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2025-01-11T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">사용자 계정
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-01-11T00:00:00+09:00">January 11, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#리눅스-사용자-계정의-구조">리눅스 사용자 계정의 구조</a><ul><li><a href="#사용자-정보-파일">사용자 정보 파일</a></li></ul></li><li><a href="#사용자-관리-명령어">사용자 관리 명령어</a><ul><li><a href="#1-사용자-추가">1. 사용자 추가</a></li><li><a href="#useradd와-adduser의-차이점">useradd와 adduser의 차이점</a></li><li><a href="#2-사용자-정보-수정">2. 사용자 정보 수정</a></li><li><a href="#3-사용자-삭제">3. 사용자 삭제</a></li></ul></li><li><a href="#그룹-관리-명령어">그룹 관리 명령어</a><ul><li><a href="#1-그룹-추가">1. 그룹 추가</a></li><li><a href="#2-사용자를-그룹에-추가">2. 사용자를 그룹에 추가</a></li><li><a href="#3-그룹-삭제">3. 그룹 삭제</a></li></ul></li><li><a href="#사용자-권한과-파일-소유권">사용자 권한과 파일 소유권</a><ul><li><a href="#파일-소유권-확인">파일 소유권 확인</a></li><li><a href="#파일-소유권-변경">파일 소유권 변경</a></li></ul></li><li><a href="#파일-권한-설정">파일 권한 설정</a><ul><li><a href="#1-권한-구조">1. 권한 구조</a></li><li><a href="#2-권한-확인">2. 권한 확인</a></li><li><a href="#3-권한-변경">3. 권한 변경</a></li></ul></li><li><a href="#사용자-환경-설정">사용자 환경 설정</a><ul><li><a href="#홈-디렉토리">홈 디렉토리</a></li><li><a href="#예제-새-사용자-추가-및-설정">예제: 새 사용자 추가 및 설정</a></li></ul></li><li><a href="#uid-gid">UID, GID</a><ul><li><a href="#uid-user-id">UID (User ID)</a></li><li><a href="#정의">정의</a></li><li><a href="#uid-범위">UID 범위</a></li><li><a href="#uid-확인-방법">UID 확인 방법</a></li><li><a href="#gid-group-id">GID (Group ID)</a></li><li><a href="#정의-1">정의</a></li><li><a href="#gid-범위">GID 범위</a></li><li><a href="#gid-확인-방법">GID 확인 방법</a></li><li><a href="#관련-파일과-역할">관련 파일과 역할</a></li><li><a href="#etcpasswd">/etc/passwd</a></li><li><a href="#etcgroup">/etc/group</a></li><li><a href="#etcshadow">/etc/shadow</a></li><li><a href="#uid와-gid의-역할과-사용">UID와 GID의 역할과 사용</a></li><li><a href="#1-파일-권한-관리">1. 파일 권한 관리</a></li><li><a href="#2-프로세스-소유권">2. 프로세스 소유권</a></li><li><a href="#3-그룹을-통한-권한-공유">3. 그룹을 통한 권한 공유</a></li><li><a href="#uid와-gid-설정-및-변경">UID와 GID 설정 및 변경</a></li><li><a href="#1-uid-변경">1. UID 변경</a></li><li><a href="#2-gid-변경">2. GID 변경</a></li><li><a href="#3-파일-소유권-업데이트">3. 파일 소유권 업데이트</a></li><li><a href="#uidgid와-관련된-보안-고려-사항">UID/GID와 관련된 보안 고려 사항</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h2 id="리눅스-사용자-계정의-구조">리눅스 사용자 계정의 구조</h2>
+
+<h3 id="사용자-정보-파일">사용자 정보 파일</h3>
+
+<ol>
+  <li><strong><code class="language-plaintext highlighter-rouge">/etc/passwd</code></strong>
+    <ul>
+      <li>모든 사용자 계정 정보를 저장.</li>
+      <li>형식: <code class="language-plaintext highlighter-rouge">username:x:UID:GID:comment:home_directory:shell</code>
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">username</code>: 사용자 이름.</li>
+          <li><code class="language-plaintext highlighter-rouge">x</code>: 비밀번호 필드(보안상 <code class="language-plaintext highlighter-rouge">/etc/shadow</code>에 저장).</li>
+          <li><code class="language-plaintext highlighter-rouge">UID</code>: 사용자 ID.</li>
+          <li><code class="language-plaintext highlighter-rouge">GID</code>: 그룹 ID.</li>
+          <li><code class="language-plaintext highlighter-rouge">comment</code>: 사용자 설명(예: 이름).</li>
+          <li><code class="language-plaintext highlighter-rouge">home_directory</code>: 홈 디렉토리 위치.</li>
+          <li><code class="language-plaintext highlighter-rouge">shell</code>: 로그인 셸(기본값: <code class="language-plaintext highlighter-rouge">/bin/bash</code>).</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong><code class="language-plaintext highlighter-rouge">/etc/shadow</code></strong>
+    <ul>
+      <li>암호화된 비밀번호 저장.</li>
+      <li>파일 형식: <code class="language-plaintext highlighter-rouge">username:encrypted_password:last_change:min:max:warn:inactive:expire</code></li>
+    </ul>
+  </li>
+  <li><strong><code class="language-plaintext highlighter-rouge">/etc/group</code></strong>
+    <ul>
+      <li>그룹 정보를 저장.</li>
+      <li>형식: <code class="language-plaintext highlighter-rouge">group_name:x:GID:member_list</code></li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="사용자-관리-명령어">사용자 관리 명령어</h2>
+
+<h3 id="1-사용자-추가">1. <strong>사용자 추가</strong></h3>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">adduser</code> 유저 추가</strong>:</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>adduser username
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>대화형 프롬프트로 진행:</p>
+
+    <pre><code class="language-vbnet">  Adding user `username' ...
+  Adding new group `username' (1001) ...
+  Adding new user `username' (1001) with group `username' ...
+  Creating home directory `/home/username' ...
+  Copying files from `/etc/skel' ...
+  Enter new UNIX password: *****
+  Retype new UNIX password: *****
+  Full Name []: 홍길동
+  Room Number []: 123
+  Work Phone []: 010-1234-5678
+  Home Phone []:
+  Other []:
+  Is the information correct? [Y/n] y
+</code></pre>
+
+    <ul>
+      <li>입력한 정보는 <code class="language-plaintext highlighter-rouge">/etc/passwd</code> 및 관련 설정 파일에 저장됩니다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>명령어</strong>: <code class="language-plaintext highlighter-rouge">useradd</code></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>useradd <span class="nt">-m</span> <span class="nt">-s</span> /bin/bash username
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">m</code>: 홈 디렉토리 생성.</li>
+      <li><code class="language-plaintext highlighter-rouge">s</code>: 사용자 기본 셸 지정.</li>
+      <li><strong>예시</strong>: <code class="language-plaintext highlighter-rouge">sudo useradd -m -s /bin/bash hong</code></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>비밀번호 설정</strong>: <code class="language-plaintext highlighter-rouge">passwd</code></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>passwd username
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li><strong>예시</strong>: <code class="language-plaintext highlighter-rouge">sudo passwd hong</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="useradd와-adduser의-차이점"><code class="language-plaintext highlighter-rouge">useradd</code>와 <code class="language-plaintext highlighter-rouge">adduser</code>의 차이점</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>항목</th>
+      <th><code class="language-plaintext highlighter-rouge">useradd</code></th>
+      <th><code class="language-plaintext highlighter-rouge">adduser</code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>사용 방식</strong></td>
+      <td>비대화형, 명령어 옵션 지정 필요</td>
+      <td>대화형, 간단하고 직관적</td>
+    </tr>
+    <tr>
+      <td><strong>홈 디렉토리 생성</strong></td>
+      <td>기본적으로 생성하지 않음 (<code class="language-plaintext highlighter-rouge">-m</code> 옵션 필요)</td>
+      <td>기본적으로 생성</td>
+    </tr>
+    <tr>
+      <td><strong>환경 파일 복사</strong></td>
+      <td>기본적으로 하지 않음 (<code class="language-plaintext highlighter-rouge">/etc/skel</code> 필요)</td>
+      <td><code class="language-plaintext highlighter-rouge">/etc/skel</code> 파일 자동 복사</td>
+    </tr>
+    <tr>
+      <td><strong>비밀번호 설정</strong></td>
+      <td>별도로 <code class="language-plaintext highlighter-rouge">passwd</code> 명령어 실행 필요</td>
+      <td>비밀번호 설정을 자동으로 처리</td>
+    </tr>
+    <tr>
+      <td><strong>추천 대상</strong></td>
+      <td>고급 사용자, 스크립트 작성 시 적합</td>
+      <td>초보자, 단순 유저 추가 작업에 적합</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h3 id="2-사용자-정보-수정">2. <strong>사용자 정보 수정</strong></h3>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>: <code class="language-plaintext highlighter-rouge">usermod</code></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>usermod <span class="nt">-c</span> <span class="s2">"사용자 설명"</span> <span class="nt">-s</span> /bin/zsh username
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">c</code>: 사용자 설명 수정.</li>
+      <li><code class="language-plaintext highlighter-rouge">s</code>: 기본 셸 변경.</li>
+      <li><code class="language-plaintext highlighter-rouge">l</code>: 사용자 이름 변경.</li>
+      <li><code class="language-plaintext highlighter-rouge">d</code>: 홈 디렉토리 변경.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>예시</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>usermod <span class="nt">-c</span> <span class="s2">"홍길동"</span> <span class="nt">-s</span> /bin/zsh hong
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="3-사용자-삭제">3. <strong>사용자 삭제</strong></h3>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>: <code class="language-plaintext highlighter-rouge">userdel</code></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>userdel <span class="nt">-r</span> username
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">r</code>: 사용자와 함께 홈 디렉토리 삭제.</li>
+      <li><strong>예시</strong>: <code class="language-plaintext highlighter-rouge">sudo userdel -r hong</code></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="그룹-관리-명령어">그룹 관리 명령어</h2>
+
+<h3 id="1-그룹-추가">1. <strong>그룹 추가</strong></h3>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>: <code class="language-plaintext highlighter-rouge">groupadd</code></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>groupadd group_name
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li><strong>예시</strong>: <code class="language-plaintext highlighter-rouge">sudo groupadd devteam</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="2-사용자를-그룹에-추가">2. <strong>사용자를 그룹에 추가</strong></h3>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>: <code class="language-plaintext highlighter-rouge">usermod -aG</code></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>usermod <span class="nt">-aG</span> group_name username
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">aG</code>: 그룹에 추가.</li>
+      <li><strong>예시</strong>: <code class="language-plaintext highlighter-rouge">sudo usermod -aG devteam hong</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="3-그룹-삭제">3. <strong>그룹 삭제</strong></h3>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>: <code class="language-plaintext highlighter-rouge">groupdel</code></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>groupdel group_name
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li><strong>예시</strong>: <code class="language-plaintext highlighter-rouge">sudo groupdel devteam</code></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="사용자-권한과-파일-소유권">사용자 권한과 파일 소유권</h2>
+
+<p>리눅스에서는 <strong>파일 권한</strong>과 <strong>소유권</strong>이 사용자와 그룹 단위로 관리됩니다.</p>
+
+<h3 id="파일-소유권-확인">파일 소유권 확인</h3>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>: <code class="language-plaintext highlighter-rouge">ls -l</code></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">ls</span> <span class="nt">-l</span> 파일이름
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li>출력 형식: <code class="language-plaintext highlighter-rouge">rw-r--r-- 1 owner group size date 파일이름</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="파일-소유권-변경">파일 소유권 변경</h3>
+
+<ol>
+  <li>
+    <p><strong>소유자 변경</strong>: <code class="language-plaintext highlighter-rouge">chown</code></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo chown </span>owner 파일이름
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li><strong>예시</strong>: <code class="language-plaintext highlighter-rouge">sudo chown hong test.txt</code></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>그룹 변경</strong>: <code class="language-plaintext highlighter-rouge">chgrp</code></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo chgrp </span>group_name 파일이름
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li><strong>예시</strong>: <code class="language-plaintext highlighter-rouge">sudo chgrp devteam test.txt</code></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>소유자와 그룹 변경 동시 수행</strong>: <code class="language-plaintext highlighter-rouge">chown owner:group</code></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo chown </span>hong:devteam test.txt
+    
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="파일-권한-설정">파일 권한 설정</h2>
+
+<h3 id="1-권한-구조">1. <strong>권한 구조</strong></h3>
+
+<ul>
+  <li>파일 권한은 3가지로 구분됩니다:
+    <ol>
+      <li><strong>소유자(owner)</strong>.</li>
+      <li><strong>그룹(group)</strong>.</li>
+      <li><strong>기타 사용자(others)</strong>.</li>
+    </ol>
+  </li>
+  <li>권한의 종류:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">r</code>: 읽기(Read) = 4.</li>
+      <li><code class="language-plaintext highlighter-rouge">w</code>: 쓰기(Write) = 2.</li>
+      <li><code class="language-plaintext highlighter-rouge">x</code>: 실행(Execute) = 1.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="2-권한-확인">2. <strong>권한 확인</strong></h3>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>: <code class="language-plaintext highlighter-rouge">ls -l</code></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nt">-rw-r--r--</span> 1 hong devteam 1024 Jan 9 10:00 test.txt
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="3-권한-변경">3. <strong>권한 변경</strong></h3>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>: <code class="language-plaintext highlighter-rouge">chmod</code></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">chmod </span>권한값 파일이름
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li><strong>예시</strong>: <code class="language-plaintext highlighter-rouge">chmod 755 script.sh</code>
+        <ul>
+          <li>소유자: 읽기, 쓰기, 실행(7).</li>
+          <li>그룹: 읽기, 실행(5).</li>
+          <li>기타 사용자: 읽기, 실행(5).</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>문자 방식 사용:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">chmod </span>u+rwx,g+rx,o-r file.txt
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">u</code>: 소유자.</li>
+      <li><code class="language-plaintext highlighter-rouge">g</code>: 그룹.</li>
+      <li><code class="language-plaintext highlighter-rouge">o</code>: 기타 사용자.</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="사용자-환경-설정">사용자 환경 설정</h2>
+
+<h3 id="홈-디렉토리">홈 디렉토리</h3>
+
+<ul>
+  <li>
+    <p>사용자별 홈 디렉토리 경로:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  /home/username
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>홈 디렉토리 기본 설정 파일:</p>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">.bashrc</code>: 사용자 셸 환경 설정.</li>
+      <li><code class="language-plaintext highlighter-rouge">.profile</code>: 로그인 시 실행되는 스크립트.</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="예제-새-사용자-추가-및-설정">예제: 새 사용자 추가 및 설정</h3>
+
+<ol>
+  <li>
+    <p>사용자 추가:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>useradd <span class="nt">-m</span> <span class="nt">-s</span> /bin/bash hong
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>비밀번호 설정:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>passwd hong
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>사용자 설명 추가:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>usermod <span class="nt">-c</span> <span class="s2">"홍길동 개발자"</span> hong
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>그룹 추가 및 사용자 연결:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>groupadd devteam
+ <span class="nb">sudo </span>usermod <span class="nt">-aG</span> devteam hong
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>홈 디렉토리 확인:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">ls</span> <span class="nt">-l</span> /home/hong
+    
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="uid-gid">UID, GID</h2>
+
+<h3 id="uid-user-id">UID (User ID)</h3>
+
+<h3 id="정의">정의</h3>
+
+<ul>
+  <li>UID는 <strong>사용자를 고유하게 식별하는 숫자 값</strong>입니다.</li>
+  <li>모든 사용자 계정은 고유한 UID를 가지며, 시스템 내부에서 사용자 계정을 구분하는 데 사용됩니다.</li>
+</ul>
+
+<h3 id="uid-범위">UID 범위</h3>
+
+<ul>
+  <li>UID는 일반적으로 0부터 시작하며, 리눅스 배포판마다 범위가 약간 다를 수 있습니다.
+    <ul>
+      <li><strong>0</strong>: <code class="language-plaintext highlighter-rouge">root</code>(슈퍼유저).</li>
+      <li><strong>1-999</strong>: 시스템 계정(데몬, 서비스 계정 등).</li>
+      <li><strong>1000 이상</strong>: 일반 사용자 계정.
+        <ul>
+          <li>배포판에 따라 기본값이 <code class="language-plaintext highlighter-rouge">500</code>부터 시작할 수도 있습니다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="uid-확인-방법">UID 확인 방법</h3>
+
+<ol>
+  <li>
+    <p>사용자별 UID 확인:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">cat</span> /etc/passwd
+    
+</code></pre></div>    </div>
+
+    <p>예시 출력:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> root:x:0:0:root:/root:/bin/bash
+ hong:x:1001:1001:Hong Gil Dong:/home/hong:/bin/bash
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">0</code>: <code class="language-plaintext highlighter-rouge">root</code>의 UID.</li>
+      <li><code class="language-plaintext highlighter-rouge">1001</code>: 일반 사용자 <code class="language-plaintext highlighter-rouge">hong</code>의 UID.</li>
+    </ul>
+  </li>
+  <li>
+    <p>특정 사용자 UID 확인:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">id</span> <span class="nt">-u</span> username
+    
+</code></pre></div>    </div>
+
+    <p>예시:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">id</span> <span class="nt">-u</span> hong
+    
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="gid-group-id">GID (Group ID)</h3>
+
+<h3 id="정의-1">정의</h3>
+
+<ul>
+  <li>GID는 <strong>그룹을 고유하게 식별하는 숫자 값</strong>입니다.</li>
+  <li>사용자는 하나 이상의 그룹에 속할 수 있으며, 주 그룹(primary group)과 부 그룹(supplementary group)으로 나뉩니다.</li>
+</ul>
+
+<h3 id="gid-범위">GID 범위</h3>
+
+<ul>
+  <li>GID는 UID와 유사하게 고유하며 범위도 비슷합니다.
+    <ul>
+      <li><strong>0</strong>: <code class="language-plaintext highlighter-rouge">root</code> 그룹.</li>
+      <li><strong>1-999</strong>: 시스템 그룹.</li>
+      <li><strong>1000 이상</strong>: 일반 그룹.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="gid-확인-방법">GID 확인 방법</h3>
+
+<ol>
+  <li>
+    <p>그룹별 GID 확인:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">cat</span> /etc/group
+</code></pre></div>    </div>
+
+    <p>예시 출력:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> root:x:0:
+ devteam:x:1002:hong
+</code></pre></div>    </div>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">0</code>: <code class="language-plaintext highlighter-rouge">root</code> 그룹의 GID.</li>
+      <li><code class="language-plaintext highlighter-rouge">1002</code>: 그룹 <code class="language-plaintext highlighter-rouge">devteam</code>의 GID.</li>
+    </ul>
+  </li>
+  <li>
+    <p>특정 사용자 GID 확인:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">id</span> <span class="nt">-g</span> username
+    
+</code></pre></div>    </div>
+
+    <p>예시:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">id</span> <span class="nt">-g</span> hong
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>사용자가 속한 모든 그룹 확인:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">id </span>username
+    
+</code></pre></div>    </div>
+
+    <p>예시 출력:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> uid=1001(hong) gid=1001(hong) groups=1001(hong),1002(devteam)
+    
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="관련-파일과-역할">관련 파일과 역할</h3>
+
+<h3 id="etcpasswd"><code class="language-plaintext highlighter-rouge">/etc/passwd</code></h3>
+
+<ul>
+  <li>사용자 계정 정보를 저장하는 파일.</li>
+  <li>
+    <p>예시 내용:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  username:x:UID:GID:comment:home_directory:shell
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">UID</code>: 사용자 고유 ID.</li>
+      <li><code class="language-plaintext highlighter-rouge">GID</code>: 사용자가 속한 기본 그룹의 ID.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="etcgroup"><code class="language-plaintext highlighter-rouge">/etc/group</code></h3>
+
+<ul>
+  <li>그룹 정보를 저장하는 파일.</li>
+  <li>
+    <p>예시 내용:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  group_name:x:GID:member_list
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">GID</code>: 그룹 고유 ID.</li>
+      <li><code class="language-plaintext highlighter-rouge">member_list</code>: 그룹에 속한 사용자 목록.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="etcshadow"><code class="language-plaintext highlighter-rouge">/etc/shadow</code></h3>
+
+<ul>
+  <li>암호화된 사용자 비밀번호를 저장하는 파일. UID/GID와는 직접 관련 없지만 보안 관점에서 중요한 파일.</li>
+</ul>
+
+<hr />
+
+<h3 id="uid와-gid의-역할과-사용">UID와 GID의 역할과 사용</h3>
+
+<h3 id="1-파일-권한-관리">1. 파일 권한 관리</h3>
+
+<ul>
+  <li>리눅스 파일은 소유자(owner)와 그룹(group)의 UID와 GID를 기반으로 권한을 결정합니다.</li>
+  <li>파일 소유권 확인:</li>
+</ul>
+
+<p>예시 출력:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```bash
+ls -l 파일이름
+
+```
+
+```
+-rw-r--r-- 1 hong devteam 1024 Jan 9 10:00 test.txt
+
+```
+
+- `hong`: 소유자 UID.
+- `devteam`: 그룹 GID.
+</code></pre></div></div>
+
+<h3 id="2-프로세스-소유권">2. 프로세스 소유권</h3>
+
+<ul>
+  <li>UID와 GID는 프로세스의 소유권과 권한을 결정합니다.</li>
+  <li>프로세스 확인:</li>
+</ul>
+
+<p>예시:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```bash
+ps -u username
+
+```
+
+```bash
+ps -u hong
+
+```
+</code></pre></div></div>
+
+<h3 id="3-그룹을-통한-권한-공유">3. 그룹을 통한 권한 공유</h3>
+
+<ul>
+  <li>동일한 GID를 사용하는 그룹에 속한 사용자들은 해당 그룹의 권한으로 파일이나 디렉토리에 접근할 수 있습니다.</li>
+</ul>
+
+<hr />
+
+<h3 id="uid와-gid-설정-및-변경">UID와 GID 설정 및 변경</h3>
+
+<h3 id="1-uid-변경">1. UID 변경</h3>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>: <code class="language-plaintext highlighter-rouge">usermod -u</code></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>usermod <span class="nt">-u</span> 새_UID username
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li><strong>예시</strong>: <code class="language-plaintext highlighter-rouge">sudo usermod -u 1050 hong</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="2-gid-변경">2. GID 변경</h3>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>: <code class="language-plaintext highlighter-rouge">groupmod -g</code></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>groupmod <span class="nt">-g</span> 새_GID groupname
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li><strong>예시</strong>: <code class="language-plaintext highlighter-rouge">sudo groupmod -g 1050 devteam</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="3-파일-소유권-업데이트">3. 파일 소유권 업데이트</h3>
+
+<p>UID/GID 변경 후 기존 파일의 소유권도 업데이트해야 합니다.</p>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>: <code class="language-plaintext highlighter-rouge">chown</code></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo chown</span> <span class="nt">-R</span> 새_UID:새_GID 파일/디렉토리
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p><strong>예시</strong>:</p>
+
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo chown</span> <span class="nt">-R</span> 1050:1050 /home/hong
+        
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="uidgid와-관련된-보안-고려-사항">UID/GID와 관련된 보안 고려 사항</h3>
+
+<ol>
+  <li><strong>중복된 UID/GID 방지</strong>:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">/etc/passwd</code>와 <code class="language-plaintext highlighter-rouge">/etc/group</code>에 중복된 UID/GID가 없는지 확인.</li>
+      <li>중복되면 권한 충돌 및 보안 문제가 발생할 수 있음.</li>
+    </ul>
+  </li>
+  <li><strong>UID 0 계정 관리</strong>:
+    <ul>
+      <li>UID가 <code class="language-plaintext highlighter-rouge">0</code>인 계정은 <code class="language-plaintext highlighter-rouge">root</code> 권한을 가지므로, 불필요한 계정을 만들지 않도록 주의.</li>
+    </ul>
+  </li>
+  <li><strong>정확한 그룹 설정</strong>:
+    <ul>
+      <li>사용자를 적절한 그룹에 배정하여 불필요한 권한 부여 방지.</li>
+    </ul>
+  </li>
+  <li><strong>로그 확인</strong>:
+    <ul>
+      <li>특정 UID/GID와 관련된 활동을 확인하려면 <code class="language-plaintext highlighter-rouge">/var/log/auth.log</code> 또는 <code class="language-plaintext highlighter-rouge">/var/log/secure</code>를 모니터링.</li>
+    </ul>
+  </li>
+</ol>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#linux" class="page__taxonomy-item" rel="tag">Linux</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-01-11">January 11, 2025</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/linux/2" class="pagination--pager" title="vi 텍스트 에디터 사용법
+">Prev</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/linux/2" rel="permalink">vi 텍스트 에디터 사용법
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-01-11T00:00:00+09:00">January 11, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">리눅스 vi 텍스트 에디터 사용법
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/linux/1" rel="permalink">디렉토리 계층 구조
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-01-09T00:00:00+09:00">January 9, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">리눅스 디렉토리 계층 구조
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/react/3" rel="permalink">useState와 Component
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2024-12-16T00:00:00+09:00">December 16, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">useState가 array/object일 때
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/react/2" rel="permalink">기본적인 JSX문법과 useState
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2024-12-16T00:00:00+09:00">December 16, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">JSX 문법, useState
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/Bin-Choi" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 dev.Choi. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'github-account/repo-name');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>

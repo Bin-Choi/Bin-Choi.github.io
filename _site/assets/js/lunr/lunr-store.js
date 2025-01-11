@@ -125,9 +125,21 @@ var store = [{
         "url": "/react/3",
         "teaser": null
       },{
-        "title": "[리눅스] 디렉토리 계층 구조",
-        "excerpt":"리눅스의 디렉토리 계층 구조는 FHS(Filesystem Hierarchy Standard)에 따라 설계되었습니다. 이 표준은 리눅스 및 유닉스 계열 시스템에서 파일과 디렉토리가 어떻게 구성되고 배치되어야 하는지를 정의합니다. 이를 통해 사용자는 디렉토리의 역할과 파일의 위치를 쉽게 이해할 수 있습니다. 리눅스 디렉토리 계층 구조의 핵심 리눅스 파일 시스템은 루트 디렉토리(/)에서 시작하며, 모든 디렉토리와 파일은 이곳에서 파생됩니다....","categories": ["Categories4"],
+        "title": "디렉토리 계층 구조",
+        "excerpt":"리눅스의 디렉토리 계층 구조는 FHS(Filesystem Hierarchy Standard)에 따라 설계되었습니다. 이 표준은 리눅스 및 유닉스 계열 시스템에서 파일과 디렉토리가 어떻게 구성되고 배치되어야 하는지를 정의합니다. 이를 통해 사용자는 디렉토리의 역할과 파일의 위치를 쉽게 이해할 수 있습니다. 리눅스 디렉토리 계층 구조의 핵심 리눅스 파일 시스템은 루트 디렉토리(/)에서 시작하며, 모든 디렉토리와 파일은 이곳에서 파생됩니다....","categories": ["Linux"],
         "tags": ["tag1","tag2"],
-        "url": "/spring/1",
+        "url": "/linux/1",
+        "teaser": null
+      },{
+        "title": "vi 텍스트 에디터 사용법",
+        "excerpt":"리눅스 vi 텍스트 에디터 사용법 vi는 리눅스와 유닉스 시스템에서 기본 제공되는 강력한 텍스트 에디터입니다. 다소 직관적이지 않지만, 기본적인 사용법만 익히면 효율적인 파일 편집이 가능합니다. vi의 3가지 모드 vi는 3가지 주요 모드로 동작합니다. 모드 설명 명령 모드 (Command mode) 기본 모드로, 커서 이동, 명령 실행(저장, 종료 등)을 수행합니다. 입력 모드 (Insert...","categories": ["Linux"],
+        "tags": ["tag1","tag2"],
+        "url": "/linux/2",
+        "teaser": null
+      },{
+        "title": "사용자 계정",
+        "excerpt":"리눅스 사용자 계정의 구조 사용자 정보 파일 /etc/passwd 모든 사용자 계정 정보를 저장. 형식: username:x:UID:GID:comment:home_directory:shell username: 사용자 이름. x: 비밀번호 필드(보안상 /etc/shadow에 저장). UID: 사용자 ID. GID: 그룹 ID. comment: 사용자 설명(예: 이름). home_directory: 홈 디렉토리 위치. shell: 로그인 셸(기본값: /bin/bash). /etc/shadow 암호화된 비밀번호 저장. 파일 형식: username:encrypted_password:last_change:min:max:warn:inactive:expire /etc/group 그룹...","categories": ["Linux"],
+        "tags": ["tag1","tag2"],
+        "url": "/linux/3",
         "teaser": null
       }]
