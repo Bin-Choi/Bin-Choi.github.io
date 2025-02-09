@@ -16,5 +16,283 @@ date:
 
 ---
 
-## 🦥 본문
+## 1. 코틀린의 탄생 배경
 
+- 2010년 JetBrains에서 개발 시작
+- JVM 기반의 프로그래밍 언어로서 자바의 문제점을 해결하고자 함
+- 주요 해결하고자 했던 자바의 문제점들:
+    - NullPointerException의 빈번한 발생 → Nullable 처리
+    - 장황한 코드(Boilerplate code) → 간결한 코드
+    - 데이터 클래스 작성의 번거로움 →  간결한 코드
+    - 자바의 불완전한 함수형 프로그래밍 지원
+
+## 2. Kotlin 의 Nullable 처리, 그리고 장점들 (중요 ⭐)
+
+### 2-1. Kotlin 의 Nullable 처리 방법
+
+- 코틀린은 다양한 연산자 ?(Safe Call) / ?:(Elvis) / !!(Not-null assertion) 등을 이용하여 Java 의 문제점인 NullPointerException 의 빈번한 발생을 예방
+
+### 2-1-1. Safe Call(?)
+
+- ? 연산자를 사용하여 앞의 리턴 값이 null 이 오는 경우 뒤의 구문을 실행하지 않고 바로 null 자체를 리턴
+- null 에서 연산을 수행하다가 런타임에 발생하는 NullPointerException(NPE) 의 발생을 예방
+- 위의 특성을 통해서 NullPointerException 을 컴파일 시점에서 방지하여 서비스 운영 중에 발생하는 예상치 못한 문제를 예방
+
+```kotlin
+// Java
+String str = null;
+str.length(); // Java에서는 런타임에 NullPointerException 이 발생
+
+// Kotlin
+var str: String? = null // null 이 들어 갈 수 있는 타입에는 ? 로 명시
+str.length // Kotlin 에서는 컴파일 시점에 방지
+str?.length // Safe Call, str 이 null 인 경우 라면 null 자체가 바로 리턴되어 str?.length 가 수행되지 않아 NullPointerException 이 발생하지 않음
+```
+
+### 2-1-2. Elvis(?:) 연산자
+
+- ?: 연산자를 사용하여 앞의 값이 null 일 경우 엘비스 연산자(?:) 뒤 의 값을 넣어주는 연산자. 3항 연산자와 비슷한 역할
+    - 참고로 왜 Elvis 연산자라고 불리는지 궁금하시다면? 아래의 토글을!
+        - 
+            
+            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/89fde35f-d786-48b7-a620-56fc17eb00d5/84b31597-b5bb-4fbb-a392-2e66ab86dfb0/image.png)
+            
+- ?: 연산자를 사용하여, 변수의 기본 값 제공 및 Safe Call 이 null 자체를 리턴하는 한계를 극복하여 다양한 활용이 가능
+    
+    ```kotlin
+    // 앞의 값이 null 인 경우 ?: 뒤의 값을 리턴하여 기본 값을 제공
+    val name: String? = null
+    val nonNullName = name ?: "Unknown"  // "Unknown"
+    
+    // 변수에 값이 있는 경우 ?: 연산자는 무시
+    val name: String? = "Kim"
+    val nonNullName = name ?: "Unknown"  // "Kim"
+    
+    // Safe Call 상황 발생 시에 null 이 아닌 원하는 값을 리턴
+    var str: String? = "ABC";
+    println(str?.length ?: 0); // Safe Call 발생 X, length 연산 수행하여 3을 리턴
+    
+    str = null;
+    println(str2?.length ?: 0); // Safe Call 발생 O, null 이 아닌 원하는 값인 0 을 리턴
+    
+    // 컬렉션에 활용
+    val list: List<String>? = null
+    val size = list?.size ?: 0  // null 이 아닌 원하는 size 값인 0 리턴
+    ```
+    
+
+### 2-2. Nullable 활용으로 인한 장점들
+
+### 2-2-1. Java 의 문제점과 Kotlin 의 해결책 비교
+
+- 기존 자바 코드의 문제점
+    - 잠재적 NullPointerException(NPE) 발생 위험
+    - NPE 발생 위치 특정이 어려움
+    - 실제 개발에서 NPE 발생을 막기 위해 장황한 체크 코드 작성 필요
+    
+    ```java
+    // Java
+    public class User {
+        private String name;
+        private Address address;  // 이것이 null인지 아닌지 타입만으로는 알 수 없음
+        
+        public String getCityName() {
+            // 어느 부분에서 NullPointerException이 발생할 수 있는지 명확하지 않음
+            return address.getStreet().getCity();  // NPE 위험!
+        }
+    }
+    
+    // 실제 개발시 발생하는 방어 코드
+    public String getCityName() {
+        if (address == null) {
+            return "Unknown";
+        }
+        if (address.getStreet() == null) {
+            return "Unknown";
+        }
+        if (address.getStreet().getCity() == null) {
+            return "Unknown";
+        }
+        return address.getStreet().getCity();
+    }
+    ```
+    
+- 코틀린의 해결책
+    - 타입 시스템으로 nullable 여부를 명시
+    - Safe Call 과 Elvis 연산자를 사용하여 장황한 체크 코드 없이 편리한 null 체크 가능
+    
+    ```kotlin
+    class User {
+        // 타입 시스템에서 null 가능성을 명시적으로 표현
+        private val name: String  // null 불가능
+        private val address: Address?  // null 가능
+    
+        fun getCityName(): String {
+            // 간단하고 안전한 null 체크
+            return address?.street?.city ?: "Unknown"
+        }
+    }
+    ```
+    
+
+### 2-3. !!(Not-null assertion operator) 연산자
+
+- !! 연산자는 해당 값이 null 이 아님을 단언하는 연산자로 사용
+- Kotlin  커뮤니티에서는 "bang-bang operator” 또는  "double-bang operator” 라고도 부르며, 느낌표가 2개(!!)인 만큼 위험을 나타낸다고 생각
+    - !! 연산자는 컴파일러에게 해당 값은 절대 null 이 아니므로 그냥 진행해! 라고 명령하는 것과 같아 NPE 발생의 위험이 있음. 신중한 활용 필요
+    
+    ```kotlin
+    // !! 연산자 사용 예시
+    val nullableString: String? = "Hello"
+    val nonNullString: String = nullableString!!  // Nullable -> Non-null
+    
+    // 위험한 사용 예시
+    val dangerousNull: String? = null
+    val willCrash: String = dangerousNull!!  // NPE 발생!
+    ```
+    
+- 테스트 코드와 같이 값이 null 이 아니라고 확신이 되는 케이스에서만 제한적으로 사용 추천
+    
+    ```kotlin
+    @Test
+    fun `test user creation`() {
+        val user: User? = userService.createUser("test@test.com")
+        // 테스트에서는 user가 null이 아님을 확신할 수 있음
+        assertTrue(user!!.email.contains("@"))
+    }
+    ```
+    
+
+## 3. 코틀린으로 인한 간결한 코드
+
+### 3-1. 데이터 클래스 코드의 차이
+
+- 자바 코드
+    - 생성자 및 Getter 선언 필요, 각종 메서드 오버라이딩 필요
+    
+    ```java
+    // Java
+    public class User {
+        private final String name;
+        private final int age;
+        
+        public User(String name, int age) {
+            this.name = name;
+            this.age = age;
+        }
+        
+        public String getName() {
+            return name;
+        }
+        
+        public int getAge() {
+            return age;
+        }
+        
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            User user = (User) o;
+            return age == user.age && Objects.equals(name, user.name);
+        }
+        
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, age);
+        }
+        
+        @Override
+        public String toString() {
+            return "User{" + "name='" + name + "', age=" + age + '}';
+        }
+    }
+    ```
+    
+- 코틀린 코드
+    - 클래스 선언 시 data 키워드 하나로, 생성자 / Getter / 메서드 오버라이딩 자동 생성 (Like 롬복 어노테이션)
+    
+    ```kotlin
+    // Kotlin
+    data class User(
+        val name: String,
+        val age: Int
+    )
+    ```
+    
+
+### 3-2. 빌더 패턴 코드 차이
+
+- 자바 코드
+    
+    ```java
+    // Java
+    public class AlertDialog {
+        private String title;
+        private String message;
+        private boolean cancelable;
+        
+        private AlertDialog(Builder builder) {
+            this.title = builder.title;
+            this.message = builder.message;
+            this.cancelable = builder.cancelable;
+        }
+        
+        public static class Builder {
+            private String title;
+            private String message;
+            private boolean cancelable = true;
+            
+            public Builder setTitle(String title) {
+                this.title = title;
+                return this;
+            }
+            
+            public Builder setMessage(String message) {
+                this.message = message;
+                return this;
+            }
+            
+            public Builder setCancelable(boolean cancelable) {
+                this.cancelable = cancelable;
+                return this;
+            }
+            
+            public AlertDialog build() {
+                return new AlertDialog(this);
+            }
+        }
+    }
+    ```
+    
+- 코틀린 코드
+    
+    ```kotlin
+    // Kotlin
+    class AlertDialog(
+        val title: String? = null,
+        val message: String? = null,
+        val cancelable: Boolean = true
+    )
+    ```
+    
+
+### 3-3. 범위 체크
+
+- 자바 코드
+    
+    ```java
+    // Java
+    if (number >= 0 && number <= 100) {
+        System.out.println("Valid");
+    }
+    ```
+    
+- 코틀린 코드
+    
+    ```kotlin
+    // Kotlin
+    if (number in 0..100) {
+        println("Valid")
+    }
+    ```
