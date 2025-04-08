@@ -1,9 +1,9 @@
 ---
-title: "Linux"
+title: "Devops"
 layout: category
-permalink: /categories/linux/
+permalink: /categories/devops/
 author_profile: true
-taxonomy: Linux
+taxonomy: Devops
 sidebar:
   nav: "categories"
 ---

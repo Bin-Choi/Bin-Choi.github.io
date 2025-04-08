@@ -6,27 +6,25 @@ main:
   - title: "About"
     url: /about/
 
-  # - title: "Projects"
-  #   url: /projects/
-
   - title: "Categories"
     url: /categories/
 
   - title: "GitHub"
     url: https://github.com/Bin-Choi
 
-# sidebar navigation (categories)
-# 2022.02.15 sidebar update : simple ver.
+
 categories:
-  - title: "Network"
-    url: /categories/network/
-  - title: "Database"
-    url: /categories/database/
   - title: "Java"
     url: /categories/java/
   - title: "Spring"
     url: /categories/spring/
-  - title: "React"
-    url: /categories/react/
+  - title: "Network"
+    url: /categories/network/
+  - title: "Database"
+    url: /categories/database/
   - title: "Linux"
     url: /categories/linux/
+  - title: "Devops"
+    url: /categories/devops/
+  - title: "React"
+    url: /categories/react/
