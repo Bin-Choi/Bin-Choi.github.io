@@ -1,0 +1,1070 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <style> 
+      ::-webkit-scrollbar{ 
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        width: 0px;
+        background-color: rgba(224, 224, 224, 0.2);
+        /* border-radius: 5px; */
+      }
+
+      ::-webkit-scrollbar-thumb {
+        width: 0px;
+        background-color: rgba(220, 219, 218, 0.6);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        width: 10px;
+        height: 20px;
+        /* background-color: rgba(190, 190, 190, 0.2); */
+        background-color: rgba(193, 192, 191, 0.7);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-track:hover {
+        width: 10px;
+        /* background-color: rgba(150, 150, 150, 0.1); */
+        background-color: rgba(224, 224, 224, 0.5);
+        border-radius: 5px;
+        /* background: transparent; */
+        /* border-radius: 10px; */
+      }
+
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment {
+          width:0px;
+          height: 0px;
+          /* background-color: rgb(14, 221, 24); */
+          /* border-radius: 50%; */
+      }
+    </style>
+    
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>사용자 권한 (chmod, chown, chgrp) | Bean</title>
+<meta name="description" content="리눅스 사용자 권한 (chmod, chown, chgrp)">
+
+
+  <meta name="author" content="Bean">
+  
+  <meta property="article:author" content="Bean">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="Beans DevLog">
+<meta property="og:title" content="사용자 권한 (chmod, chown, chgrp)">
+<meta property="og:url" content="http://localhost:4000/linux/5">
+
+
+  <meta property="og:description" content="리눅스 사용자 권한 (chmod, chown, chgrp)">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-01-14T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2025-01-14T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/linux/5">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "dev.Choi",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Beans DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://github-account.github.io/assets/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://github-account.github.io/assets/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://github-account.github.io/assets/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://github-account.github.io/assets/images/favicon/site.webmanifest">
+    <link rel="mask-icon" href="https://github-account.github.io/assets/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#ffc40d">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Beans DevLog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/Bin-Choi">GitHub</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/profile.JPG" alt="Bean" itemprop="image">
+      
+    </div>
+  
+
+  <!-- 2022.02.17 author content hidden -->
+  <!-- <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Bean</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>joyful day</p>
+
+      </div>
+    
+  </div> -->
+
+  <div class="author__urls-wrapper">
+    <!-- <button class="btn btn--inverse">Follow</button> -->
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    <!-- <li>
+      <span class="nav__total">🌴 Total Posts: 37</span>
+    </li> -->
+    
+    
+      <li>
+        
+              <a href="/categories/network/"><span class="nav__sub-title">Network</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/database/"><span class="nav__sub-title">Database</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/os/"><span class="nav__sub-title">OS</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/linux/"><span class="nav__sub-title">Linux</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/java/"><span class="nav__sub-title">Java</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/spring/"><span class="nav__sub-title">Spring</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/devops/"><span class="nav__sub-title">Devops</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/react/"><span class="nav__sub-title">React</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="사용자 권한 (chmod, chown, chgrp)">
+    <meta itemprop="description" content="리눅스 사용자 권한 (chmod, chown, chgrp)">
+    <meta itemprop="datePublished" content="2025-01-14T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2025-01-14T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">사용자 권한 (chmod, chown, chgrp)
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-01-14T00:00:00+09:00">January 14, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#리눅스-파일-권한-구조">리눅스 파일 권한 구조</a><ul><li><a href="#1-기본-권한의-구성">1. 기본 권한의 구성</a></li><li><a href="#2-권한-비트">2. 권한 비트</a></li></ul></li><li><a href="#파일-및-디렉토리-권한-관리-명령어">파일 및 디렉토리 권한 관리 명령어</a><ul><li><a href="#1-권한-변경-chmod">1. 권한 변경: chmod</a></li><li><a href="#2-소유권-변경-chown">2. 소유권 변경: chown</a></li><li><a href="#3-그룹-변경-chgrp">3. 그룹 변경: chgrp</a></li><li><a href="#특수-권한">특수 권한</a></li><li><a href="#1-suid-set-user-id">1. SUID (Set User ID)</a></li><li><a href="#2-sgid-set-group-id">2. SGID (Set Group ID)</a></li><li><a href="#3-sticky-bit">3. Sticky Bit</a></li><li><a href="#특수-권한-확인">특수 권한 확인</a></li></ul></li><li><a href="#파일-및-디렉토리-권한의-차이">파일 및 디렉토리 권한의 차이</a><ul><li><a href="#1-파일-권한">1. 파일 권한</a></li><li><a href="#2-디렉토리-권한">2. 디렉토리 권한</a></li><li><a href="#acl-access-control-list">ACL (Access Control List)</a></li><li><a href="#acl-설정">ACL 설정</a></li><li><a href="#파일-권한-설정-예제">파일 권한 설정 예제</a></li><li><a href="#예제-1-특정-사용자에게-읽기-권한-추가">예제 1: 특정 사용자에게 읽기 권한 추가</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h2 id="리눅스-파일-권한-구조"><strong>리눅스 파일 권한 구조</strong></h2>
+
+<h3 id="1-기본-권한의-구성">1. <strong>기본 권한의 구성</strong></h3>
+
+<p>리눅스의 파일 권한은 <code class="language-plaintext highlighter-rouge">ls -l</code> 명령으로 확인할 수 있습니다. 예를 들어:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-rw-r--r--</span> 1 hong devteam 1024 Jan 9 10:00 example.txt
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th><strong>항목</strong></th>
+      <th><strong>설명</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-rw-r--r--</code></td>
+      <td><strong>권한</strong>: 소유자(owner), 그룹(group), 기타 사용자(others) 권한.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+      <td>하드 링크의 개수.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">hong</code></td>
+      <td><strong>소유자(owner)</strong>: 파일의 주인 사용자.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">devteam</code></td>
+      <td><strong>그룹(group)</strong>: 소유자가 속한 그룹.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">1024</code></td>
+      <td>파일 크기(바이트 단위).</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Jan 9 10:00</code></td>
+      <td>파일 수정 날짜와 시간.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">example.txt</code></td>
+      <td>파일 이름.</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h3 id="2-권한-비트">2. <strong>권한 비트</strong></h3>
+
+<p>권한은 10개의 문자로 구성되며, 각 위치는 다음과 같습니다:</p>
+
+<p>| <strong>위치</strong> | <strong>설명</strong> |
+| — | — |
+| 첫 번째 문자 | 파일 유형 (<code class="language-plaintext highlighter-rouge">-</code>: 일반 파일, <code class="language-plaintext highlighter-rouge">d</code>: 디렉토리, <code class="language-plaintext highlighter-rouge">l</code>: 심볼릭 링크 등). |
+| 2-4번째 문자 | 소유자 권한 (<code class="language-plaintext highlighter-rouge">rwx</code>). |
+| 5-7번째 문자 | 그룹 권한 (<code class="language-plaintext highlighter-rouge">rwx</code>). |
+| 8-10번째 문자 | 기타 사용자 권한 (<code class="language-plaintext highlighter-rouge">rwx</code>). |</p>
+<ul>
+  <li><strong>r</strong>: 읽기(Read) = 4</li>
+  <li><strong>w</strong>: 쓰기(Write) = 2</li>
+  <li><strong>x</strong>: 실행(Execute) = 1</li>
+  <li><em>**</em>: 권한 없음 = 0</li>
+</ul>
+
+<p><strong>예시</strong>:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">rw-r--r--</code></li>
+  <li>소유자: 읽기(r), 쓰기(w).</li>
+  <li>그룹: 읽기(r).</li>
+  <li>기타 사용자: 읽기(r).</li>
+</ul>
+
+<hr />
+
+<h2 id="파일-및-디렉토리-권한-관리-명령어"><strong>파일 및 디렉토리 권한 관리 명령어</strong></h2>
+
+<h3 id="1-권한-변경-chmod">1. <strong>권한 변경: <code class="language-plaintext highlighter-rouge">chmod</code></strong></h3>
+
+<ul>
+  <li>
+    <p><strong>숫자 방식</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">chmod </span>764 파일이름
+</code></pre></div>    </div>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">764</code>의 의미:
+        <ul>
+          <li>소유자: <code class="language-plaintext highlighter-rouge">rwx</code>(7 = 4+2+1).</li>
+          <li>그룹: <code class="language-plaintext highlighter-rouge">rw-</code>(6 = 4+2).</li>
+          <li>기타 사용자: <code class="language-plaintext highlighter-rouge">r--</code>(4 = 4).</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>문자 방식</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">chmod </span><span class="nv">u</span><span class="o">=</span>rwx,g<span class="o">=</span>rw,o<span class="o">=</span>r 파일이름
+</code></pre></div>    </div>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">u</code>: 소유자(owner).</li>
+      <li><code class="language-plaintext highlighter-rouge">g</code>: 그룹(group).</li>
+      <li><code class="language-plaintext highlighter-rouge">o</code>: 기타 사용자(others).</li>
+    </ul>
+  </li>
+  <li>
+    <p>특정 권한 추가/제거:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">chmod </span>g+w 파일이름   <span class="c"># 그룹에 쓰기 권한 추가</span>
+  <span class="nb">chmod </span>o-r 파일이름   <span class="c"># 기타 사용자 읽기 권한 제거</span>
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="2-소유권-변경-chown">2. <strong>소유권 변경: <code class="language-plaintext highlighter-rouge">chown</code></strong></h3>
+
+<ul>
+  <li>
+    <p>소유자 변경:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo chown </span>새소유자 파일이름
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p><strong>예시</strong>:</p>
+
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo chown </span>hong example.txt
+        
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>소유자와 그룹 변경:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo chown </span>새소유자:새그룹 파일이름
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p><strong>예시</strong>:</p>
+
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo chown </span>hong:devteam example.txt
+        
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="3-그룹-변경-chgrp">3. <strong>그룹 변경: <code class="language-plaintext highlighter-rouge">chgrp</code></strong></h3>
+
+<ul>
+  <li>
+    <p>그룹 변경:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo chgrp </span>새그룹 파일이름
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p><strong>예시</strong>:</p>
+
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo chgrp </span>devteam example.txt
+        
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="특수-권한"><strong>특수 권한</strong></h3>
+
+<p>리눅스에는 추가적인 특수 권한(SUID, SGID, Sticky bit)이 있습니다.</p>
+
+<h3 id="1-suid-set-user-id">1. <strong>SUID (Set User ID)</strong></h3>
+
+<ul>
+  <li>파일 실행 시 해당 파일의 소유자 권한으로 실행.</li>
+  <li>주로 프로그램에 사용(예: <code class="language-plaintext highlighter-rouge">passwd</code> 명령).</li>
+  <li>
+    <p>설정 방법:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">chmod </span>u+s 파일이름
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="2-sgid-set-group-id">2. <strong>SGID (Set Group ID)</strong></h3>
+
+<ul>
+  <li>파일 실행 시 해당 파일의 그룹 권한으로 실행.</li>
+  <li>디렉토리에서는 새 파일이 부모 디렉토리의 그룹을 상속.</li>
+  <li>
+    <p>설정 방법:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">chmod </span>g+s 디렉토리이름
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="3-sticky-bit">3. <strong>Sticky Bit</strong></h3>
+
+<ul>
+  <li>디렉토리에서 파일 삭제 권한을 소유자로 제한.</li>
+  <li>주로 <code class="language-plaintext highlighter-rouge">/tmp</code>와 같은 공유 디렉토리에 사용.</li>
+  <li>
+    <p>설정 방법:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">chmod</span> +t 디렉토리이름
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="특수-권한-확인"><strong>특수 권한 확인</strong></h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ls -l</code> 출력에서 특수 권한:
+    <ul>
+      <li>SUID: <code class="language-plaintext highlighter-rouge">rws</code>.</li>
+      <li>SGID: <code class="language-plaintext highlighter-rouge">rwx</code>의 <code class="language-plaintext highlighter-rouge">x</code> 자리에 <code class="language-plaintext highlighter-rouge">s</code>.</li>
+      <li>Sticky bit: <code class="language-plaintext highlighter-rouge">rwt</code>.</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="파일-및-디렉토리-권한의-차이"><strong>파일 및 디렉토리 권한의 차이</strong></h2>
+
+<h3 id="1-파일-권한">1. <strong>파일 권한</strong></h3>
+
+<ul>
+  <li><strong>읽기(<code class="language-plaintext highlighter-rouge">r</code>)</strong>: 파일 내용을 읽을 수 있음.</li>
+  <li><strong>쓰기(<code class="language-plaintext highlighter-rouge">w</code>)</strong>: 파일 내용을 수정할 수 있음.</li>
+  <li><strong>실행(<code class="language-plaintext highlighter-rouge">x</code>)</strong>: 파일을 실행할 수 있음(스크립트, 바이너리 파일 등).</li>
+</ul>
+
+<h3 id="2-디렉토리-권한">2. <strong>디렉토리 권한</strong></h3>
+
+<ul>
+  <li><strong>읽기(<code class="language-plaintext highlighter-rouge">r</code>)</strong>: 디렉토리 목록을 볼 수 있음.</li>
+  <li><strong>쓰기(<code class="language-plaintext highlighter-rouge">w</code>)</strong>: 디렉토리에 파일을 생성, 삭제, 이름 변경 가능.</li>
+  <li><strong>실행(<code class="language-plaintext highlighter-rouge">x</code>)</strong>: 디렉토리 내부로 이동 가능(디렉토리 열기).</li>
+</ul>
+
+<hr />
+
+<h3 id="acl-access-control-list"><strong>ACL (Access Control List)</strong></h3>
+
+<p>리눅스에서 기본 권한 외에 사용자별로 세부적인 권한을 설정할 수 있는 기능입니다.</p>
+
+<h3 id="acl-설정">ACL 설정</h3>
+
+<ol>
+  <li>
+    <p><strong>ACL 설정</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> setfacl <span class="nt">-m</span> u:사용자:rwx 파일이름
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p><strong>예시</strong>: <code class="language-plaintext highlighter-rouge">hong</code> 사용자에게 읽기, 쓰기, 실행 권한 부여:</p>
+
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  setfacl <span class="nt">-m</span> u:hong:rwx example.txt
+        
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>ACL 확인</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> getfacl 파일이름
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>ACL 제거</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> setfacl <span class="nt">-x</span> u:사용자 파일이름
+    
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="파일-권한-설정-예제"><strong>파일 권한 설정 예제</strong></h3>
+
+<h3 id="예제-1-특정-사용자에게-읽기-권한-추가">예제 1: 특정 사용자에게 읽기 권한 추가</h3>
+
+<ol>
+  <li>
+    <p>파일 상태 확인:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">ls</span> <span class="nt">-l</span> example.txt
+    
+</code></pre></div>    </div>
+
+    <p>결과:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> -rw-r--r-- 1 hong devteam 1024 Jan 9 10:00 example.txt
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>그룹에 쓰기 권한 추가:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">chmod </span>g+w example.txt
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>결과 확인:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">ls</span> <span class="nt">-l</span> example.txt
+    
+</code></pre></div>    </div>
+
+    <p>결과:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> -rw-rw-r-- 1 hong devteam 1024 Jan 9 10:00 example.txt
+    
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#linux" class="page__taxonomy-item" rel="tag">Linux</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-01-14">January 14, 2025</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/linux/4" class="pagination--pager" title="sudo와 su명령어
+">Prev</a>
+    
+    
+      <a href="/linux/6" class="pagination--pager" title="리눅스 프로세스 관리 (ps, top, kill..)
+">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/spring/1" rel="permalink">Spring 프레임워크 들어가기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-29T00:00:00+09:00">March 29, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Spring 프레임워크
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/docker/2" rel="permalink">Docker 기본 명령어
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-16T00:00:00+09:00">March 16, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Docker 기본 명령어
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/docker/1" rel="permalink">포트 포워딩의 개념과 도커에서의 포트 포워딩 방법
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-15T00:00:00+09:00">March 15, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">포트 포워딩의 개념과 도커에서의 포트 포워딩 방법
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/kotlin/5" rel="permalink">Kotlin - 마이그레이션
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-02-25T00:00:00+09:00">February 25, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Java Spring에서 Kotlin Spring으로의 전환 핵심 요약
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/Bin-Choi" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 dev.Choi. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'github-account/repo-name');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>

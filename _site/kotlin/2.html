@@ -1,0 +1,926 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <style> 
+      ::-webkit-scrollbar{ 
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        width: 0px;
+        background-color: rgba(224, 224, 224, 0.2);
+        /* border-radius: 5px; */
+      }
+
+      ::-webkit-scrollbar-thumb {
+        width: 0px;
+        background-color: rgba(220, 219, 218, 0.6);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        width: 10px;
+        height: 20px;
+        /* background-color: rgba(190, 190, 190, 0.2); */
+        background-color: rgba(193, 192, 191, 0.7);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-track:hover {
+        width: 10px;
+        /* background-color: rgba(150, 150, 150, 0.1); */
+        background-color: rgba(224, 224, 224, 0.5);
+        border-radius: 5px;
+        /* background: transparent; */
+        /* border-radius: 10px; */
+      }
+
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment {
+          width:0px;
+          height: 0px;
+          /* background-color: rgb(14, 221, 24); */
+          /* border-radius: 50%; */
+      }
+    </style>
+    
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Kotlin - 자바 함수와 코틀린 함수의 차이, 그리고 람다식 | Bean</title>
+<meta name="description" content="Kotlin - 자바 함수와 코틀린 함수의 차이, 그리고 람다식">
+
+
+  <meta name="author" content="Bean">
+  
+  <meta property="article:author" content="Bean">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="Beans DevLog">
+<meta property="og:title" content="Kotlin - 자바 함수와 코틀린 함수의 차이, 그리고 람다식">
+<meta property="og:url" content="http://localhost:4000/kotlin/2">
+
+
+  <meta property="og:description" content="Kotlin - 자바 함수와 코틀린 함수의 차이, 그리고 람다식">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-02-09T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2025-02-09T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/kotlin/2">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "dev.Choi",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Beans DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://github-account.github.io/assets/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://github-account.github.io/assets/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://github-account.github.io/assets/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://github-account.github.io/assets/images/favicon/site.webmanifest">
+    <link rel="mask-icon" href="https://github-account.github.io/assets/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#ffc40d">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Beans DevLog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/Bin-Choi">GitHub</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/profile.JPG" alt="Bean" itemprop="image">
+      
+    </div>
+  
+
+  <!-- 2022.02.17 author content hidden -->
+  <!-- <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Bean</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>joyful day</p>
+
+      </div>
+    
+  </div> -->
+
+  <div class="author__urls-wrapper">
+    <!-- <button class="btn btn--inverse">Follow</button> -->
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    <!-- <li>
+      <span class="nav__total">🌴 Total Posts: 37</span>
+    </li> -->
+    
+    
+      <li>
+        
+              <a href="/categories/network/"><span class="nav__sub-title">Network</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/database/"><span class="nav__sub-title">Database</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/os/"><span class="nav__sub-title">OS</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/linux/"><span class="nav__sub-title">Linux</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/java/"><span class="nav__sub-title">Java</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/spring/"><span class="nav__sub-title">Spring</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/devops/"><span class="nav__sub-title">Devops</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/react/"><span class="nav__sub-title">React</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Kotlin - 자바 함수와 코틀린 함수의 차이, 그리고 람다식">
+    <meta itemprop="description" content="Kotlin - 자바 함수와 코틀린 함수의 차이, 그리고 람다식">
+    <meta itemprop="datePublished" content="2025-02-09T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2025-02-09T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Kotlin - 자바 함수와 코틀린 함수의 차이, 그리고 람다식
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-02-09T00:00:00+09:00">February 9, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#1-함수-선언">1. 함수 선언</a></li><li><a href="#2-반환-타입">2. 반환 타입</a></li><li><a href="#3-단일-표현식-함수-사용-가능">3. 단일 표현식 함수 사용 가능</a></li><li><a href="#4-매개변수의-기본-값">4. 매개변수의 기본 값</a></li><li><a href="#5-람다식-lambda-expression">5. 람다식 (Lambda Expression)</a><ul><li><a href="#람다식-사용의-장점">람다식 사용의 장점</a></li><li><a href="#자바의-람다식">자바의 람다식</a></li><li><a href="#코틀린의-람다식">코틀린의 람다식</a></li><li><a href="#주요-차이점">주요 차이점</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>기본적으로 코틀린의 함수는 장환한 코드를 써야하는 자바 함수의 단점을 개선하기 위해서 간결한 코드를 제공</p>
+
+<h2 id="1-함수-선언">1. 함수 선언</h2>
+
+<ul>
+  <li>클래스 내부에서 메서드로만 선언이 가능한 자바와 달리 코틀린은 최상위 레벨에서 바로 함수 선언이 가능</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Java</span>
+<span class="k">public</span> <span class="kd">class</span> <span class="nc">Example</span> <span class="p">{</span>
+		<span class="c1">// 클래스 내부에서만 함수 선언 가능</span>
+    <span class="k">public</span> <span class="n">int</span> <span class="nf">add</span><span class="p">(</span><span class="n">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Kotlin</span>
+<span class="c1">// 최상위 레벨에서 fun 키워드로 바로 선언 가능</span>
+<span class="k">fun</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nc">Int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nc">Int</span><span class="p">):</span> <span class="nc">Int</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="2-반환-타입">2. 반환 타입</h2>
+
+<ul>
+  <li>자바는 메서드 앞에 반환 타입을 명시 vs 코틀린은 함수 뒤에 : 를 사용해서 명시</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Java</span>
+<span class="k">public</span> <span class="kd">class</span> <span class="nc">Calculator</span> <span class="p">{</span>
+		<span class="c1">// 메서드 앞에 int 로 반환 타입 명시</span>
+    <span class="k">public</span> <span class="n">int</span> <span class="nf">addNumbers</span><span class="p">(</span><span class="n">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span>
+    <span class="p">}</span>    
+<span class="p">}</span>
+
+<span class="c1">// Kotlin</span>
+<span class="c1">// 메서드 파라미터 뒷 부분에 : 를 사용하여 반환 타입 명시</span>
+<span class="k">fun</span> <span class="nf">addNumbers</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nc">Int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nc">Int</span><span class="p">):</span> <span class="nc">Int</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="3-단일-표현식-함수-사용-가능">3. 단일 표현식 함수 사용 가능</h2>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="py">num</span>  <span class="c1">// 타입 지정이 안되어 에러 발생</span>
+<span class="kd">var</span> <span class="py">num1</span><span class="p">:</span> <span class="nc">Int</span> <span class="c1">// 타입 지정이 되어 있으므로 에러가 발생하지 않음</span>
+
+<span class="nf">println</span><span class="p">(</span><span class="n">num1</span><span class="p">)</span> <span class="c1">// 초기값 지정 없이 사용하려고 하면 에러 발생</span>
+</code></pre></div></div>
+
+<ul>
+  <li>코틀린에서는 중괄호{ } 와 retrun 을 생략하는 단일 표현식 함수를 사용 가능</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Java</span>
+<span class="k">public</span> <span class="kd">class</span> <span class="nc">Calculator</span> <span class="p">{</span>
+		<span class="c1">// 리턴이 있는 메서드의 경우 반드시 중괄호와 return 을 사용해야함</span>
+    <span class="k">public</span> <span class="n">int</span> <span class="nf">addNumbers</span><span class="p">(</span><span class="n">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span><span class="p">;</span>
+    <span class="p">}</span>    
+<span class="p">}</span>
+
+<span class="c1">// Kotlin</span>
+<span class="c1">// 중괄호와 return 을 생략하는 단일 표현식 사용 가능</span>
+<span class="k">fun</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nc">Int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nc">Int</span><span class="p">):</span> <span class="nc">Int</span> <span class="p">=</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span>
+</code></pre></div></div>
+
+<ul>
+  <li>단일 표현식 함수를 사용하는 경우에는 타입 추론으로 인해 리턴 타입 생략 가능</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 타입 추론으로 인해 : Int 생략</span>
+<span class="k">fun</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nc">Int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">=</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span>
+</code></pre></div></div>
+
+<h2 id="4-매개변수의-기본-값">4. 매개변수의 기본 값</h2>
+
+<ul>
+  <li>코틀린에서는 = 를 사용하여 매개변수의 기본 값 설정이 가능 (자바 : 불가능)</li>
+  <li>매개변수가 여러 개일 경우 오버로딩 없이 간결한 코드로 구현이 가능</li>
+  <li>명명된 매개변수를 사용하여 원하는 매개변수 값만 지정 가능 &amp; 매개 변수를 순서를 지키지 않아도 되는 편의 제공</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Java, 매개변수의 기본 값 설정은 불가능하며 각각 오버로딩하여 구현해야함</span>
+<span class="k">public</span> <span class="kd">class</span> <span class="nc">UserService</span> <span class="p">{</span>
+    <span class="c1">// 모든 매개변수를 받는 메서드</span>
+    <span class="k">public</span> <span class="n">void</span> <span class="nf">createUser</span><span class="p">(</span><span class="nc">String</span> <span class="n">name</span><span class="p">,</span> <span class="n">int</span> <span class="n">age</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 로직 구현</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// age 생략</span>
+    <span class="k">public</span> <span class="n">void</span> <span class="nf">createUser</span><span class="p">(</span><span class="nc">String</span> <span class="n">name</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">createUser</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="mi">22</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// name, age 생략</span>
+    <span class="k">public</span> <span class="n">void</span> <span class="nf">createUser</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nf">createUser</span><span class="p">(</span><span class="s">"이몽룡"</span><span class="p">,</span> <span class="mi">24</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 사용 예시</span>
+<span class="nc">UserService</span> <span class="n">service</span> <span class="p">=</span> <span class="n">new</span> <span class="nc">UserService</span><span class="p">();</span>
+<span class="n">service</span><span class="p">.</span><span class="nf">createUser</span><span class="p">(</span><span class="s">"홍길동"</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>  <span class="c1">// name="홍길동", age=20</span>
+<span class="n">service</span><span class="p">.</span><span class="nf">createUser</span><span class="p">(</span><span class="s">"강감찬"</span><span class="p">)</span>      <span class="c1">// name="강감찬", age=22 (오버로딩 구현에 의한 값)</span>
+<span class="n">service</span><span class="p">.</span><span class="nf">createUser</span><span class="p">()</span>             <span class="c1">// name="이몽룡", age=24 (오버로딩 구현에 의한 값)</span>
+
+<span class="c1">// ###########################################################</span>
+<span class="c1">// Kotlin, 매개변수 기본 값을 사용하여 오버로딩 없이 간단하게 구현</span>
+<span class="kd">class</span> <span class="nc">UserService</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">createUser</span><span class="p">(</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nc">String</span> <span class="p">=</span> <span class="s">"이몽룡"</span><span class="p">,</span>
+        <span class="n">age</span><span class="p">:</span> <span class="nc">Int</span> <span class="p">=</span> <span class="mi">24</span>
+    <span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 로직 구현</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 사용 예시</span>
+<span class="kd">val</span> <span class="py">service</span> <span class="p">=</span> <span class="nc">UserService</span><span class="p">()</span>
+<span class="n">service</span><span class="p">.</span><span class="nf">createUser</span><span class="p">(</span><span class="s">"홍길동"</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>  <span class="c1">// name="홍길동", age=20</span>
+<span class="n">service</span><span class="p">.</span><span class="nf">createUser</span><span class="p">(</span><span class="s">"강감찬"</span><span class="p">)</span>      <span class="c1">// name="강감찬", age=24 (기본값)</span>
+<span class="n">service</span><span class="p">.</span><span class="nf">createUser</span><span class="p">()</span>             <span class="c1">// name="이몽룡", age=24 (모두 기본값)</span>
+
+<span class="c1">// 명명된 매개변수를 사용하여 특정 매개 변수에만 값을 전달</span>
+<span class="n">service</span><span class="p">.</span><span class="nf">createUser</span><span class="p">(</span><span class="n">age</span> <span class="p">=</span> <span class="mi">30</span><span class="p">)</span>     <span class="c1">// name="이몽룡" (기본값), age=30</span>
+</code></pre></div></div>
+
+<h2 id="5-람다식-lambda-expression">5. 람다식 (Lambda Expression)</h2>
+
+<ul>
+  <li>람다식은 함수를 하나의 식으로 표현한 것으로, 익명 함수를 만들 때 사용</li>
+</ul>
+
+<h3 id="람다식-사용의-장점">람다식 사용의 장점</h3>
+
+<ul>
+  <li>간결한 코드 작성 가능</li>
+  <li>함수형 프로그래밍 지원</li>
+  <li>코드 재사용성의 향상</li>
+</ul>
+
+<h3 id="자바의-람다식">자바의 람다식</h3>
+
+<ul>
+  <li>자바 8부터 도입된 람다식은 (매개변수) -&gt; { 본문 } 형태를 사용</li>
+  <li>함수형 인터페이스(단 하나의 추상 메서드만 가진 인터페이스)가 필요</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Java</span>
+<span class="c1">// 함수형 인터페이스 정의</span>
+<span class="kd">interface</span> <span class="nc">Calculator</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="nf">calculate</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// 람다식 사용</span>
+<span class="nc">Calculator</span> <span class="n">add</span> <span class="o">=</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">;</span> <span class="o">};</span>
+<span class="nc">Calculator</span> <span class="n">subtract</span> <span class="o">=</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="o">;</span>  <span class="c1">// 단일 표현식은 return과 중괄호 생략 가능</span>
+
+<span class="c1">// 컬렉션에서의 람다식 사용</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"Kim"</span><span class="o">,</span> <span class="s">"Lee"</span><span class="o">,</span> <span class="s">"Park"</span><span class="o">);</span>
+<span class="n">names</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">name</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">name</span><span class="o">));</span>
+</code></pre></div></div>
+
+<h3 id="코틀린의-람다식">코틀린의 람다식</h3>
+
+<ul>
+  <li>코틀린의 람다식은 { 매개변수 -&gt; 본문 } 형태를 사용</li>
+  <li>함수형 인터페이스가 필요 없으며, 함수 타입을 직접 사용 가능</li>
+  <li>마지막 표현식이 자동으로 반환값이 됨</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Kotlin</span>
+<span class="c1">// 람다식 선언</span>
+<span class="kd">val</span> <span class="py">add</span><span class="p">:</span> <span class="p">(</span><span class="nc">Int</span><span class="p">,</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nc">Int</span> <span class="p">=</span> <span class="p">{</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">-&gt;</span> <span class="n">x</span> <span class="p">+</span> <span class="n">y</span> <span class="p">}</span>
+<span class="kd">val</span> <span class="py">subtract</span> <span class="p">=</span> <span class="p">{</span> <span class="n">x</span><span class="p">:</span> <span class="nc">Int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nc">Int</span> <span class="p">-&gt;</span> <span class="n">x</span> <span class="p">-</span> <span class="n">y</span> <span class="p">}</span>
+
+<span class="c1">// it 키워드: 매개변수가 하나일 때 사용 가능</span>
+<span class="kd">val</span> <span class="py">square</span><span class="p">:</span> <span class="p">(</span><span class="nc">Int</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nc">Int</span> <span class="p">=</span> <span class="p">{</span> <span class="n">it</span> <span class="p">*</span> <span class="n">it</span> <span class="p">}</span>
+
+<span class="c1">// 컬렉션에서의 람다식 사용</span>
+<span class="kd">val</span> <span class="py">names</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"Kim"</span><span class="p">,</span> <span class="s">"Lee"</span><span class="p">,</span> <span class="s">"Park"</span><span class="p">)</span>
+<span class="n">names</span><span class="p">.</span><span class="nf">forEach</span> <span class="p">{</span> <span class="nf">println</span><span class="p">(</span><span class="n">it</span><span class="p">)</span> <span class="p">}</span>
+
+<span class="c1">// 여러 줄의 람다식 - 마지막 줄이 반환값</span>
+<span class="kd">val</span> <span class="py">calculateGrade</span> <span class="p">=</span> <span class="p">{</span> <span class="n">score</span><span class="p">:</span> <span class="nc">Int</span> <span class="p">-&gt;</span>
+    <span class="nf">println</span><span class="p">(</span><span class="s">"Calculating grade..."</span><span class="p">)</span>
+    <span class="k">when</span> <span class="p">{</span>
+        <span class="n">score</span> <span class="p">&gt;=</span> <span class="mi">90</span> <span class="p">-&gt;</span> <span class="s">"A"</span>
+        <span class="n">score</span> <span class="p">&gt;=</span> <span class="mi">80</span> <span class="p">-&gt;</span> <span class="s">"B"</span>
+        <span class="k">else</span> <span class="p">-&gt;</span> <span class="s">"C"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="주요-차이점">주요 차이점</h3>
+
+<ul>
+  <li>코틀린은 함수형 인터페이스 없이도 람다식 사용이 가능하여 더 간결한 코드 작성 가능</li>
+  <li>코틀린은 it 키워드를 통해 단일 매개변수를 더 간단히 참조 가능</li>
+  <li>코틀린의 람다식은 마지막 표현식이 자동으로 반환값이 되어 return 키워드가 불필요</li>
+  <li>코틀린은 함수 타입을 명시적으로 선언할 수 있어 타입 안정성이 더 높음</li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#kotlin" class="page__taxonomy-item" rel="tag">Kotlin</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-02-09">February 9, 2025</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/linux/9" class="pagination--pager" title="모놀리식 아키텍처와 MSA(MicroServices Architecture)
+">Prev</a>
+    
+    
+      <a href="/java/4" class="pagination--pager" title="다형성
+">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/spring/1" rel="permalink">Spring 프레임워크 들어가기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-29T00:00:00+09:00">March 29, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Spring 프레임워크
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/docker/2" rel="permalink">Docker 기본 명령어
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-16T00:00:00+09:00">March 16, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Docker 기본 명령어
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/docker/1" rel="permalink">포트 포워딩의 개념과 도커에서의 포트 포워딩 방법
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-15T00:00:00+09:00">March 15, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">포트 포워딩의 개념과 도커에서의 포트 포워딩 방법
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/kotlin/5" rel="permalink">Kotlin - 마이그레이션
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-02-25T00:00:00+09:00">February 25, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Java Spring에서 Kotlin Spring으로의 전환 핵심 요약
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/Bin-Choi" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 dev.Choi. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'github-account/repo-name');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,980 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <style> 
+      ::-webkit-scrollbar{ 
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        width: 0px;
+        background-color: rgba(224, 224, 224, 0.2);
+        /* border-radius: 5px; */
+      }
+
+      ::-webkit-scrollbar-thumb {
+        width: 0px;
+        background-color: rgba(220, 219, 218, 0.6);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        width: 10px;
+        height: 20px;
+        /* background-color: rgba(190, 190, 190, 0.2); */
+        background-color: rgba(193, 192, 191, 0.7);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-track:hover {
+        width: 10px;
+        /* background-color: rgba(150, 150, 150, 0.1); */
+        background-color: rgba(224, 224, 224, 0.5);
+        border-radius: 5px;
+        /* background: transparent; */
+        /* border-radius: 10px; */
+      }
+
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment {
+          width:0px;
+          height: 0px;
+          /* background-color: rgb(14, 221, 24); */
+          /* border-radius: 50%; */
+      }
+    </style>
+    
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Kotlin - 마이그레이션 | Bean</title>
+<meta name="description" content="Java Spring에서 Kotlin Spring으로의 전환 핵심 요약">
+
+
+  <meta name="author" content="Bean">
+  
+  <meta property="article:author" content="Bean">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="Beans DevLog">
+<meta property="og:title" content="Kotlin - 마이그레이션">
+<meta property="og:url" content="http://localhost:4000/kotlin/5">
+
+
+  <meta property="og:description" content="Java Spring에서 Kotlin Spring으로의 전환 핵심 요약">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-02-25T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2025-02-25T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/kotlin/5">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "dev.Choi",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Beans DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://github-account.github.io/assets/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://github-account.github.io/assets/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://github-account.github.io/assets/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://github-account.github.io/assets/images/favicon/site.webmanifest">
+    <link rel="mask-icon" href="https://github-account.github.io/assets/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#ffc40d">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Beans DevLog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/Bin-Choi">GitHub</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/profile.JPG" alt="Bean" itemprop="image">
+      
+    </div>
+  
+
+  <!-- 2022.02.17 author content hidden -->
+  <!-- <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Bean</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>joyful day</p>
+
+      </div>
+    
+  </div> -->
+
+  <div class="author__urls-wrapper">
+    <!-- <button class="btn btn--inverse">Follow</button> -->
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    <!-- <li>
+      <span class="nav__total">🌴 Total Posts: 37</span>
+    </li> -->
+    
+    
+      <li>
+        
+              <a href="/categories/network/"><span class="nav__sub-title">Network</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/database/"><span class="nav__sub-title">Database</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/os/"><span class="nav__sub-title">OS</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/linux/"><span class="nav__sub-title">Linux</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/java/"><span class="nav__sub-title">Java</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/spring/"><span class="nav__sub-title">Spring</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/devops/"><span class="nav__sub-title">Devops</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/react/"><span class="nav__sub-title">React</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Kotlin - 마이그레이션">
+    <meta itemprop="description" content="Java Spring에서 Kotlin Spring으로의 전환 핵심 요약">
+    <meta itemprop="datePublished" content="2025-02-25T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2025-02-25T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Kotlin - 마이그레이션
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-02-25T00:00:00+09:00">February 25, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#java-spring에서-kotlin-spring으로의-전환-핵심-요약">Java Spring에서 Kotlin Spring으로의 전환 핵심 요약</a><ul><li><a href="#1-null-안전성-처리">1. Null 안전성 처리</a></li><li><a href="#2-클래스-및-데이터-선언-시-보일러-플레이트-감소">2. 클래스 및 데이터 선언 시, 보일러 플레이트 감소</a></li><li><a href="#3-컨트롤러">3. 컨트롤러</a></li><li><a href="#4-레포지토리와-서비스">4. 레포지토리와 서비스</a></li><li><a href="#5-생성자와-빌더-패턴">5. 생성자와 빌더 패턴</a></li><li><a href="#6-jpa-엔티티">6. JPA 엔티티</a></li><li><a href="#7-확장-함수-활용">7. 확장 함수 활용</a></li><li><a href="#8-테스트-코드">8. 테스트 코드</a></li><li><a href="#주요-전환-포인트">주요 전환 포인트</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="java-spring에서-kotlin-spring으로의-전환-핵심-요약">Java Spring에서 Kotlin Spring으로의 전환 핵심 요약</h1>
+
+<h2 id="1-null-안전성-처리">1. Null 안전성 처리</h2>
+
+<p>코틀린의 널 안전성 연산자를 활용한 안전한 null 처리로 NPE 예방</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Kotlin의 널 안전성 연산자(?., ?:, let)을 활용한 명확한 널 처리</span>
+<span class="k">fun</span> <span class="nf">processUser</span><span class="p">(</span><span class="n">user</span><span class="p">:</span> <span class="nc">User</span><span class="p">?)</span> <span class="p">{</span>
+    <span class="n">user</span><span class="o">?.</span><span class="nf">let</span> <span class="p">{</span> <span class="n">u</span> <span class="p">-&gt;</span>
+        <span class="nf">println</span><span class="p">(</span><span class="n">u</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="p">}</span> <span class="o">?:</span> <span class="k">throw</span> <span class="nc">UserNotFoundException</span><span class="p">()</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<h2 id="2-클래스-및-데이터-선언-시-보일러-플레이트-감소">2. 클래스 및 데이터 선언 시, 보일러 플레이트 감소</h2>
+
+<p>데이터 클래스를 사용하여 보일러플레이트 코드(Getter, Setter, equals(), hashCode() 등) 제거</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Java - 장황한 코드 필요</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+
+    <span class="c1">// Getter methods</span>
+    <span class="kd">public</span> <span class="nc">Long</span> <span class="nf">getId</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">id</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">name</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Setter methods</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setId</span><span class="o">(</span><span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setName</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Kotlin - 간단한 데이터 클래스로 모든 기능 제공</span>
+<span class="kd">data class</span> <span class="nc">User</span><span class="p">(</span>
+    <span class="kd">var</span> <span class="py">id</span><span class="p">:</span> <span class="nc">Long</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span><span class="p">,</span>
+    <span class="kd">var</span> <span class="py">name</span><span class="p">:</span> <span class="nc">String</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
+<span class="p">)</span>
+
+</code></pre></div></div>
+
+<h2 id="3-컨트롤러">3. 컨트롤러</h2>
+
+<p>표현식을 활용한 간결한 컨트롤러 메서드 작성</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Java - 명시적 반환 타입과 return 문</span>
+<span class="nd">@RestController</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserController</span> <span class="o">{</span>
+    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/{id}"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="nf">getUser</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Kotlin - 표현식과 타입 추론을 활용한 간결한 구현</span>
+<span class="nd">@RestController</span>
+<span class="kd">class</span> <span class="nc">UserController</span> <span class="p">{</span>
+    <span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/{id}"</span><span class="p">)</span>
+    <span class="k">fun</span> <span class="nf">getUser</span><span class="p">(</span><span class="nd">@PathVariable</span> <span class="n">id</span><span class="p">:</span> <span class="nc">Long</span><span class="p">)</span> <span class="p">=</span> <span class="nc">ResponseEntity</span><span class="p">.</span><span class="nf">ok</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<h2 id="4-레포지토리와-서비스">4. 레포지토리와 서비스</h2>
+
+<p>생성자 주입을 통한 의존성 주입과 함수형 프로그래밍 스타일 적용</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Java - 명시적인 생성자 주입</span>
+<span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserService</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">UserRepository</span> <span class="n">userRepository</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="nf">findById</span><span class="o">(</span><span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Kotlin - 간결한 생성자 주입과 널러블 반환</span>
+<span class="nd">@Service</span>
+<span class="kd">class</span> <span class="nc">UserService</span><span class="p">(</span>
+    <span class="k">private</span> <span class="kd">val</span> <span class="py">userRepository</span><span class="p">:</span> <span class="nc">UserRepository</span>
+<span class="p">)</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">findById</span><span class="p">(</span><span class="n">id</span><span class="p">:</span> <span class="nc">Long</span><span class="p">):</span> <span class="nc">User</span><span class="p">?</span> <span class="p">=</span> <span class="n">userRepository</span><span class="p">.</span><span class="nf">findById</span><span class="p">(</span><span class="n">id</span><span class="p">).</span><span class="nf">orElse</span><span class="p">(</span><span class="k">null</span><span class="p">)</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<h2 id="5-생성자와-빌더-패턴">5. 생성자와 빌더 패턴</h2>
+
+<p>빌더 패턴 대신 Named Arguments와 기본값을 활용한 유연한 객체 생성</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Java - 빌더 패턴 사용</span>
+<span class="nd">@Builder</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Order</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">id</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">LocalDateTime</span> <span class="n">createdAt</span><span class="o">;</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Kotlin - 기본 생성자와 named arguments로 더 간단하게 구현</span>
+<span class="kd">class</span> <span class="nc">Order</span><span class="p">(</span>
+    <span class="kd">val</span> <span class="py">id</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span>
+    <span class="kd">val</span> <span class="py">createdAt</span><span class="p">:</span> <span class="nc">LocalDateTime</span> <span class="p">=</span> <span class="nc">LocalDateTime</span><span class="p">.</span><span class="nf">now</span><span class="p">()</span>
+<span class="p">)</span>
+
+</code></pre></div></div>
+
+<h2 id="6-jpa-엔티티">6. JPA 엔티티</h2>
+
+<p>생성자 기반의 엔티티 선언으로 불변성과 널 안전성 보장</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Java - 필드 기반 엔티티</span>
+<span class="nd">@Entity</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Product</span> <span class="o">{</span>
+    <span class="nd">@Id</span> <span class="nd">@GeneratedValue</span>
+    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Kotlin - 생성자 기반 엔티티, 널러블 타입 명시</span>
+<span class="nd">@Entity</span>
+<span class="kd">class</span> <span class="nc">Product</span><span class="p">(</span>
+    <span class="nd">@Id</span> <span class="nd">@GeneratedValue</span>
+    <span class="kd">val</span> <span class="py">id</span><span class="p">:</span> <span class="nc">Long</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
+<span class="p">)</span>
+
+</code></pre></div></div>
+
+<h2 id="7-확장-함수-활용">7. 확장 함수 활용</h2>
+
+<p>기존 클래스를 수정하지 않고 새로운 기능을 추가하는 확장 함수</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 문자열과 Page 객체에 대한 확장 함수로 기능 확장</span>
+<span class="k">fun</span> <span class="nc">String</span><span class="p">.</span><span class="nf">toSlug</span><span class="p">()</span> <span class="p">=</span> <span class="nf">lowercase</span><span class="p">()</span>
+    <span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="s">" "</span><span class="p">,</span> <span class="s">"-"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="nc">Regex</span><span class="p">(</span><span class="s">"[^a-z0-9-]"</span><span class="p">),</span> <span class="s">""</span><span class="p">)</span>
+
+<span class="k">fun</span> <span class="nf">Page</span><span class="p">&lt;</span><span class="nc">User</span><span class="p">&gt;.</span><span class="nf">toDto</span><span class="p">()</span> <span class="p">=</span> <span class="nf">map</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="nf">toDto</span><span class="p">()</span> <span class="p">}</span>
+
+</code></pre></div></div>
+
+<h2 id="8-테스트-코드">8. 테스트 코드</h2>
+
+<p>백틱을 사용한 가독성 높은 테스트 코드 작성</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Java - 일반적인 JUnit 테스트</span>
+<span class="nd">@Test</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">testCreateUser</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// given</span>
+    <span class="nc">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"Test"</span><span class="o">;</span>
+
+    <span class="c1">// when</span>
+    <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="nc">User</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="n">name</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+    <span class="c1">// then</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getName</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// Java - DisplayName 사용</span>
+<span class="nd">@Test</span>
+<span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"새로운 사용자를 생성할 수 있다"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">testCreateUser</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// given</span>
+    <span class="nc">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"Test"</span><span class="o">;</span>
+
+    <span class="c1">// when</span>
+    <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="nc">User</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="n">name</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+    <span class="c1">// then</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getName</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Kotlin</span>
+<span class="nd">@Test</span>
+<span class="k">fun</span> <span class="nf">testCreateUser</span><span class="p">()</span> <span class="p">{</span>
+   <span class="c1">// given</span>
+   <span class="kd">val</span> <span class="py">name</span> <span class="p">=</span> <span class="s">"Test"</span>
+   
+   <span class="c1">// when</span>
+   <span class="kd">val</span> <span class="py">user</span> <span class="p">=</span> <span class="nc">User</span><span class="p">(</span><span class="n">name</span> <span class="p">=</span> <span class="n">name</span><span class="p">)</span>
+   
+   <span class="c1">// then  </span>
+   <span class="nf">assertThat</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="n">name</span><span class="p">).</span><span class="nf">isEqualTo</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Kotlin - 백틱과 문자열을 활용한 읽기 쉬운 테스트 케이스</span>
+<span class="nd">@Test</span> 
+<span class="k">fun</span> <span class="err">`새로운</span> <span class="err">사용자를</span> <span class="err">생성할</span> <span class="err">수</span> <span class="err">있다`()</span> <span class="err">{</span>
+   <span class="err">//</span> <span class="nf">given</span>
+   <span class="kd">val</span> <span class="py">name</span> <span class="p">=</span> <span class="s">"Test"</span>
+   
+   <span class="c1">// when </span>
+   <span class="kd">val</span> <span class="py">user</span> <span class="p">=</span> <span class="nc">User</span><span class="p">(</span><span class="n">name</span> <span class="p">=</span> <span class="n">name</span><span class="p">)</span>
+   
+   <span class="c1">// then</span>
+   <span class="nf">assertThat</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="n">name</span><span class="p">).</span><span class="nf">isEqualTo</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="주요-전환-포인트">주요 전환 포인트</h2>
+
+<ol>
+  <li>가변성(mutability) 최소화
+    <ul>
+      <li>val 사용 권장</li>
+      <li>불변 객체 활용</li>
+    </ul>
+  </li>
+  <li>널 안전성
+    <ul>
+      <li>코틀린의 타입 시스템 활용</li>
+      <li>Optional 대신 nullable 타입 사용</li>
+    </ul>
+  </li>
+  <li>함수형 프로그래밍
+    <ul>
+      <li>확장 함수 활용</li>
+      <li>람다식 사용</li>
+      <li>컬렉션 API 활용</li>
+    </ul>
+  </li>
+  <li>간결성
+    <ul>
+      <li>데이터 클래스</li>
+      <li>기본 생성자</li>
+      <li>Named Arguments</li>
+    </ul>
+  </li>
+  <li>테스트
+    <ul>
+      <li>백틱을 사용한 테스트 이름</li>
+      <li>더 간결한 테스트 코드</li>
+      <li>가독성 향상</li>
+    </ul>
+  </li>
+</ol>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#kotlin" class="page__taxonomy-item" rel="tag">Kotlin</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-02-25">February 25, 2025</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/kotlin/3" class="pagination--pager" title="Kotlin - 클래스와 상속의 기본 개념
+">Prev</a>
+    
+    
+      <a href="/docker/1" class="pagination--pager" title="포트 포워딩의 개념과 도커에서의 포트 포워딩 방법
+">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/spring/1" rel="permalink">Spring 프레임워크 들어가기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-29T00:00:00+09:00">March 29, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Spring 프레임워크
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/docker/2" rel="permalink">Docker 기본 명령어
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-16T00:00:00+09:00">March 16, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Docker 기본 명령어
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/docker/1" rel="permalink">포트 포워딩의 개념과 도커에서의 포트 포워딩 방법
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-15T00:00:00+09:00">March 15, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">포트 포워딩의 개념과 도커에서의 포트 포워딩 방법
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/kotlin/3" rel="permalink">Kotlin - 클래스와 상속의 기본 개념
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-02-12T00:00:00+09:00">February 12, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Kotlin - 클래스와 상속의 기본 개념
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/Bin-Choi" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 dev.Choi. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'github-account/repo-name');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>

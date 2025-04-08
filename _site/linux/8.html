@@ -1,0 +1,980 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <style> 
+      ::-webkit-scrollbar{ 
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        width: 0px;
+        background-color: rgba(224, 224, 224, 0.2);
+        /* border-radius: 5px; */
+      }
+
+      ::-webkit-scrollbar-thumb {
+        width: 0px;
+        background-color: rgba(220, 219, 218, 0.6);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        width: 10px;
+        height: 20px;
+        /* background-color: rgba(190, 190, 190, 0.2); */
+        background-color: rgba(193, 192, 191, 0.7);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-track:hover {
+        width: 10px;
+        /* background-color: rgba(150, 150, 150, 0.1); */
+        background-color: rgba(224, 224, 224, 0.5);
+        border-radius: 5px;
+        /* background: transparent; */
+        /* border-radius: 10px; */
+      }
+
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment {
+          width:0px;
+          height: 0px;
+          /* background-color: rgb(14, 221, 24); */
+          /* border-radius: 50%; */
+      }
+    </style>
+    
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>우분투 리눅스에서 MariaDB 설치 및 초기 설정 | Bean</title>
+<meta name="description" content="리눅스 패키징(Packaging)">
+
+
+  <meta name="author" content="Bean">
+  
+  <meta property="article:author" content="Bean">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="Beans DevLog">
+<meta property="og:title" content="우분투 리눅스에서 MariaDB 설치 및 초기 설정">
+<meta property="og:url" content="http://localhost:4000/linux/8">
+
+
+  <meta property="og:description" content="리눅스 패키징(Packaging)">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-02-05T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2025-02-05T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/linux/8">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "dev.Choi",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Beans DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://github-account.github.io/assets/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://github-account.github.io/assets/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://github-account.github.io/assets/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://github-account.github.io/assets/images/favicon/site.webmanifest">
+    <link rel="mask-icon" href="https://github-account.github.io/assets/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#ffc40d">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Beans DevLog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/Bin-Choi">GitHub</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/profile.JPG" alt="Bean" itemprop="image">
+      
+    </div>
+  
+
+  <!-- 2022.02.17 author content hidden -->
+  <!-- <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Bean</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>joyful day</p>
+
+      </div>
+    
+  </div> -->
+
+  <div class="author__urls-wrapper">
+    <!-- <button class="btn btn--inverse">Follow</button> -->
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    <!-- <li>
+      <span class="nav__total">🌴 Total Posts: 37</span>
+    </li> -->
+    
+    
+      <li>
+        
+              <a href="/categories/network/"><span class="nav__sub-title">Network</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/database/"><span class="nav__sub-title">Database</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/os/"><span class="nav__sub-title">OS</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/linux/"><span class="nav__sub-title">Linux</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/java/"><span class="nav__sub-title">Java</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/spring/"><span class="nav__sub-title">Spring</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/devops/"><span class="nav__sub-title">Devops</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/react/"><span class="nav__sub-title">React</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="우분투 리눅스에서 MariaDB 설치 및 초기 설정">
+    <meta itemprop="description" content="리눅스 패키징(Packaging)">
+    <meta itemprop="datePublished" content="2025-02-05T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2025-02-05T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">우분투 리눅스에서 MariaDB 설치 및 초기 설정
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-02-05T00:00:00+09:00">February 5, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#리눅스-패키징packaging">리눅스 패키징(Packaging)</a><ul><li><a href="#1-mariadb-설치">1. MariaDB 설치</a></li><li><a href="#11-mariadb-패키지-업데이트">1.1. MariaDB 패키지 업데이트</a></li><li><a href="#12-mariadb-설치">1.2. MariaDB 설치</a></li><li><a href="#13-mariadb-서비스-시작-및-확인">1.3. MariaDB 서비스 시작 및 확인</a></li><li><a href="#2-mariadb-초기-설정">2. MariaDB 초기 설정</a></li><li><a href="#21-보안-설정-mysql_secure_installation">2.1. 보안 설정 (mysql_secure_installation)</a></li><li><a href="#3-mariadb-기본-설정">3. MariaDB 기본 설정</a></li><li><a href="#31-mariadb에-접속">3.1. MariaDB에 접속</a></li><li><a href="#32-새-사용자-및-데이터베이스-생성">3.2. 새 사용자 및 데이터베이스 생성</a></li><li><a href="#4-mariadb-설정-파일-수정-선택-사항">4. MariaDB 설정 파일 수정 (선택 사항)</a></li><li><a href="#예시-외부-접속-허용">예시: 외부 접속 허용</a></li><li><a href="#5-방화벽-설정">5. 방화벽 설정</a></li><li><a href="#ufw-방화벽-설정">UFW 방화벽 설정</a></li><li><a href="#6-mariadb-상태-확인-및-사용">6. MariaDB 상태 확인 및 사용</a></li><li><a href="#61-mariadb-상태-확인">6.1. MariaDB 상태 확인</a></li><li><a href="#62-mariadb-cli-사용">6.2. MariaDB CLI 사용</a></li><li><a href="#7-추가-설정-및-모니터링-선택-사항">7. 추가 설정 및 모니터링 (선택 사항)</a></li><li><a href="#71-로그-파일-확인">7.1. 로그 파일 확인</a></li><li><a href="#72-mariadb-최적화">7.2. MariaDB 최적화</a></li><li><a href="#8-설치-및-설정-확인">8. 설치 및 설정 확인</a></li><li><a href="#요약">요약</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h2 id="리눅스-패키징packaging"><strong>리눅스 패키징(Packaging)</strong></h2>
+
+<p>패키징은 소프트웨어를 <strong>설치, 업데이트, 제거, 관리</strong>할 수 있도록 구성된 포맷과 관련 도구를 의미합니다. 리눅스 시스템은 다양한 배포판(Distro)을 가지며, 배포판에 따라 패키지 관리 시스템(Package Manager)이 다를 수 있습니다.</p>
+
+<hr />
+
+<h3 id="1-mariadb-설치"><strong>1. MariaDB 설치</strong></h3>
+
+<h3 id="11-mariadb-패키지-업데이트"><strong>1.1. MariaDB 패키지 업데이트</strong></h3>
+
+<p>MariaDB가 Ubuntu 기본 리포지토리에 포함되어 있으므로 먼저 시스템 패키지를 업데이트합니다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt update
+<span class="nb">sudo </span>apt upgrade <span class="nt">-y</span>
+
+</code></pre></div></div>
+
+<h3 id="12-mariadb-설치"><strong>1.2. MariaDB 설치</strong></h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>mariadb-server mariadb-client <span class="nt">-y</span>
+
+</code></pre></div></div>
+
+<h3 id="13-mariadb-서비스-시작-및-확인"><strong>1.3. MariaDB 서비스 시작 및 확인</strong></h3>
+
+<p>MariaDB 설치 후, 서비스를 시작하고 활성화합니다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl start mariadb
+<span class="nb">sudo </span>systemctl <span class="nb">enable </span>mariadb
+
+</code></pre></div></div>
+
+<p>MariaDB 상태 확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl status mariadb
+
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="2-mariadb-초기-설정"><strong>2. MariaDB 초기 설정</strong></h3>
+
+<h3 id="21-보안-설정-mysql_secure_installation"><strong>2.1. 보안 설정 (<code class="language-plaintext highlighter-rouge">mysql_secure_installation</code>)</strong></h3>
+
+<p>MariaDB의 기본 보안 설정을 강화합니다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>mysql_secure_installation
+
+</code></pre></div></div>
+
+<p><strong>질문에 대한 답변 예시</strong>:</p>
+
+<ol>
+  <li><strong>Switch to unix_socket authentication [Y/n]</strong>: <code class="language-plaintext highlighter-rouge">Y</code>
+    <ul>
+      <li>MariaDB에 사용자 인증을 <code class="language-plaintext highlighter-rouge">unix_socket</code>으로 설정.</li>
+    </ul>
+  </li>
+  <li><strong>Set root password? [Y/n]</strong>: <code class="language-plaintext highlighter-rouge">Y</code>
+    <ul>
+      <li>MariaDB <code class="language-plaintext highlighter-rouge">root</code> 계정의 비밀번호를 설정.</li>
+    </ul>
+  </li>
+  <li><strong>Remove anonymous users? [Y/n]</strong>: <code class="language-plaintext highlighter-rouge">Y</code>
+    <ul>
+      <li>익명 사용자 제거.</li>
+    </ul>
+  </li>
+  <li><strong>Disallow root login remotely? [Y/n]</strong>: <code class="language-plaintext highlighter-rouge">Y</code>
+    <ul>
+      <li>원격으로 <code class="language-plaintext highlighter-rouge">root</code> 계정 로그인을 차단.</li>
+    </ul>
+  </li>
+  <li><strong>Remove test database and access to it? [Y/n]</strong>: <code class="language-plaintext highlighter-rouge">Y</code>
+    <ul>
+      <li>테스트 데이터베이스 제거.</li>
+    </ul>
+  </li>
+  <li><strong>Reload privilege tables now? [Y/n]</strong>: <code class="language-plaintext highlighter-rouge">Y</code>
+    <ul>
+      <li>권한 테이블 재로드.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="3-mariadb-기본-설정"><strong>3. MariaDB 기본 설정</strong></h3>
+
+<h3 id="31-mariadb에-접속"><strong>3.1. MariaDB에 접속</strong></h3>
+
+<p>MariaDB에 <code class="language-plaintext highlighter-rouge">root</code> 계정으로 접속합니다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>mysql <span class="nt">-u</span> root
+
+</code></pre></div></div>
+
+<h3 id="32-새-사용자-및-데이터베이스-생성"><strong>3.2. 새 사용자 및 데이터베이스 생성</strong></h3>
+
+<ol>
+  <li>
+    <p>새 데이터베이스 생성:</p>
+
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">mydb</span><span class="p">;</span>
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>새 사용자 생성 및 권한 부여:</p>
+
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">CREATE</span> <span class="k">USER</span> <span class="s1">'myuser'</span><span class="o">@</span><span class="s1">'localhost'</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">'mypassword'</span><span class="p">;</span>
+ <span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">mydb</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">'myuser'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span>
+ <span class="n">FLUSH</span> <span class="k">PRIVILEGES</span><span class="p">;</span>
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>데이터베이스와 사용자 확인:</p>
+
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">SHOW</span> <span class="n">DATABASES</span><span class="p">;</span>
+ <span class="k">SELECT</span> <span class="k">User</span><span class="p">,</span> <span class="k">Host</span> <span class="k">FROM</span> <span class="n">mysql</span><span class="p">.</span><span class="k">user</span><span class="p">;</span>
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>MariaDB 종료:</p>
+
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">EXIT</span><span class="p">;</span>
+    
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="4-mariadb-설정-파일-수정-선택-사항"><strong>4. MariaDB 설정 파일 수정 (선택 사항)</strong></h3>
+
+<p>MariaDB의 설정 파일은 <code class="language-plaintext highlighter-rouge">/etc/mysql/mariadb.conf.d/50-server.cnf</code>에 위치합니다. 주요 설정을 변경하려면 해당 파일을 편집합니다.</p>
+
+<h3 id="예시-외부-접속-허용"><strong>예시: 외부 접속 허용</strong></h3>
+
+<ol>
+  <li>
+    <p>설정 파일 열기:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>nano /etc/mysql/mariadb.conf.d/50-server.cnf
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">[mysqld]</code> 섹션에서 <strong><code class="language-plaintext highlighter-rouge">bind-address</code></strong> 변경:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> bind-address = 0.0.0.0
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>MariaDB 재시작:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>systemctl restart mariadb
+    
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="5-방화벽-설정"><strong>5. 방화벽 설정</strong></h3>
+
+<p>MariaDB가 외부 접속을 허용하도록 방화벽 설정을 업데이트합니다.</p>
+
+<h3 id="ufw-방화벽-설정"><strong>UFW 방화벽 설정</strong></h3>
+
+<ol>
+  <li>
+    <p>MariaDB 포트 허용:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>ufw allow 3306
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>방화벽 상태 확인:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>ufw status
+    
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="6-mariadb-상태-확인-및-사용"><strong>6. MariaDB 상태 확인 및 사용</strong></h3>
+
+<h3 id="61-mariadb-상태-확인"><strong>6.1. MariaDB 상태 확인</strong></h3>
+
+<p>MariaDB 서비스가 올바르게 실행 중인지 확인합니다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl status mariadb
+</code></pre></div></div>
+
+<h3 id="62-mariadb-cli-사용"><strong>6.2. MariaDB CLI 사용</strong></h3>
+
+<p>MariaDB 명령줄 인터페이스(CLI)로 접속:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-u</span> myuser <span class="nt">-p</span>
+
+</code></pre></div></div>
+
+<p>비밀번호 입력 후 MariaDB를 사용할 수 있습니다.</p>
+
+<hr />
+
+<h3 id="7-추가-설정-및-모니터링-선택-사항"><strong>7. 추가 설정 및 모니터링 (선택 사항)</strong></h3>
+
+<h3 id="71-로그-파일-확인"><strong>7.1. 로그 파일 확인</strong></h3>
+
+<p>MariaDB 로그는 시스템 디버깅에 유용합니다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo tail</span> <span class="nt">-f</span> /var/log/mysql/error.log
+</code></pre></div></div>
+
+<h3 id="72-mariadb-최적화"><strong>7.2. MariaDB 최적화</strong></h3>
+
+<p>MariaDB 설정을 최적화하려면 <code class="language-plaintext highlighter-rouge">my.cnf</code> 파일을 수정합니다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/mysql/my.cnf
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="8-설치-및-설정-확인"><strong>8. 설치 및 설정 확인</strong></h3>
+
+<ol>
+  <li>
+    <p>설치된 MariaDB 버전 확인:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> mysql <span class="nt">--version</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>MariaDB 접속 및 버전 확인:</p>
+
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">SELECT</span> <span class="k">VERSION</span><span class="p">();</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="요약"><strong>요약</strong></h3>
+
+<ul>
+  <li><strong>설치</strong>: <code class="language-plaintext highlighter-rouge">sudo apt install mariadb-server mariadb-client</code></li>
+  <li><strong>보안 설정</strong>: <code class="language-plaintext highlighter-rouge">sudo mysql_secure_installation</code></li>
+  <li><strong>사용자 및 데이터베이스 생성</strong>: SQL 명령 사용.</li>
+  <li><strong>외부 접속 허용</strong>: 설정 파일에서 <code class="language-plaintext highlighter-rouge">bind-address</code> 수정.</li>
+  <li><strong>방화벽 설정</strong>: UFW를 사용해 포트 3306 허용.</li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#linux" class="page__taxonomy-item" rel="tag">Linux</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-02-05">February 5, 2025</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/linux/7" class="pagination--pager" title="리눅스 패키지(apt)과 압축(tar, gz)
+">Prev</a>
+    
+    
+      <a href="/linux/9" class="pagination--pager" title="모놀리식 아키텍처와 MSA(MicroServices Architecture)
+">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/spring/1" rel="permalink">Spring 프레임워크 들어가기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-29T00:00:00+09:00">March 29, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Spring 프레임워크
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/docker/2" rel="permalink">Docker 기본 명령어
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-16T00:00:00+09:00">March 16, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Docker 기본 명령어
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/docker/1" rel="permalink">포트 포워딩의 개념과 도커에서의 포트 포워딩 방법
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-15T00:00:00+09:00">March 15, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">포트 포워딩의 개념과 도커에서의 포트 포워딩 방법
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/kotlin/5" rel="permalink">Kotlin - 마이그레이션
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-02-25T00:00:00+09:00">February 25, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Java Spring에서 Kotlin Spring으로의 전환 핵심 요약
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/Bin-Choi" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 dev.Choi. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'github-account/repo-name');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>

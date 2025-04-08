@@ -142,4 +142,82 @@ var store = [{
         "tags": ["tag1","tag2"],
         "url": "/linux/3",
         "teaser": null
+      },{
+        "title": "sudo와 su명령어",
+        "excerpt":"리눅스 sudo 명령어 sudo는 “superuser do”의 약자로, 일반 사용자가 관리자 권한(루트 권한)으로 특정 명령을 실행할 수 있도록 허용하는 리눅스 명령어입니다. sudo는 보안과 효율성을 높이기 위해 설계되었으며, 관리자 비밀번호 대신 현재 사용자 비밀번호를 입력하여 실행합니다. sudo의 주요 특징 권한 제한: 특정 명령만 관리자 권한으로 실행 가능. 안전성: 관리자 비밀번호를 노출하지 않고,...","categories": ["Linux"],
+        "tags": ["tag1","tag2"],
+        "url": "/linux/4",
+        "teaser": null
+      },{
+        "title": "사용자 권한 (chmod, chown, chgrp)",
+        "excerpt":"리눅스 파일 권한 구조 1. 기본 권한의 구성 리눅스의 파일 권한은 ls -l 명령으로 확인할 수 있습니다. 예를 들어: -rw-r--r-- 1 hong devteam 1024 Jan 9 10:00 example.txt 항목 설명 -rw-r--r-- 권한: 소유자(owner), 그룹(group), 기타 사용자(others) 권한. 1 하드 링크의 개수. hong 소유자(owner): 파일의 주인 사용자. devteam 그룹(group): 소유자가 속한...","categories": ["Linux"],
+        "tags": ["tag1","tag2"],
+        "url": "/linux/5",
+        "teaser": null
+      },{
+        "title": "리눅스 프로세스 관리 (ps, top, kill..)",
+        "excerpt":"리눅스 sudo 명령어 sudo는 “superuser do”의 약자로, 일반 사용자가 관리자 권한(루트 권한)으로 특정 명령을 실행할 수 있도록 허용하는 리눅스 명령어입니다. sudo는 보안과 효율성을 높이기 위해 설계되었으며, 관리자 비밀번호 대신 현재 사용자 비밀번호를 입력하여 실행합니다. sudo의 주요 특징 권한 제한: 특정 명령만 관리자 권한으로 실행 가능. 안전성: 관리자 비밀번호를 노출하지 않고,...","categories": ["Linux"],
+        "tags": ["tag1","tag2"],
+        "url": "/linux/6",
+        "teaser": null
+      },{
+        "title": "리눅스 패키지(apt)과 압축(tar, gz)",
+        "excerpt":"리눅스 패키징(Packaging) 패키징은 소프트웨어를 설치, 업데이트, 제거, 관리할 수 있도록 구성된 포맷과 관련 도구를 의미합니다. 리눅스 시스템은 다양한 배포판(Distro)을 가지며, 배포판에 따라 패키지 관리 시스템(Package Manager)이 다를 수 있습니다. 패키지의 구성 리눅스에서 패키지는 보통 다음을 포함합니다: 바이너리 파일: 실행 가능한 소프트웨어 파일. 설정 파일: /etc 디렉토리에 위치. 의존성 정보: 패키지가...","categories": ["Linux"],
+        "tags": ["tag1","tag2"],
+        "url": "/linux/7",
+        "teaser": null
+      },{
+        "title": "우분투 리눅스에서 MariaDB 설치 및 초기 설정",
+        "excerpt":"리눅스 패키징(Packaging) 패키징은 소프트웨어를 설치, 업데이트, 제거, 관리할 수 있도록 구성된 포맷과 관련 도구를 의미합니다. 리눅스 시스템은 다양한 배포판(Distro)을 가지며, 배포판에 따라 패키지 관리 시스템(Package Manager)이 다를 수 있습니다. 1. MariaDB 설치 1.1. MariaDB 패키지 업데이트 MariaDB가 Ubuntu 기본 리포지토리에 포함되어 있으므로 먼저 시스템 패키지를 업데이트합니다. sudo apt update sudo...","categories": ["Linux"],
+        "tags": ["tag1","tag2"],
+        "url": "/linux/8",
+        "teaser": null
+      },{
+        "title": "모놀리식 아키텍처와 MSA(MicroServices Architecture)",
+        "excerpt":"1. 모놀리식 아키텍처 (Monolithic Architecture) 정의와 동작 방식 모놀리식 아키텍처는 애플리케이션의 모든 기능(사용자 인터페이스, 비즈니스 로직, 데이터 처리 등)이 하나의 코드베이스에 포함되어 동작하는 구조입니다. 동작 예시: 사용자가 상품을 검색. 서버가 요청을 받아 비즈니스 로직에서 처리. 데이터베이스에서 데이터를 조회. 결과를 사용자에게 반환. 구조 graph TD UI[사용자 인터페이스] BL[비즈니스 로직] DB[데이터베이스] UI...","categories": ["Linux"],
+        "tags": ["tag1","tag2"],
+        "url": "/linux/9",
+        "teaser": null
+      },{
+        "title": "Kotlin - 자바 함수와 코틀린 함수의 차이, 그리고 람다식",
+        "excerpt":"기본적으로 코틀린의 함수는 장환한 코드를 써야하는 자바 함수의 단점을 개선하기 위해서 간결한 코드를 제공 1. 함수 선언 클래스 내부에서 메서드로만 선언이 가능한 자바와 달리 코틀린은 최상위 레벨에서 바로 함수 선언이 가능 // Java public class Example { // 클래스 내부에서만 함수 선언 가능 public int add(int a, int b) {...","categories": ["Kotlin"],
+        "tags": ["tag1","tag2"],
+        "url": "/kotlin/2",
+        "teaser": null
+      },{
+        "title": "다형성",
+        "excerpt":"다형성(Polymorphism)은 객체 지향 프로그래밍의 중요한 특징 중 하나로, 하나의 객체가 여러 가지 타입을 가질 수 있는 것을 의미합니다. 인터페이스와 상속을 통해서 구현이 가능하며, 역할과 구현을 분리하여 코드의 단순함과 유연성을 확보합니다. 0. 다형성을 쉽게 이해하기 자동차라는 역할과 구현(K3, 아반떼, 테슬라)를 나눠서 구현하게 된다면? 운전자는 운전만 할 수 있으면 자동차라는 역할에 K3...","categories": ["Java"],
+        "tags": ["tag1","tag2"],
+        "url": "/java/4",
+        "teaser": null
+      },{
+        "title": "Kotlin - 클래스와 상속의 기본 개념",
+        "excerpt":"코틀린 클래스의 기본 특징 코틀린의 클래스는 자바와 유사하지만, 더 간결하고 현대적인 문법을 제공합니다. 1. 기본 클래스 선언 class Person { var name: String = \"\" var age: Int = 0 } 코틀린에서는 new 키워드 없이 객체를 생성할 수 있습니다: val person = Person() 2. 생성자 코틀린은 주 생성자와 부 생성자를...","categories": ["Kotlin"],
+        "tags": ["tag1","tag2"],
+        "url": "/kotlin/3",
+        "teaser": null
+      },{
+        "title": "Kotlin - 마이그레이션",
+        "excerpt":"Java Spring에서 Kotlin Spring으로의 전환 핵심 요약 1. Null 안전성 처리 코틀린의 널 안전성 연산자를 활용한 안전한 null 처리로 NPE 예방 // Kotlin의 널 안전성 연산자(?., ?:, let)을 활용한 명확한 널 처리 fun processUser(user: User?) { user?.let { u -&gt; println(u.name) } ?: throw UserNotFoundException() } 2. 클래스 및 데이터...","categories": ["Kotlin"],
+        "tags": ["tag1","tag2"],
+        "url": "/kotlin/5",
+        "teaser": null
+      },{
+        "title": "포트 포워딩의 개념과 도커에서의 포트 포워딩 방법",
+        "excerpt":"📌 포트포워딩(Port Forwarding)의 기본 개념 포트포워딩은 네트워크에서 특정 포트로 들어오는 데이터 패킷을 다른 포트로 전달해주는 기술입니다. 작동 방식 외부 포트 → 내부 포트로 트래픽 전달 네트워크 주소 변환(NAT)의 한 종류 내부 네트워크의 서비스를 외부에서 안전하게 접근 가능하게 함 실생활 비유 마치 건물의 안내 데스크와 같습니다: 방문자(외부 요청)가 안내 데스크(외부 포트)에...","categories": ["Devops"],
+        "tags": ["tag1","tag2"],
+        "url": "/docker/1",
+        "teaser": null
+      },{
+        "title": "Docker 기본 명령어",
+        "excerpt":"Docker 기본 명령어 정리 이미지 관련 명령어 이미지 검색 docker search 이미지명 이미지 다운로드 docker pull 이미지명:[태그] 이미지 목록 확인 docker images 이미지 삭제 docker rmi 이미지명:[태그] #특정 이미지 삭제 docker rmi -f 이미지명:[태그] #강제 삭제 docker image prune #사용하지 않는 이미지 모두 삭제 컨테이너 관련 명령어 컨테이너 실행 docker...","categories": ["Devops"],
+        "tags": ["tag1","tag2"],
+        "url": "/docker/2",
+        "teaser": null
+      },{
+        "title": "Spring 프레임워크 들어가기",
+        "excerpt":"Spring Framework는 Java 플랫폼을 위한 오픈 소스 애플리케이션 프레임워크로, 개발자가 대규모 엔터프라이즈 애플리케이션을 효율적으로 개발할 수 있도록 다양한 기능을 제공합니다. IoC(Inversion of Control)와 DI(Dependency Injection) 같은 핵심 개념을 기반으로 하여, 복잡한 Java 애플리케이션의 설계와 구성을 간결하게 만들고, 유지보수성을 높이는 데 도움을 줍니다. Spring은 웹 애플리케이션, 데이터베이스 연동, 보안, 배치 작업,...","categories": ["Spring"],
+        "tags": ["tag1","tag2"],
+        "url": "/spring/1",
+        "teaser": null
       }]

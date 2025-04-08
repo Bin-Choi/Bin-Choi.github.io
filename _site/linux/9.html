@@ -1,0 +1,1073 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <style> 
+      ::-webkit-scrollbar{ 
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        width: 0px;
+        background-color: rgba(224, 224, 224, 0.2);
+        /* border-radius: 5px; */
+      }
+
+      ::-webkit-scrollbar-thumb {
+        width: 0px;
+        background-color: rgba(220, 219, 218, 0.6);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        width: 10px;
+        height: 20px;
+        /* background-color: rgba(190, 190, 190, 0.2); */
+        background-color: rgba(193, 192, 191, 0.7);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-track:hover {
+        width: 10px;
+        /* background-color: rgba(150, 150, 150, 0.1); */
+        background-color: rgba(224, 224, 224, 0.5);
+        border-radius: 5px;
+        /* background: transparent; */
+        /* border-radius: 10px; */
+      }
+
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment {
+          width:0px;
+          height: 0px;
+          /* background-color: rgb(14, 221, 24); */
+          /* border-radius: 50%; */
+      }
+    </style>
+    
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>모놀리식 아키텍처와 MSA(MicroServices Architecture) | Bean</title>
+<meta name="description" content="1. 모놀리식 아키텍처 (Monolithic Architecture)">
+
+
+  <meta name="author" content="Bean">
+  
+  <meta property="article:author" content="Bean">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="Beans DevLog">
+<meta property="og:title" content="모놀리식 아키텍처와 MSA(MicroServices Architecture)">
+<meta property="og:url" content="http://localhost:4000/linux/9">
+
+
+  <meta property="og:description" content="1. 모놀리식 아키텍처 (Monolithic Architecture)">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-02-05T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2025-02-05T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/linux/9">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "dev.Choi",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Beans DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://github-account.github.io/assets/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://github-account.github.io/assets/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://github-account.github.io/assets/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://github-account.github.io/assets/images/favicon/site.webmanifest">
+    <link rel="mask-icon" href="https://github-account.github.io/assets/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#ffc40d">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Beans DevLog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/Bin-Choi">GitHub</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/profile.JPG" alt="Bean" itemprop="image">
+      
+    </div>
+  
+
+  <!-- 2022.02.17 author content hidden -->
+  <!-- <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Bean</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>joyful day</p>
+
+      </div>
+    
+  </div> -->
+
+  <div class="author__urls-wrapper">
+    <!-- <button class="btn btn--inverse">Follow</button> -->
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    <!-- <li>
+      <span class="nav__total">🌴 Total Posts: 37</span>
+    </li> -->
+    
+    
+      <li>
+        
+              <a href="/categories/network/"><span class="nav__sub-title">Network</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/database/"><span class="nav__sub-title">Database</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/os/"><span class="nav__sub-title">OS</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/linux/"><span class="nav__sub-title">Linux</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/java/"><span class="nav__sub-title">Java</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/spring/"><span class="nav__sub-title">Spring</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/devops/"><span class="nav__sub-title">Devops</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/react/"><span class="nav__sub-title">React</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="모놀리식 아키텍처와 MSA(MicroServices Architecture)">
+    <meta itemprop="description" content="1. 모놀리식 아키텍처 (Monolithic Architecture)">
+    <meta itemprop="datePublished" content="2025-02-05T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2025-02-05T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">모놀리식 아키텍처와 MSA(MicroServices Architecture)
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-02-05T00:00:00+09:00">February 5, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#1-모놀리식-아키텍처-monolithic-architecture">1. 모놀리식 아키텍처 (Monolithic Architecture)</a><ul><li><a href="#정의와-동작-방식">정의와 동작 방식</a></li><li><a href="#구조">구조</a></li><li><a href="#모놀리식-아키텍처의-장단점">모놀리식 아키텍처의 장단점</a></li><li><a href="#장점">장점</a></li><li><a href="#단점">단점</a></li></ul></li><li><a href="#2-마이크로서비스-아키텍처-msa">2. 마이크로서비스 아키텍처 (MSA)</a><ul><li><a href="#정의와-동작-방식-1">정의와 동작 방식</a></li><li><a href="#구조-1">구조</a></li><li><a href="#마이크로서비스-아키텍처의-장단점">마이크로서비스 아키텍처의 장단점</a></li><li><a href="#장점-1">장점</a></li><li><a href="#단점-1">단점</a></li></ul></li><li><a href="#3-모놀리식과-msa-비교">3. 모놀리식과 MSA 비교</a></li><li><a href="#4-설계-단계별-가이드">4. 설계 단계별 가이드</a><ul><li><a href="#41-모놀리식-설계">4.1 모놀리식 설계</a></li><li><a href="#42-msa-설계">4.2 MSA 설계</a></li></ul></li><li><a href="#5-실습">5. 실습</a><ul><li><a href="#51-모놀리식-애플리케이션-개발">5.1 모놀리식 애플리케이션 개발</a></li><li><a href="#52-msa로-전환">5.2 MSA로 전환</a></li></ul></li><li><a href="#6-msa-마이그레이션-전략">6. MSA 마이그레이션 전략</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h2 id="1-모놀리식-아키텍처-monolithic-architecture"><strong>1. 모놀리식 아키텍처 (Monolithic Architecture)</strong></h2>
+
+<h3 id="정의와-동작-방식"><strong>정의와 동작 방식</strong></h3>
+
+<ul>
+  <li>모놀리식 아키텍처는 애플리케이션의 모든 기능(사용자 인터페이스, 비즈니스 로직, 데이터 처리 등)이 <strong>하나의 코드베이스</strong>에 포함되어 동작하는 구조입니다.</li>
+  <li><strong>동작 예시</strong>:
+    <ol>
+      <li>사용자가 상품을 검색.</li>
+      <li>서버가 요청을 받아 비즈니스 로직에서 처리.</li>
+      <li>데이터베이스에서 데이터를 조회.</li>
+      <li>결과를 사용자에게 반환.</li>
+    </ol>
+  </li>
+</ul>
+
+<h3 id="구조"><strong>구조</strong></h3>
+
+<pre><code class="language-mermaid">graph TD
+UI[사용자 인터페이스]
+BL[비즈니스 로직]
+DB[데이터베이스]
+UI --&gt; BL --&gt; DB
+
+</code></pre>
+
+<hr />
+
+<h3 id="모놀리식-아키텍처의-장단점"><strong>모놀리식 아키텍처의 장단점</strong></h3>
+
+<h3 id="장점"><strong>장점</strong></h3>
+
+<ol>
+  <li><strong>간단한 개발과 배포</strong>:
+    <ul>
+      <li>모든 기능이 하나의 코드베이스에 있어 개발과 배포가 단순합니다.</li>
+    </ul>
+  </li>
+  <li><strong>성능 최적화 가능</strong>:
+    <ul>
+      <li>데이터 접근과 내부 호출이 동일한 애플리케이션 안에서 이루어져 효율적입니다.</li>
+    </ul>
+  </li>
+  <li><strong>디버깅 용이</strong>:
+    <ul>
+      <li>문제가 발생했을 때 디버깅 범위가 코드베이스 하나로 한정됩니다.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="단점"><strong>단점</strong></h3>
+
+<ol>
+  <li><strong>확장성 부족</strong>:
+    <ul>
+      <li>서버가 증가해도 트래픽이 특정 부분에서 병목 현상을 일으킬 수 있습니다.</li>
+    </ul>
+  </li>
+  <li><strong>유지보수 어려움</strong>:
+    <ul>
+      <li>코드베이스가 커질수록 수정 시 부작용이 발생할 가능성이 높습니다.</li>
+    </ul>
+  </li>
+  <li><strong>배포의 비효율성</strong>:
+    <ul>
+      <li>작은 수정에도 애플리케이션 전체를 다시 빌드하고 배포해야 합니다.</li>
+    </ul>
+  </li>
+</ol>
+
+<table>
+  <thead>
+    <tr>
+      <th>장점</th>
+      <th>단점</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>설계가 단순함</td>
+      <td>기능 추가/수정 시 리스크 큼</td>
+    </tr>
+    <tr>
+      <td>통합된 코드베이스로 관리 용이</td>
+      <td>배포 시 전체 재배포 필요</td>
+    </tr>
+    <tr>
+      <td>성능 최적화가 상대적으로 쉬움</td>
+      <td>확장성(Scalability) 제한적</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="2-마이크로서비스-아키텍처-msa"><strong>2. 마이크로서비스 아키텍처 (MSA)</strong></h2>
+
+<h3 id="정의와-동작-방식-1"><strong>정의와 동작 방식</strong></h3>
+
+<ul>
+  <li>MSA는 애플리케이션을 여러 개의 독립적인 서비스로 나누어 각각 배포 및 확장할 수 있는 구조입니다.</li>
+  <li><strong>동작 예시</strong>:
+    <ol>
+      <li>사용자가 상품을 검색.</li>
+      <li>상품 검색 서비스가 요청을 받아 처리.</li>
+      <li>필요한 경우 다른 서비스(API 호출)를 통해 추가 정보를 가져옴.</li>
+      <li>결과를 사용자에게 반환.</li>
+    </ol>
+  </li>
+</ul>
+
+<h3 id="구조-1"><strong>구조</strong></h3>
+
+<pre><code class="language-mermaid">graph TD
+UI[사용자 인터페이스]
+ProductService[상품 서비스]
+UserService[사용자 서비스]
+DB1[상품 데이터베이스]
+DB2[사용자 데이터베이스]
+UI --&gt; ProductService --&gt; DB1
+UI --&gt; UserService --&gt; DB2
+
+</code></pre>
+
+<hr />
+
+<h3 id="마이크로서비스-아키텍처의-장단점"><strong>마이크로서비스 아키텍처의 장단점</strong></h3>
+
+<h3 id="장점-1"><strong>장점</strong></h3>
+
+<ol>
+  <li><strong>독립적 배포</strong>:
+    <ul>
+      <li>특정 기능만 수정하여 배포 가능.</li>
+    </ul>
+  </li>
+  <li><strong>확장성 우수</strong>:
+    <ul>
+      <li>필요한 서비스만 수평 확장 가능 (e.g., 상품 서비스만 서버 추가).</li>
+    </ul>
+  </li>
+  <li><strong>기술 선택의 자유</strong>:
+    <ul>
+      <li>각 서비스에 적합한 기술 스택을 선택할 수 있음.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="단점-1"><strong>단점</strong></h3>
+
+<ol>
+  <li><strong>복잡한 설계</strong>:
+    <ul>
+      <li>서비스 간 통신을 고려한 설계가 필요.</li>
+    </ul>
+  </li>
+  <li><strong>운영 비용 증가</strong>:
+    <ul>
+      <li>각 서비스가 별도로 실행되기 때문에 리소스 요구량이 늘어남.</li>
+    </ul>
+  </li>
+  <li><strong>분산 시스템 문제</strong>:
+    <ul>
+      <li>네트워크 지연, 데이터 일관성 문제 발생 가능.</li>
+    </ul>
+  </li>
+</ol>
+
+<table>
+  <thead>
+    <tr>
+      <th>장점</th>
+      <th>단점</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>독립적으로 배포 및 확장 가능</td>
+      <td>설계와 관리 복잡도 증가</td>
+    </tr>
+    <tr>
+      <td>기술 선택의 유연성</td>
+      <td>서비스 간 통신 비용 증가</td>
+    </tr>
+    <tr>
+      <td>장애 격리로 전체 서비스 중단 방지 가능</td>
+      <td>분산 환경에서 디버깅이 어려움</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="3-모놀리식과-msa-비교"><strong>3. 모놀리식과 MSA 비교</strong></h2>
+
+<table>
+  <thead>
+    <tr>
+      <th><strong>항목</strong></th>
+      <th><strong>모놀리식 아키텍처</strong></th>
+      <th><strong>MSA</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>구조</strong></td>
+      <td>하나의 단일 코드베이스</td>
+      <td>독립된 여러 서비스</td>
+    </tr>
+    <tr>
+      <td><strong>확장성</strong></td>
+      <td>전체 애플리케이션 확장 필요</td>
+      <td>필요한 서비스만 선택적 확장 가능</td>
+    </tr>
+    <tr>
+      <td><strong>배포 방식</strong></td>
+      <td>전체 재배포 필요</td>
+      <td>서비스별 독립적 배포 가능</td>
+    </tr>
+    <tr>
+      <td><strong>기술 선택</strong></td>
+      <td>단일 기술 스택 사용</td>
+      <td>서비스별 다른 기술 사용 가능</td>
+    </tr>
+    <tr>
+      <td><strong>복잡도</strong></td>
+      <td>낮음</td>
+      <td>높음</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="4-설계-단계별-가이드"><strong>4. 설계 단계별 가이드</strong></h2>
+
+<h3 id="41-모놀리식-설계"><strong>4.1 모놀리식 설계</strong></h3>
+
+<ol>
+  <li><strong>계층형 아키텍처 사용</strong>:
+    <ul>
+      <li>사용자 인터페이스, 비즈니스 로직, 데이터 접근 계층을 구분.</li>
+      <li>각 계층이 명확히 역할을 나누도록 설계.</li>
+    </ul>
+  </li>
+  <li><strong>모듈화</strong>:
+    <ul>
+      <li>기능별로 클래스를 구분하여 코드베이스 관리.</li>
+      <li>예: <code class="language-plaintext highlighter-rouge">UserController</code>, <code class="language-plaintext highlighter-rouge">ProductController</code> 등.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="42-msa-설계"><strong>4.2 MSA 설계</strong></h3>
+
+<ol>
+  <li><strong>도메인 분석</strong>:
+    <ul>
+      <li>애플리케이션을 비즈니스 도메인으로 나누어 서비스 정의.</li>
+      <li>예: 사용자 관리, 상품 관리, 주문 관리 서비스.</li>
+    </ul>
+  </li>
+  <li><strong>API 설계</strong>:
+    <ul>
+      <li>서비스 간 데이터 교환을 위해 REST API 또는 gRPC 설계.</li>
+      <li>예: <code class="language-plaintext highlighter-rouge">/users</code>, <code class="language-plaintext highlighter-rouge">/products</code> 엔드포인트 설계.</li>
+    </ul>
+  </li>
+  <li><strong>데이터 분리</strong>:
+    <ul>
+      <li>서비스별 독립된 데이터베이스 사용.</li>
+      <li>사용자 서비스는 사용자 데이터베이스, 상품 서비스는 상품 데이터베이스 관리.</li>
+    </ul>
+  </li>
+  <li><strong>서비스 통신</strong>:
+    <ul>
+      <li>동기 방식: REST API.</li>
+      <li>비동기 방식: 메시지 큐(Kafka, RabbitMQ).</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="5-실습"><strong>5. 실습</strong></h2>
+
+<h3 id="51-모놀리식-애플리케이션-개발"><strong>5.1 모놀리식 애플리케이션 개발</strong></h3>
+
+<ul>
+  <li><strong>예제</strong>: 블로그 애플리케이션
+    <ol>
+      <li>사용자 관리 (로그인/회원가입).</li>
+      <li>게시물 CRUD.</li>
+      <li>댓글 관리.</li>
+    </ol>
+  </li>
+</ul>
+
+<h3 id="52-msa로-전환"><strong>5.2 MSA로 전환</strong></h3>
+
+<ul>
+  <li><strong>서비스 분리</strong>:
+    <ul>
+      <li>사용자 서비스: 로그인/회원가입 처리.</li>
+      <li>게시물 서비스: 게시물 CRUD 처리.</li>
+      <li>댓글 서비스: 댓글 CRUD 처리.</li>
+    </ul>
+  </li>
+  <li><strong>기술 사용</strong>:
+    <ul>
+      <li>Spring Boot, Spring Cloud, Eureka(서비스 디스커버리).</li>
+      <li>데이터베이스는 MySQL 또는 MariaDB.</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="6-msa-마이그레이션-전략"><strong>6. MSA 마이그레이션 전략</strong></h2>
+
+<ol>
+  <li><strong>모놀리식 코드 분석</strong>:
+    <ul>
+      <li>기능별로 코드를 나누어 도메인을 정의.</li>
+    </ul>
+  </li>
+  <li><strong>단계적 분리</strong>:
+    <ul>
+      <li>가장 독립적인 기능(예: 사용자 관리)부터 분리.</li>
+    </ul>
+  </li>
+  <li><strong>API 게이트웨이 도입</strong>:
+    <ul>
+      <li>클라이언트 요청을 서비스별로 라우팅.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<p>참고</p>
+
+<ul>
+  <li><a href="https://blog.naver.com/c-platform/222693128572">넷플릭스 사례로 보는 ‘마이크로 서비스vs레거.. : 네이버블로그</a></li>
+  <li><a href="https://aws.amazon.com/ko/compare/the-difference-between-monolithic-and-microservices-architecture/">모놀리식과 마이크로서비스 비교 - 소프트웨어 개발 아키텍처의 차이 - AWS</a></li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#linux" class="page__taxonomy-item" rel="tag">Linux</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-02-05">February 5, 2025</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/linux/8" class="pagination--pager" title="우분투 리눅스에서 MariaDB 설치 및 초기 설정
+">Prev</a>
+    
+    
+      <a href="/kotlin/2" class="pagination--pager" title="Kotlin - 자바 함수와 코틀린 함수의 차이, 그리고 람다식
+">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/spring/1" rel="permalink">Spring 프레임워크 들어가기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-29T00:00:00+09:00">March 29, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Spring 프레임워크
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/docker/2" rel="permalink">Docker 기본 명령어
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-16T00:00:00+09:00">March 16, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Docker 기본 명령어
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/docker/1" rel="permalink">포트 포워딩의 개념과 도커에서의 포트 포워딩 방법
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-15T00:00:00+09:00">March 15, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">포트 포워딩의 개념과 도커에서의 포트 포워딩 방법
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/kotlin/5" rel="permalink">Kotlin - 마이그레이션
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-02-25T00:00:00+09:00">February 25, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Java Spring에서 Kotlin Spring으로의 전환 핵심 요약
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/Bin-Choi" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 dev.Choi. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'github-account/repo-name');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>

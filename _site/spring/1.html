@@ -1,0 +1,884 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <style> 
+      ::-webkit-scrollbar{ 
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        width: 0px;
+        background-color: rgba(224, 224, 224, 0.2);
+        /* border-radius: 5px; */
+      }
+
+      ::-webkit-scrollbar-thumb {
+        width: 0px;
+        background-color: rgba(220, 219, 218, 0.6);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        width: 10px;
+        height: 20px;
+        /* background-color: rgba(190, 190, 190, 0.2); */
+        background-color: rgba(193, 192, 191, 0.7);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-track:hover {
+        width: 10px;
+        /* background-color: rgba(150, 150, 150, 0.1); */
+        background-color: rgba(224, 224, 224, 0.5);
+        border-radius: 5px;
+        /* background: transparent; */
+        /* border-radius: 10px; */
+      }
+
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment {
+          width:0px;
+          height: 0px;
+          /* background-color: rgb(14, 221, 24); */
+          /* border-radius: 50%; */
+      }
+    </style>
+    
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Spring 프레임워크 들어가기 | Bean</title>
+<meta name="description" content="Spring 프레임워크">
+
+
+  <meta name="author" content="Bean">
+  
+  <meta property="article:author" content="Bean">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="Beans DevLog">
+<meta property="og:title" content="Spring 프레임워크 들어가기">
+<meta property="og:url" content="http://localhost:4000/spring/1">
+
+
+  <meta property="og:description" content="Spring 프레임워크">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-03-29T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2025-03-29T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/spring/1">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "dev.Choi",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Beans DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://github-account.github.io/assets/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://github-account.github.io/assets/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://github-account.github.io/assets/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://github-account.github.io/assets/images/favicon/site.webmanifest">
+    <link rel="mask-icon" href="https://github-account.github.io/assets/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#ffc40d">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Beans DevLog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/Bin-Choi">GitHub</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/profile.JPG" alt="Bean" itemprop="image">
+      
+    </div>
+  
+
+  <!-- 2022.02.17 author content hidden -->
+  <!-- <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Bean</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>joyful day</p>
+
+      </div>
+    
+  </div> -->
+
+  <div class="author__urls-wrapper">
+    <!-- <button class="btn btn--inverse">Follow</button> -->
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    <!-- <li>
+      <span class="nav__total">🌴 Total Posts: 37</span>
+    </li> -->
+    
+    
+      <li>
+        
+              <a href="/categories/network/"><span class="nav__sub-title">Network</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/database/"><span class="nav__sub-title">Database</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/os/"><span class="nav__sub-title">OS</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/linux/"><span class="nav__sub-title">Linux</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/java/"><span class="nav__sub-title">Java</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/spring/"><span class="nav__sub-title">Spring</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/devops/"><span class="nav__sub-title">Devops</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/react/"><span class="nav__sub-title">React</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Spring 프레임워크 들어가기">
+    <meta itemprop="description" content="Spring 프레임워크">
+    <meta itemprop="datePublished" content="2025-03-29T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2025-03-29T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Spring 프레임워크 들어가기
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-29T00:00:00+09:00">March 29, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#spring-framework-개요">Spring Framework 개요</a></li><li><a href="#spring의-핵심-개념">Spring의 핵심 개념</a></li><li><a href="#spring의-주요-모듈">Spring의 주요 모듈</a></li><li><a href="#spring을-사용한-애플리케이션-개발-흐름">Spring을 사용한 애플리케이션 개발 흐름</a></li><li><a href="#spring의-장점">Spring의 장점</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p><strong>Spring Framework</strong>는 Java 플랫폼을 위한 <strong>오픈 소스 애플리케이션 프레임워크</strong>로, 개발자가 <strong>대규모 엔터프라이즈 애플리케이션</strong>을 효율적으로 개발할 수 있도록 다양한 기능을 제공합니다. <strong>IoC(Inversion of Control)와 DI(Dependency Injection)</strong> 같은 핵심 개념을 기반으로 하여, 복잡한 Java 애플리케이션의 설계와 구성을 간결하게 만들고, 유지보수성을 높이는 데 도움을 줍니다.</p>
+
+<p>Spring은 <strong>웹 애플리케이션, 데이터베이스 연동, 보안, 배치 작업, 클라우드와의 연동</strong> 등 다양한 모듈을 제공하며, 특히 <strong>Spring Boot</strong>의 등장으로 빠르게 애플리케이션을 시작할 수 있는 표준이 되었습니다.</p>
+
+<hr />
+
+<h3 id="spring-framework-개요">Spring Framework 개요</h3>
+
+<ol>
+  <li><strong>Spring Framework란?</strong>
+    <ul>
+      <li>Java 플랫폼을 위한 오픈 소스 경량 애플리케이션 프레임워크로, <strong>엔터프라이즈급 애플리케이션 개발</strong>을 더 쉽고 빠르게 할 수 있도록 돕습니다.</li>
+      <li>다양한 모듈을 통해 <strong>IoC (제어의 역전), DI (의존성 주입), AOP (관점 지향 프로그래밍), MVC (모델-뷰-컨트롤러)</strong> 패턴을 지원합니다.</li>
+    </ul>
+  </li>
+  <li><strong>Spring Framework의 주요 특징</strong>
+    <ul>
+      <li><strong>경량 컨테이너</strong>: 객체의 생성과 소멸을 포함한 생명 주기를 관리합니다.</li>
+      <li><strong>DI 지원</strong>: 외부에서 두 객체 간의 관계를 결정하여 결합도를 낮춥니다.</li>
+      <li><strong>AOP 지원</strong>: 비즈니스 로직과 공통 관심 사항(로깅, 보안 등)을 분리하여 재사용성을 높입니다.</li>
+      <li><strong>POJO 지원</strong>: 특정 인터페이스나 상속이 필요 없는 일반 자바 객체를 지원하여 유연성을 제공합니다.</li>
+      <li><strong>트랜잭션 관리</strong>: 일관된 방법으로 트랜잭션을 처리할 수 있습니다.</li>
+      <li><strong>데이터 영속성 지원</strong>: 다양한 데이터베이스 접근 기술(JPA, Hibernate, JDBC)과 쉽게 연동됩니다.</li>
+      <li><strong>API 연동</strong>: JMS, 메일, 스케줄링 등 엔터프라이즈 기능을 쉽게 통합합니다.</li>
+    </ul>
+  </li>
+  <li><strong>Spring MVC</strong>
+    <ul>
+      <li><strong>MVC 패턴</strong>을 기반으로 웹 애플리케이션을 설계할 수 있도록 지원합니다. 클라이언트의 요청을 <strong>Controller</strong>에서 받아 <strong>Model</strong>을 통해 비즈니스 로직을 처리하고, 최종 결과를 <strong>View</strong>로 출력합니다.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/89fde35f-d786-48b7-a620-56fc17eb00d5/7a470324-dc7b-45b5-a840-b79ff1f24631/image.png" alt="image.png" /></p>
+
+<h3 id="spring의-핵심-개념">Spring의 핵심 개념</h3>
+
+<ol>
+  <li><strong>IoC (Inversion of Control)</strong> - 제어의 역전
+    <ul>
+      <li>IoC는 <strong>객체의 생성과 관리 권한을 개발자가 아닌 프레임워크가 맡는 것</strong>을 의미합니다. 이를 통해 개발자는 객체 간의 의존성을 직접 설정할 필요 없이, Spring이 이를 관리하도록 맡길 수 있습니다.</li>
+      <li>Spring에서는 주로 <strong>XML 설정 파일</strong>이나 <strong>애너테이션</strong>을 사용하여 객체의 생성과 의존성 주입을 제어합니다.</li>
+    </ul>
+  </li>
+  <li><strong>DI (Dependency Injection)</strong> - 의존성 주입
+    <ul>
+      <li>DI는 객체가 다른 객체와의 의존성을 가지는 경우, <strong>필요한 의존성을 외부에서 주입받도록 하는 방식</strong>입니다. 이를 통해 객체 간의 결합도를 낮추고, 코드의 재사용성과 유지보수성을 높일 수 있습니다.</li>
+      <li>Spring은 <strong>필드 주입, 생성자 주입, 세터 주입</strong> 등 다양한 DI 방식을 지원합니다.</li>
+    </ul>
+  </li>
+  <li><strong>AOP (Aspect-Oriented Programming)</strong> - 관점 지향 프로그래밍
+    <ul>
+      <li>AOP는 <strong>애플리케이션의 핵심 비즈니스 로직과 부가적인 기능(예: 로깅, 트랜잭션 관리)을 분리</strong>하는 데 사용됩니다.</li>
+      <li>Spring AOP를 통해 트랜잭션 관리나 보안 등의 기능을 코드에 직접 작성하지 않고, 특정 관심사(Aspect)로 분리하여 관리할 수 있습니다.</li>
+    </ul>
+  </li>
+  <li><strong>MVC (Model-View-Controller)</strong> 패턴
+    <ul>
+      <li>Spring은 웹 애플리케이션을 구축하기 위해 <strong>Spring MVC</strong> 모듈을 제공합니다. 이는 <strong>모델, 뷰, 컨트롤러</strong>를 분리하여 클라이언트 요청을 효과적으로 처리하고 응답을 생성할 수 있도록 설계되었습니다.</li>
+      <li>Spring MVC를 사용하면 클라이언트 요청을 컨트롤러에서 받아, 비즈니스 로직을 처리한 후 적절한 뷰로 데이터를 전달하는 구조를 쉽게 구현할 수 있습니다.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="spring의-주요-모듈">Spring의 주요 모듈</h3>
+
+<p>Spring은 다양한 모듈로 구성되어 있으며, 각 모듈은 특정 기능을 제공하여 <strong>전체 애플리케이션의 효율성과 생산성을 높입니다</strong>.</p>
+
+<ol>
+  <li><strong>Spring Core</strong>:
+    <ul>
+      <li>Spring의 기본적인 DI와 IoC 기능을 제공하는 모듈로, Spring Framework의 근간이 됩니다. 모든 Spring 애플리케이션은 이 Core 모듈을 사용하여 객체 생성과 의존성 관리를 수행합니다.</li>
+    </ul>
+  </li>
+  <li><strong>Spring AOP</strong>:
+    <ul>
+      <li>AOP(Aspect-Oriented Programming) 기능을 제공하여, 비즈니스 로직에 영향을 주지 않고 로깅, 보안, 트랜잭션 관리와 같은 부가 기능을 구현할 수 있습니다.</li>
+    </ul>
+  </li>
+  <li><strong>Spring MVC</strong>:
+    <ul>
+      <li>웹 애플리케이션을 위한 MVC 패턴을 구현한 모듈로, RESTful 웹 서비스 개발에도 많이 사용됩니다. 클라이언트의 요청을 컨트롤러가 처리하고, 필요한 뷰를 생성하는 구조를 지원합니다.</li>
+    </ul>
+  </li>
+  <li><strong>Spring Data</strong>:
+    <ul>
+      <li>데이터베이스와의 연동을 쉽게 하기 위한 모듈로, JPA, MongoDB, Redis 등의 데이터베이스를 다루는 기능을 제공합니다. 개발자는 직접 쿼리를 작성하지 않고도 데이터를 CRUD(Create, Read, Update, Delete)할 수 있습니다.</li>
+    </ul>
+  </li>
+  <li><strong>Spring Security</strong>:
+    <ul>
+      <li>인증과 인가 기능을 제공하는 보안 모듈로, 사용자 인증, 권한 관리, 접근 제어 등을 제공합니다. 이를 통해 안전한 애플리케이션을 구축할 수 있습니다.</li>
+    </ul>
+  </li>
+  <li><strong>Spring Boot</strong>:
+    <ul>
+      <li>Spring Boot는 Spring Framework를 쉽게 시작할 수 있도록 돕는 모듈입니다. 자동 설정 기능을 제공하여, 최소한의 설정으로 애플리케이션을 빠르게 개발할 수 있습니다. 개발자가 더 이상 복잡한 XML 설정을 작성할 필요 없이, 기본 설정으로 시작할 수 있습니다.</li>
+    </ul>
+  </li>
+  <li><strong>Spring Cloud</strong>:
+    <ul>
+      <li>클라우드 환경에서 마이크로서비스를 개발할 수 있도록 지원하는 모듈입니다. 마이크로서비스의 구성, 로드 밸런싱, 분산 트랜잭션 등을 관리하기 쉽게 합니다.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="spring을-사용한-애플리케이션-개발-흐름">Spring을 사용한 애플리케이션 개발 흐름</h3>
+
+<ol>
+  <li><strong>객체 간의 의존성 설정 (IoC와 DI)</strong>
+    <ul>
+      <li>Spring을 통해 애플리케이션에 필요한 객체 간의 의존성을 설정합니다. XML 또는 애너테이션을 통해 객체 간의 관계를 정의하고, Spring이 이를 관리하게 합니다.</li>
+    </ul>
+  </li>
+  <li><strong>컨트롤러 작성 (Spring MVC)</strong>
+    <ul>
+      <li>Spring MVC를 사용하여 클라이언트 요청을 처리할 컨트롤러 클래스를 작성합니다. 각 컨트롤러는 URL 매핑을 통해 클라이언트의 요청을 특정 메서드로 연결하며, 요청을 처리한 후 적절한 뷰로 응답을 보냅니다.</li>
+    </ul>
+  </li>
+  <li><strong>비즈니스 로직 구현 (Service 계층)</strong>
+    <ul>
+      <li>비즈니스 로직을 서비스 계층에 작성하여, 컨트롤러와 분리합니다. 서비스 계층에서는 주로 DAO(Data Access Object)와 협력하여 데이터베이스와의 상호작용을 처리합니다.</li>
+    </ul>
+  </li>
+  <li><strong>데이터 처리 (Spring Data)</strong>
+    <ul>
+      <li>Spring Data JPA를 사용하여 데이터베이스와 상호작용합니다. Spring Data는 CRUD 작업을 추상화하여, 데이터베이스와의 작업을 더 쉽게 수행할 수 있도록 돕습니다.</li>
+    </ul>
+  </li>
+  <li><strong>보안 설정 (Spring Security)</strong>
+    <ul>
+      <li>Spring Security를 사용하여 애플리케이션의 보안을 설정합니다. 권한별 접근 제어를 설정하거나, 인증 절차를 구성하여 애플리케이션을 보호할 수 있습니다.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="spring의-장점">Spring의 장점</h3>
+
+<ol>
+  <li><strong>의존성 관리의 용이성</strong>: IoC와 DI를 통해 객체 간의 결합도를 낮춰 유연하고 확장성 있는 애플리케이션을 개발할 수 있습니다.</li>
+  <li><strong>모듈화된 구조</strong>: Spring은 필요한 모듈만 선택적으로 사용하여, 애플리케이션에 필요한 기능만을 구현할 수 있게 합니다.</li>
+  <li><strong>확장성과 유지보수성</strong>: Spring은 구조가 일관되어 있어 유지보수가 쉽고, 모듈 확장이 용이하여 대규모 애플리케이션에 적합합니다.</li>
+  <li><strong>방대한 커뮤니티와 지원</strong>: Spring은 방대한 사용자 커뮤니티와 풍부한 문서가 있어 학습과 문제 해결이 비교적 쉽습니다.</li>
+  <li><strong>Spring Boot로 간편한 설정</strong>: Spring Boot는 자동 설정 기능을 통해 빠르게 애플리케이션을 개발할 수 있도록 지원하며, 특히 간단한 웹 애플리케이션 개발에 유리합니다.</li>
+</ol>
+
+<hr />
+
+<h2 id="-자료-및-링크">📚 자료 및 링크</h2>
+
+<p><a href="https://spring.io/">Spring</a></p>
+
+<p><a href="https://spring.io/projects/spring-framework">Spring Framework</a></p>
+
+<p><a href="https://docs.spring.io/spring-framework/docs/current/reference/html/core.html">Spring Documentation - Core Concepts</a>
+<a href="https://www.egovframe.go.kr/home/main.do">표준프레임워크 포털 eGovFrame</a></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#spring" class="page__taxonomy-item" rel="tag">Spring</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-03-29">March 29, 2025</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/docker/2" class="pagination--pager" title="Docker 기본 명령어
+">Prev</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/docker/2" rel="permalink">Docker 기본 명령어
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-16T00:00:00+09:00">March 16, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Docker 기본 명령어
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/docker/1" rel="permalink">포트 포워딩의 개념과 도커에서의 포트 포워딩 방법
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-15T00:00:00+09:00">March 15, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">포트 포워딩의 개념과 도커에서의 포트 포워딩 방법
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/kotlin/5" rel="permalink">Kotlin - 마이그레이션
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-02-25T00:00:00+09:00">February 25, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Java Spring에서 Kotlin Spring으로의 전환 핵심 요약
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/kotlin/3" rel="permalink">Kotlin - 클래스와 상속의 기본 개념
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-02-12T00:00:00+09:00">February 12, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Kotlin - 클래스와 상속의 기본 개념
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/Bin-Choi" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 dev.Choi. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'github-account/repo-name');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>

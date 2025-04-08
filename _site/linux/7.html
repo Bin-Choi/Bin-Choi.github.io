@@ -1,0 +1,1235 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <style> 
+      ::-webkit-scrollbar{ 
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        width: 0px;
+        background-color: rgba(224, 224, 224, 0.2);
+        /* border-radius: 5px; */
+      }
+
+      ::-webkit-scrollbar-thumb {
+        width: 0px;
+        background-color: rgba(220, 219, 218, 0.6);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        width: 10px;
+        height: 20px;
+        /* background-color: rgba(190, 190, 190, 0.2); */
+        background-color: rgba(193, 192, 191, 0.7);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-track:hover {
+        width: 10px;
+        /* background-color: rgba(150, 150, 150, 0.1); */
+        background-color: rgba(224, 224, 224, 0.5);
+        border-radius: 5px;
+        /* background: transparent; */
+        /* border-radius: 10px; */
+      }
+
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment {
+          width:0px;
+          height: 0px;
+          /* background-color: rgb(14, 221, 24); */
+          /* border-radius: 50%; */
+      }
+    </style>
+    
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>리눅스 패키지(apt)과 압축(tar, gz) | Bean</title>
+<meta name="description" content="리눅스 패키징(Packaging)">
+
+
+  <meta name="author" content="Bean">
+  
+  <meta property="article:author" content="Bean">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="Beans DevLog">
+<meta property="og:title" content="리눅스 패키지(apt)과 압축(tar, gz)">
+<meta property="og:url" content="http://localhost:4000/linux/7">
+
+
+  <meta property="og:description" content="리눅스 패키징(Packaging)">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-02-05T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2025-02-05T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/linux/7">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "dev.Choi",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Beans DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://github-account.github.io/assets/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://github-account.github.io/assets/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://github-account.github.io/assets/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://github-account.github.io/assets/images/favicon/site.webmanifest">
+    <link rel="mask-icon" href="https://github-account.github.io/assets/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#ffc40d">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Beans DevLog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/Bin-Choi">GitHub</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/profile.JPG" alt="Bean" itemprop="image">
+      
+    </div>
+  
+
+  <!-- 2022.02.17 author content hidden -->
+  <!-- <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Bean</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>joyful day</p>
+
+      </div>
+    
+  </div> -->
+
+  <div class="author__urls-wrapper">
+    <!-- <button class="btn btn--inverse">Follow</button> -->
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    <!-- <li>
+      <span class="nav__total">🌴 Total Posts: 37</span>
+    </li> -->
+    
+    
+      <li>
+        
+              <a href="/categories/network/"><span class="nav__sub-title">Network</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/database/"><span class="nav__sub-title">Database</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/os/"><span class="nav__sub-title">OS</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/linux/"><span class="nav__sub-title">Linux</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/java/"><span class="nav__sub-title">Java</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/spring/"><span class="nav__sub-title">Spring</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/devops/"><span class="nav__sub-title">Devops</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/react/"><span class="nav__sub-title">React</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="리눅스 패키지(apt)과 압축(tar, gz)">
+    <meta itemprop="description" content="리눅스 패키징(Packaging)">
+    <meta itemprop="datePublished" content="2025-02-05T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2025-02-05T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">리눅스 패키지(apt)과 압축(tar, gz)
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-02-05T00:00:00+09:00">February 5, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#리눅스-패키징packaging">리눅스 패키징(Packaging)</a><ul><li><a href="#패키지의-구성">패키지의 구성</a></li><li><a href="#주요-패키지-형식">주요 패키지 형식</a></li><li><a href="#1-debian-계열-debian-ubuntu-등">1. Debian 계열 (Debian, Ubuntu 등)</a></li><li><a href="#2-red-hat-계열-rhel-centos-fedora-등">2. Red Hat 계열 (RHEL, CentOS, Fedora 등)</a></li><li><a href="#3-arch-계열-arch-linux-manjaro-등">3. Arch 계열 (Arch Linux, Manjaro 등)</a></li><li><a href="#4-소스-기반-배포판-gentoo-등">4. 소스 기반 배포판 (Gentoo 등)</a></li><li><a href="#apt-debian-계열">APT (Debian 계열)</a></li><li><a href="#1-패키지-설치">1. 패키지 설치</a></li><li><a href="#2-패키지-제거">2. 패키지 제거</a></li><li><a href="#3-패키지-업데이트">3. 패키지 업데이트</a></li><li><a href="#4-패키지-정보-확인">4. 패키지 정보 확인</a></li><li><a href="#5-의존성-확인">5. 의존성 확인</a></li><li><a href="#rpm-red-hat-계열">RPM (Red Hat 계열)</a></li><li><a href="#1-패키지-설치-1">1. 패키지 설치</a></li><li><a href="#2-패키지-제거-1">2. 패키지 제거</a></li><li><a href="#3-패키지-확인">3. 패키지 확인</a></li><li><a href="#yum--dnf-red-hat-계열-고급-도구">YUM / DNF (Red Hat 계열 고급 도구)</a></li><li><a href="#1-패키지-설치-2">1. 패키지 설치</a></li><li><a href="#2-패키지-제거-2">2. 패키지 제거</a></li><li><a href="#3-패키지-업데이트-1">3. 패키지 업데이트</a></li><li><a href="#pacman-arch-계열">Pacman (Arch 계열)</a></li><li><a href="#1-패키지-설치-3">1. 패키지 설치</a></li><li><a href="#2-패키지-제거-3">2. 패키지 제거</a></li><li><a href="#3-패키지-업데이트-2">3. 패키지 업데이트</a></li><li><a href="#4-패키지-검색">4. 패키지 검색</a></li><li><a href="#스냅snap-및-플랫팩flatpak">스냅(Snap) 및 플랫팩(Flatpak)</a></li><li><a href="#스냅snap">스냅(Snap)</a></li><li><a href="#플랫팩flatpak">플랫팩(Flatpak)</a></li><li><a href="#의존성과-리포지토리">의존성과 리포지토리</a></li><li><a href="#2-리포지토리repository">2. 리포지토리(Repository)</a></li><li><a href="#패키지-관리-명령어-비교">패키지 관리 명령어 비교</a></li><li><a href="#리눅스에서-압축-및-압축-해제">리눅스에서 압축 및 압축 해제</a></li><li><a href="#압축-파일-형식">압축 파일 형식</a></li><li><a href="#주요-압축-도구와-사용법">주요 압축 도구와 사용법</a></li><li><a href="#1-gzip">1. gzip</a></li><li><a href="#파일-압축">파일 압축</a></li><li><a href="#압축-해제">압축 해제</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h2 id="리눅스-패키징packaging"><strong>리눅스 패키징(Packaging)</strong></h2>
+
+<p>패키징은 소프트웨어를 <strong>설치, 업데이트, 제거, 관리</strong>할 수 있도록 구성된 포맷과 관련 도구를 의미합니다. 리눅스 시스템은 다양한 배포판(Distro)을 가지며, 배포판에 따라 패키지 관리 시스템(Package Manager)이 다를 수 있습니다.</p>
+
+<hr />
+
+<h3 id="패키지의-구성"><strong>패키지의 구성</strong></h3>
+
+<p>리눅스에서 패키지는 보통 다음을 포함합니다:</p>
+
+<ol>
+  <li><strong>바이너리 파일</strong>:
+    <ul>
+      <li>실행 가능한 소프트웨어 파일.</li>
+    </ul>
+  </li>
+  <li><strong>설정 파일</strong>:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">/etc</code> 디렉토리에 위치.</li>
+    </ul>
+  </li>
+  <li><strong>의존성 정보</strong>:
+    <ul>
+      <li>패키지가 실행되기 위해 필요한 다른 패키지 목록.</li>
+    </ul>
+  </li>
+  <li><strong>스크립트</strong>:
+    <ul>
+      <li>설치, 업데이트, 제거 시 실행되는 자동화된 명령.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="주요-패키지-형식"><strong>주요 패키지 형식</strong></h3>
+
+<h3 id="1-debian-계열-debian-ubuntu-등">1. <strong>Debian 계열 (Debian, Ubuntu 등)</strong></h3>
+
+<ul>
+  <li><strong>패키지 형식</strong>: <code class="language-plaintext highlighter-rouge">.deb</code></li>
+  <li><strong>패키지 관리 도구</strong>:
+    <ul>
+      <li><strong>APT (Advanced Packaging Tool)</strong>: <code class="language-plaintext highlighter-rouge">apt</code>, <code class="language-plaintext highlighter-rouge">apt-get</code>.</li>
+      <li><strong>dpkg</strong>: 저수준 패키지 관리 도구.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="2-red-hat-계열-rhel-centos-fedora-등">2. <strong>Red Hat 계열 (RHEL, CentOS, Fedora 등)</strong></h3>
+
+<ul>
+  <li><strong>패키지 형식</strong>: <code class="language-plaintext highlighter-rouge">.rpm</code></li>
+  <li><strong>패키지 관리 도구</strong>:
+    <ul>
+      <li><strong>YUM (Yellowdog Updater Modified)</strong>: Red Hat/CentOS에서 사용됨.</li>
+      <li><strong>DNF (Dandified Yum)</strong>: Fedora, CentOS Stream에서 사용.</li>
+      <li><strong>rpm</strong>: 저수준 패키지 관리 도구.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="3-arch-계열-arch-linux-manjaro-등">3. <strong>Arch 계열 (Arch Linux, Manjaro 등)</strong></h3>
+
+<ul>
+  <li><strong>패키지 형식</strong>: <code class="language-plaintext highlighter-rouge">.pkg.tar.zst</code></li>
+  <li><strong>패키지 관리 도구</strong>:
+    <ul>
+      <li><strong>pacman</strong>.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="4-소스-기반-배포판-gentoo-등">4. <strong>소스 기반 배포판 (Gentoo 등)</strong></h3>
+
+<ul>
+  <li><strong>패키지 형식</strong>: 소스 코드.</li>
+  <li><strong>패키지 관리 도구</strong>:
+    <ul>
+      <li><strong>Portage</strong>.</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="apt-debian-계열"><strong>APT (Debian 계열)</strong></h3>
+
+<h3 id="1-패키지-설치">1. <strong>패키지 설치</strong></h3>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>apt <span class="nb">install </span>패키지이름
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>예시</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>apt <span class="nb">install </span>vim
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="2-패키지-제거">2. <strong>패키지 제거</strong></h3>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>apt remove 패키지이름
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>설정 파일까지 제거하려면:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>apt purge 패키지이름
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="3-패키지-업데이트">3. <strong>패키지 업데이트</strong></h3>
+
+<ul>
+  <li>
+    <p><strong>패키지 목록 갱신</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>apt update
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>모든 패키지 업그레이드</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>apt upgrade
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="4-패키지-정보-확인">4. <strong>패키지 정보 확인</strong></h3>
+
+<ul>
+  <li>
+    <p>설치된 패키지 확인:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  apt list <span class="nt">--installed</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>특정 패키지 정보 확인:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  apt show 패키지이름
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="5-의존성-확인">5. <strong>의존성 확인</strong></h3>
+
+<ul>
+  <li>
+    <p>설치 시 의존성 문제 해결:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-f</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="rpm-red-hat-계열"><strong>RPM (Red Hat 계열)</strong></h3>
+
+<h3 id="1-패키지-설치-1">1. <strong>패키지 설치</strong></h3>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>rpm <span class="nt">-ivh</span> 패키지이름.rpm
+</code></pre></div>    </div>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">i</code>: 설치.</li>
+      <li><code class="language-plaintext highlighter-rouge">v</code>: 상세 출력.</li>
+      <li><code class="language-plaintext highlighter-rouge">h</code>: 진행 상태 표시.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="2-패키지-제거-1">2. <strong>패키지 제거</strong></h3>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>rpm <span class="nt">-e</span> 패키지이름
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="3-패키지-확인">3. <strong>패키지 확인</strong></h3>
+
+<ul>
+  <li>
+    <p>설치된 패키지 목록 확인:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  rpm <span class="nt">-qa</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>특정 패키지 정보 확인:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  rpm <span class="nt">-qi</span> 패키지이름
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="yum--dnf-red-hat-계열-고급-도구"><strong>YUM / DNF (Red Hat 계열 고급 도구)</strong></h3>
+
+<h3 id="1-패키지-설치-2">1. <strong>패키지 설치</strong></h3>
+
+<ul>
+  <li>
+    <p>YUM:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>yum <span class="nb">install </span>패키지이름
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>DNF:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>dnf <span class="nb">install </span>패키지이름
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="2-패키지-제거-2">2. <strong>패키지 제거</strong></h3>
+
+<ul>
+  <li>
+    <p>YUM:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>yum remove 패키지이름
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>DNF:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>dnf remove 패키지이름
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="3-패키지-업데이트-1">3. <strong>패키지 업데이트</strong></h3>
+
+<ul>
+  <li>
+    <p>YUM:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>yum update
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>DNF:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>dnf upgrade
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="pacman-arch-계열"><strong>Pacman (Arch 계열)</strong></h3>
+
+<h3 id="1-패키지-설치-3">1. <strong>패키지 설치</strong></h3>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>pacman <span class="nt">-S</span> 패키지이름
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="2-패키지-제거-3">2. <strong>패키지 제거</strong></h3>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>pacman <span class="nt">-R</span> 패키지이름
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="3-패키지-업데이트-2">3. <strong>패키지 업데이트</strong></h3>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>pacman <span class="nt">-Syu</span>
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="4-패키지-검색">4. <strong>패키지 검색</strong></h3>
+
+<ul>
+  <li>
+    <p><strong>명령어</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  pacman <span class="nt">-Ss</span> 키워드
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="스냅snap-및-플랫팩flatpak"><strong>스냅(Snap) 및 플랫팩(Flatpak)</strong></h3>
+
+<h3 id="스냅snap"><strong>스냅(Snap)</strong></h3>
+
+<ul>
+  <li>Canonical에서 제공하는 범용 패키지 관리 도구.</li>
+  <li>
+    <p>설치:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>snap <span class="nb">install </span>패키지이름
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>제거:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>snap remove 패키지이름
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="플랫팩flatpak"><strong>플랫팩(Flatpak)</strong></h3>
+
+<ul>
+  <li>독립적으로 동작하는 범용 패키지 포맷.</li>
+  <li>
+    <p>설치:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  flatpak <span class="nb">install </span>repo 패키지이름
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>제거:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  flatpak uninstall 패키지이름
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="의존성과-리포지토리"><strong>의존성과 리포지토리</strong></h3>
+
+<ol>
+  <li><strong>의존성(Dependency)</strong></li>
+</ol>
+
+<ul>
+  <li>대부분의 패키지는 실행을 위해 다른 패키지가 필요.</li>
+  <li>패키지 관리자는 의존성을 자동으로 처리:
+    <ul>
+      <li>APT: 의존성 자동 처리.</li>
+      <li>RPM: 수동으로 의존성 해결 시 <code class="language-plaintext highlighter-rouge">yum</code> 또는 <code class="language-plaintext highlighter-rouge">dnf</code>와 함께 사용.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="2-리포지토리repository">2. <strong>리포지토리(Repository)</strong></h3>
+
+<ul>
+  <li>소프트웨어 패키지가 저장된 서버.</li>
+  <li>사용자 시스템은 리포지토리에서 패키지를 다운로드.</li>
+  <li>리포지토리 추가:
+    <ul>
+      <li>
+        <p>APT:</p>
+
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>add-apt-repository ppa:repo/name
+        
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>YUM/DNF:</p>
+
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>dnf config-manager <span class="nt">--add-repo</span> http://example.com/repo.repo
+        
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="패키지-관리-명령어-비교"><strong>패키지 관리 명령어 비교</strong></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th><strong>명령어</strong></th>
+      <th><strong>배포판</strong></th>
+      <th><strong>설치 명령</strong></th>
+      <th><strong>업데이트 명령</strong></th>
+      <th><strong>제거 명령</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">apt</code></td>
+      <td>Debian 계열</td>
+      <td><code class="language-plaintext highlighter-rouge">sudo apt install</code></td>
+      <td><code class="language-plaintext highlighter-rouge">sudo apt upgrade</code></td>
+      <td><code class="language-plaintext highlighter-rouge">sudo apt remove</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">yum</code></td>
+      <td>Red Hat 계열</td>
+      <td><code class="language-plaintext highlighter-rouge">sudo yum install</code></td>
+      <td><code class="language-plaintext highlighter-rouge">sudo yum update</code></td>
+      <td><code class="language-plaintext highlighter-rouge">sudo yum remove</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">dnf</code></td>
+      <td>Red Hat 계열</td>
+      <td><code class="language-plaintext highlighter-rouge">sudo dnf install</code></td>
+      <td><code class="language-plaintext highlighter-rouge">sudo dnf upgrade</code></td>
+      <td><code class="language-plaintext highlighter-rouge">sudo dnf remove</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">pacman</code></td>
+      <td>Arch 계열</td>
+      <td><code class="language-plaintext highlighter-rouge">sudo pacman -S</code></td>
+      <td><code class="language-plaintext highlighter-rouge">sudo pacman -Syu</code></td>
+      <td><code class="language-plaintext highlighter-rouge">sudo pacman -R</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h3 id="리눅스에서-압축-및-압축-해제"><strong>리눅스에서 압축 및 압축 해제</strong></h3>
+
+<p>리눅스에서 압축 파일은 저장 공간 절약, 파일 전송 효율성, 백업 등에 사용됩니다. 다양한 형식의 압축 도구가 있으며, 파일 압축 및 해제에 사용하는 주요 명령어와 방법을 정리합니다.</p>
+
+<hr />
+
+<h3 id="압축-파일-형식"><strong>압축 파일 형식</strong></h3>
+
+<ol>
+  <li><strong><code class="language-plaintext highlighter-rouge">gzip</code></strong>: <code class="language-plaintext highlighter-rouge">.gz</code> 확장자 사용. 빠르고 간단하지만 단일 파일만 압축.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">bzip2</code></strong>: <code class="language-plaintext highlighter-rouge">.bz2</code> 확장자 사용. 높은 압축률 제공.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">xz</code></strong>: <code class="language-plaintext highlighter-rouge">.xz</code> 확장자 사용. 매우 높은 압축률 제공.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">zip</code></strong>: <code class="language-plaintext highlighter-rouge">.zip</code> 확장자 사용. 여러 파일과 디렉토리 압축 가능.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">tar</code></strong>: 여러 파일을 하나의 아카이브로 묶기. 압축은 별도 도구와 조합 가능.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">7z</code></strong>: <code class="language-plaintext highlighter-rouge">.7z</code> 확장자 사용. 매우 높은 압축률과 다양한 옵션 제공.</li>
+</ol>
+
+<hr />
+
+<h3 id="주요-압축-도구와-사용법"><strong>주요 압축 도구와 사용법</strong></h3>
+
+<h3 id="1-gzip"><strong>1. gzip</strong></h3>
+
+<h3 id="파일-압축">파일 압축</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">gzip </span>파일이름
+
+</code></pre></div></div>
+
+<ul>
+  <li>원본 파일이 삭제되고 <code class="language-plaintext highlighter-rouge">.gz</code> 확장자로 압축 파일 생성.</li>
+  <li>
+    <p>예시:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">gzip </span>example.txt
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="압축-해제">압축 해제</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">gunzip </span>파일이름.gz
+
+</code></pre></div></div>
+
+<ul>
+  <li>압축 해제 후 원본 파일 복원.</li>
+  <li>
+    <p>예시:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">gunzip </span>example.txt.gz
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#linux" class="page__taxonomy-item" rel="tag">Linux</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-02-05">February 5, 2025</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/linux/6" class="pagination--pager" title="리눅스 프로세스 관리 (ps, top, kill..)
+">Prev</a>
+    
+    
+      <a href="/linux/8" class="pagination--pager" title="우분투 리눅스에서 MariaDB 설치 및 초기 설정
+">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/spring/1" rel="permalink">Spring 프레임워크 들어가기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-29T00:00:00+09:00">March 29, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Spring 프레임워크
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/docker/2" rel="permalink">Docker 기본 명령어
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-16T00:00:00+09:00">March 16, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Docker 기본 명령어
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/docker/1" rel="permalink">포트 포워딩의 개념과 도커에서의 포트 포워딩 방법
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-15T00:00:00+09:00">March 15, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">포트 포워딩의 개념과 도커에서의 포트 포워딩 방법
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/kotlin/5" rel="permalink">Kotlin - 마이그레이션
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-02-25T00:00:00+09:00">February 25, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Java Spring에서 Kotlin Spring으로의 전환 핵심 요약
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/Bin-Choi" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 dev.Choi. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'github-account/repo-name');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>

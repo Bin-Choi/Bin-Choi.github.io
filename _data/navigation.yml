@@ -14,16 +14,18 @@ main:
 
 
 categories:
-  - title: "Java"
-    url: /categories/java/
-  - title: "Spring"
-    url: /categories/spring/
   - title: "Network"
     url: /categories/network/
   - title: "Database"
     url: /categories/database/
+  - title: "OS"
+    url: /categories/os/
   - title: "Linux"
     url: /categories/linux/
+  - title: "Java"
+    url: /categories/java/
+  - title: "Spring"
+    url: /categories/spring/
   - title: "Devops"
     url: /categories/devops/
   - title: "React"

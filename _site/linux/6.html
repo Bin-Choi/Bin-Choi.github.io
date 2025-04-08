@@ -1,0 +1,1314 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <style> 
+      ::-webkit-scrollbar{ 
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        width: 0px;
+        background-color: rgba(224, 224, 224, 0.2);
+        /* border-radius: 5px; */
+      }
+
+      ::-webkit-scrollbar-thumb {
+        width: 0px;
+        background-color: rgba(220, 219, 218, 0.6);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        width: 10px;
+        height: 20px;
+        /* background-color: rgba(190, 190, 190, 0.2); */
+        background-color: rgba(193, 192, 191, 0.7);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-track:hover {
+        width: 10px;
+        /* background-color: rgba(150, 150, 150, 0.1); */
+        background-color: rgba(224, 224, 224, 0.5);
+        border-radius: 5px;
+        /* background: transparent; */
+        /* border-radius: 10px; */
+      }
+
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment {
+          width:0px;
+          height: 0px;
+          /* background-color: rgb(14, 221, 24); */
+          /* border-radius: 50%; */
+      }
+    </style>
+    
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>리눅스 프로세스 관리 (ps, top, kill..) | Bean</title>
+<meta name="description" content="리눅스 sudo 명령어">
+
+
+  <meta name="author" content="Bean">
+  
+  <meta property="article:author" content="Bean">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="Beans DevLog">
+<meta property="og:title" content="리눅스 프로세스 관리 (ps, top, kill..)">
+<meta property="og:url" content="http://localhost:4000/linux/6">
+
+
+  <meta property="og:description" content="리눅스 sudo 명령어">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2025-02-03T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2025-02-03T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/linux/6">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "dev.Choi",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Beans DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://github-account.github.io/assets/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://github-account.github.io/assets/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://github-account.github.io/assets/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://github-account.github.io/assets/images/favicon/site.webmanifest">
+    <link rel="mask-icon" href="https://github-account.github.io/assets/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#ffc40d">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Beans DevLog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/Bin-Choi">GitHub</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/profile.JPG" alt="Bean" itemprop="image">
+      
+    </div>
+  
+
+  <!-- 2022.02.17 author content hidden -->
+  <!-- <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Bean</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>joyful day</p>
+
+      </div>
+    
+  </div> -->
+
+  <div class="author__urls-wrapper">
+    <!-- <button class="btn btn--inverse">Follow</button> -->
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    <!-- <li>
+      <span class="nav__total">🌴 Total Posts: 37</span>
+    </li> -->
+    
+    
+      <li>
+        
+              <a href="/categories/network/"><span class="nav__sub-title">Network</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/database/"><span class="nav__sub-title">Database</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/os/"><span class="nav__sub-title">OS</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/linux/"><span class="nav__sub-title">Linux</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/java/"><span class="nav__sub-title">Java</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/spring/"><span class="nav__sub-title">Spring</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/devops/"><span class="nav__sub-title">Devops</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+              <a href="/categories/react/"><span class="nav__sub-title">React</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="리눅스 프로세스 관리 (ps, top, kill..)">
+    <meta itemprop="description" content="리눅스 sudo 명령어">
+    <meta itemprop="datePublished" content="2025-02-03T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2025-02-03T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">리눅스 프로세스 관리 (ps, top, kill..)
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-02-03T00:00:00+09:00">February 3, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#리눅스-sudo-명령어">리눅스 sudo 명령어</a></li><li><a href="#sudo의-주요-특징">sudo의 주요 특징</a></li><li><a href="#sudo의-기본-사용법">sudo의 기본 사용법</a></li><li><a href="#sudo의-주요-옵션">sudo의 주요 옵션</a></li><li><a href="#예시">예시</a></li><li><a href="#sudo와-관련된-설정-sudoers-파일">sudo와 관련된 설정: sudoers 파일</a></li><li><a href="#1-sudoers-파일-개요">1. sudoers 파일 개요</a></li><li><a href="#2-sudoers-파일-기본-구조">2. sudoers 파일 기본 구조</a></li><li><a href="#3-예시">3. 예시</a></li><li><a href="#sudo를-사용한-고급-설정">sudo를 사용한 고급 설정</a></li><li><a href="#1-그룹-기반-sudo-권한-설정">1. 그룹 기반 sudo 권한 설정</a></li><li><a href="#2-로그-확인">2. 로그 확인</a></li><li><a href="#3-시간-제한-변경">3. 시간 제한 변경</a></li><li><a href="#sudo-사용-사례">sudo 사용 사례</a></li><li><a href="#보안-관련-팁">보안 관련 팁</a></li><li><a href="#리눅스-su-명령어">리눅스 su 명령어</a></li><li><a href="#su-명령어의-기본-사용법">su 명령어의 기본 사용법</a></li><li><a href="#su-명령어의-주요-옵션">su 명령어의 주요 옵션</a></li><li><a href="#예시-1">예시</a></li><li><a href="#보안과-관련된-su-사용-팁">보안과 관련된 su 사용 팁</a></li><li><a href="#su-명령-사용-흐름">su 명령 사용 흐름</a></li><li><a href="#su-명령-사용-시-주의점">su 명령 사용 시 주의점</a></li><li><a href="#sudo와-su의-차이점">sudo와 su의 차이점</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h3 id="리눅스-sudo-명령어"><strong>리눅스 <code class="language-plaintext highlighter-rouge">sudo</code> 명령어</strong></h3>
+
+<p><code class="language-plaintext highlighter-rouge">sudo</code>는 “superuser do”의 약자로, 일반 사용자가 관리자 권한(루트 권한)으로 특정 명령을 실행할 수 있도록 허용하는 리눅스 명령어입니다. <code class="language-plaintext highlighter-rouge">sudo</code>는 보안과 효율성을 높이기 위해 설계되었으며, 관리자 비밀번호 대신 <strong>현재 사용자 비밀번호</strong>를 입력하여 실행합니다.</p>
+
+<hr />
+
+<h3 id="sudo의-주요-특징"><strong><code class="language-plaintext highlighter-rouge">sudo</code>의 주요 특징</strong></h3>
+
+<ol>
+  <li><strong>권한 제한</strong>: 특정 명령만 관리자 권한으로 실행 가능.</li>
+  <li><strong>안전성</strong>: 관리자 비밀번호를 노출하지 않고, 로그로 모든 실행 기록을 저장.</li>
+  <li><strong>시간 제한</strong>: 인증 후 기본적으로 5분간 추가 인증 없이 사용 가능(설정 변경 가능).</li>
+  <li><strong>로그 기록</strong>: 실행한 명령은 <code class="language-plaintext highlighter-rouge">/var/log/auth.log</code> 또는 <code class="language-plaintext highlighter-rouge">/var/log/secure</code>에 기록.</li>
+</ol>
+
+<hr />
+
+<h3 id="sudo의-기본-사용법"><strong><code class="language-plaintext highlighter-rouge">sudo</code>의 기본 사용법</strong></h3>
+
+<ol>
+  <li>
+    <p><strong>명령어 실행</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>명령어
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p><strong>예시</strong>: 시스템 업데이트:</p>
+
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>apt update
+        
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>특정 사용자 권한으로 실행</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo</span> <span class="nt">-u</span> 사용자이름 명령어
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p><strong>예시</strong>: <code class="language-plaintext highlighter-rouge">hong</code> 사용자로 <code class="language-plaintext highlighter-rouge">ls</code> 명령 실행:</p>
+
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo</span> <span class="nt">-u</span> hong <span class="nb">ls</span> /home/hong
+        
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>루트 사용자 권한으로 셸 실행</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo</span> <span class="nt">-i</span>
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li>관리자 권한으로 셸에 접근.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>환경 변수 유지</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo</span> <span class="nt">-E</span> 명령어
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li>현재 사용자의 환경 변수를 유지하면서 명령 실행.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="sudo의-주요-옵션"><strong><code class="language-plaintext highlighter-rouge">sudo</code>의 주요 옵션</strong></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th><strong>옵션</strong></th>
+      <th><strong>설명</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-u</code></td>
+      <td>특정 사용자로 명령 실행. 기본값은 <code class="language-plaintext highlighter-rouge">root</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-i</code></td>
+      <td>로그인 셸로 전환(루트 계정의 환경 변수 적용).</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-E</code></td>
+      <td>현재 사용자의 환경 변수 유지.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-k</code></td>
+      <td>인증 기록 삭제(다시 비밀번호 입력 요구).</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-b</code></td>
+      <td>명령을 백그라운드에서 실행.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-l</code></td>
+      <td>현재 사용자가 실행 가능한 명령 목록 출력.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--help</code></td>
+      <td><code class="language-plaintext highlighter-rouge">sudo</code> 명령의 도움말 출력.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="예시"><strong>예시</strong></h3>
+
+<ol>
+  <li>
+    <p><strong>현재 사용자가 실행 가능한 명령 확인</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo</span> <span class="nt">-l</span>
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>명령을 백그라운드에서 실행</strong>:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo</span> <span class="nt">-b</span> 명령어
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p><strong>예시</strong>:</p>
+
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo</span> <span class="nt">-b</span> apt upgrade
+        
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="sudo와-관련된-설정-sudoers-파일"><strong><code class="language-plaintext highlighter-rouge">sudo</code>와 관련된 설정: sudoers 파일</strong></h3>
+
+<h3 id="1-sudoers-파일-개요">1. <strong>sudoers 파일 개요</strong></h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">/etc/sudoers</code> 파일은 <code class="language-plaintext highlighter-rouge">sudo</code> 명령의 권한과 동작 방식을 정의합니다.</li>
+  <li>
+    <p>수정을 위해 반드시 <code class="language-plaintext highlighter-rouge">visudo</code> 명령을 사용해야 합니다:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>visudo
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">visudo</code>는 문법 오류를 방지합니다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="2-sudoers-파일-기본-구조">2. <strong>sudoers 파일 기본 구조</strong></h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>사용자  ALL=(ALL:ALL) 명령
+
+</code></pre></div></div>
+
+<ul>
+  <li><strong>구성 요소</strong>:
+    <ul>
+      <li><strong>사용자</strong>: <code class="language-plaintext highlighter-rouge">sudo</code> 권한을 부여할 사용자 이름.</li>
+      <li><strong>ALL</strong>: 모든 호스트에서 적용.</li>
+      <li><code class="language-plaintext highlighter-rouge">(ALL:ALL)</code>: 실행 사용자 및 그룹(기본값: 모든 사용자 및 그룹).</li>
+      <li><strong>명령</strong>: 허용된 명령(생략 시 모든 명령 가능).</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="3-예시">3. <strong>예시</strong></h3>
+
+<ol>
+  <li>
+    <p>모든 명령 허용:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> hong  ALL=(ALL:ALL) ALL
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>특정 명령만 허용:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> hong  ALL=(ALL) /bin/systemctl
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li>사용자 <code class="language-plaintext highlighter-rouge">hong</code>은 <code class="language-plaintext highlighter-rouge">systemctl</code> 명령만 실행 가능.</li>
+    </ul>
+  </li>
+  <li>
+    <p>비밀번호 없이 실행:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> hong  ALL=(ALL:ALL) NOPASSWD: ALL
+    
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="sudo를-사용한-고급-설정"><strong><code class="language-plaintext highlighter-rouge">sudo</code>를 사용한 고급 설정</strong></h3>
+
+<h3 id="1-그룹-기반-sudo-권한-설정">1. <strong>그룹 기반 <code class="language-plaintext highlighter-rouge">sudo</code> 권한 설정</strong></h3>
+
+<ul>
+  <li>
+    <p>그룹에 속한 모든 사용자에게 <code class="language-plaintext highlighter-rouge">sudo</code> 권한 부여:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  %admin ALL=(ALL:ALL) ALL
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li>그룹 이름 앞에 <code class="language-plaintext highlighter-rouge">%</code>를 붙여 지정.</li>
+      <li><strong>예시</strong>: <code class="language-plaintext highlighter-rouge">admin</code> 그룹의 모든 사용자가 <code class="language-plaintext highlighter-rouge">sudo</code> 사용 가능.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="2-로그-확인">2. <strong>로그 확인</strong></h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sudo</code> 실행 기록은 <code class="language-plaintext highlighter-rouge">/var/log/auth.log</code>에 저장됩니다.
+    <ul>
+      <li>
+        <p><strong>로그 확인</strong>:</p>
+
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo cat</span> /var/log/auth.log | <span class="nb">grep</span> <span class="s1">'sudo'</span>
+        
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="3-시간-제한-변경">3. <strong>시간 제한 변경</strong></h3>
+
+<ul>
+  <li>
+    <p>기본 인증 시간은 5분입니다. 이를 변경하려면 <code class="language-plaintext highlighter-rouge">/etc/sudoers</code>에 설정 추가:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Defaults timestamp_timeout=10
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li>10분으로 변경.</li>
+      <li><code class="language-plaintext highlighter-rouge">1</code>로 설정하면 인증 시간이 무제한.</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="sudo-사용-사례"><strong><code class="language-plaintext highlighter-rouge">sudo</code> 사용 사례</strong></h3>
+
+<ol>
+  <li><strong>파일 복사</strong>:
+    <ul>
+      <li>
+        <p>루트 권한이 필요한 디렉토리에 파일 복사:</p>
+
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo cp </span>myfile /etc/myconfig/
+        
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li><strong>패키지 설치</strong>:
+    <ul>
+      <li>
+        <p>관리자 권한으로 소프트웨어 설치:</p>
+
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>apt <span class="nb">install </span>vim
+        
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li><strong>서비스 관리</strong>:
+    <ul>
+      <li>
+        <p>특정 서비스 시작:</p>
+
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>systemctl start apache2
+        
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li><strong>사용자 계정 관리</strong>:
+    <ul>
+      <li>
+        <p>새 사용자 추가:</p>
+
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>useradd <span class="nt">-m</span> <span class="nt">-s</span> /bin/bash newuser
+        
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<hr />
+
+<h3 id="보안-관련-팁"><strong>보안 관련 팁</strong></h3>
+
+<ol>
+  <li><strong>최소 권한 원칙</strong>:
+    <ul>
+      <li>필요 최소한의 명령만 <code class="language-plaintext highlighter-rouge">sudo</code> 권한으로 허용.</li>
+      <li><code class="language-plaintext highlighter-rouge">/etc/sudoers</code>에서 특정 명령만 허용하도록 설정.</li>
+    </ul>
+  </li>
+  <li><strong>비밀번호 없이 실행 금지</strong>:
+    <ul>
+      <li>보안을 위해 모든 사용자는 비밀번호를 입력하도록 설정.</li>
+    </ul>
+  </li>
+  <li><strong>로그 모니터링</strong>:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">/var/log/auth.log</code>를 주기적으로 확인하여 비정상적인 <code class="language-plaintext highlighter-rouge">sudo</code> 사용을 탐지.</li>
+    </ul>
+  </li>
+  <li><strong>제한된 사용자를 위한 그룹 설정</strong>:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">sudo</code> 권한이 필요한 사용자만 그룹에 추가하여 관리.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="리눅스-su-명령어"><strong>리눅스 <code class="language-plaintext highlighter-rouge">su</code> 명령어</strong></h3>
+
+<p><code class="language-plaintext highlighter-rouge">su</code>는 <strong>substitute user</strong> 또는 <strong>switch user</strong>의 약자로, <strong>다른 사용자로 전환</strong>하거나 <strong>권한을 임시로 얻기 위한 명령어</strong>입니다. 주로 관리자(root) 계정으로 전환하거나 특정 사용자 권한으로 작업을 수행할 때 사용됩니다.</p>
+
+<hr />
+
+<h3 id="su-명령어의-기본-사용법"><strong><code class="language-plaintext highlighter-rouge">su</code> 명령어의 기본 사용법</strong></h3>
+
+<ol>
+  <li>
+    <p><strong>사용자 전환</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> su <span class="o">[</span>사용자이름]
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li>사용자의 비밀번호를 입력하면 해당 사용자로 전환됩니다.</li>
+      <li><strong>예시</strong>: <code class="language-plaintext highlighter-rouge">su hong</code>
+ → <code class="language-plaintext highlighter-rouge">hong</code> 사용자로 전환.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>루트 계정으로 전환</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> su
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li>기본적으로 <code class="language-plaintext highlighter-rouge">su</code> 명령은 <code class="language-plaintext highlighter-rouge">root</code> 계정으로 전환합니다.</li>
+      <li>관리자 권한으로 시스템 작업을 수행할 때 사용.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>다른 사용자로 전환하며 환경 설정 유지</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> su - <span class="o">[</span>사용자이름]
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li>하이픈(``) 옵션을 사용하면 전환된 사용자의 환경 변수, 경로, 셸 설정 등이 적용됩니다.</li>
+      <li><strong>예시</strong>: <code class="language-plaintext highlighter-rouge">su - hong</code>
+ → <code class="language-plaintext highlighter-rouge">hong</code> 사용자의 홈 디렉토리와 환경 변수를 적용.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="su-명령어의-주요-옵션"><strong><code class="language-plaintext highlighter-rouge">su</code> 명령어의 주요 옵션</strong></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th><strong>옵션</strong></th>
+      <th><strong>설명</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-</code></td>
+      <td>전환된 사용자의 환경 변수와 홈 디렉토리로 변경.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-l</code></td>
+      <td><code class="language-plaintext highlighter-rouge">-</code>와 동일(로그인 셸로 전환).</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-c</code></td>
+      <td>특정 명령을 실행 후 즉시 로그아웃.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--help</code></td>
+      <td><code class="language-plaintext highlighter-rouge">su</code> 명령의 도움말 출력.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="예시-1"><strong>예시</strong></h3>
+
+<ol>
+  <li>
+    <p>특정 명령 실행 후 종료:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> su <span class="nt">-c</span> <span class="s2">"ls /root"</span> root
+    
+</code></pre></div>    </div>
+
+    <p>→ <code class="language-plaintext highlighter-rouge">root</code> 사용자 권한으로 <code class="language-plaintext highlighter-rouge">/root</code> 디렉토리의 파일 목록 출력.</p>
+  </li>
+  <li>
+    <p>특정 셸 실행:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> su <span class="nt">-s</span> /bin/sh hong
+    
+</code></pre></div>    </div>
+
+    <p>→ <code class="language-plaintext highlighter-rouge">hong</code> 사용자로 전환하면서 <code class="language-plaintext highlighter-rouge">/bin/sh</code> 셸 사용.</p>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="보안과-관련된-su-사용-팁"><strong>보안과 관련된 <code class="language-plaintext highlighter-rouge">su</code> 사용 팁</strong></h3>
+
+<ol>
+  <li><strong><code class="language-plaintext highlighter-rouge">su</code> 접근 제한</strong>:
+    <ul>
+      <li>보안상 필요할 경우 특정 사용자만 <code class="language-plaintext highlighter-rouge">su</code> 명령을 실행할 수 있도록 설정합니다.</li>
+      <li><strong>방법</strong>:
+        <ol>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">wheel</code> 그룹 활성화:</p>
+
+            <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>usermod <span class="nt">-aG</span> wheel username
+            
+</code></pre></div>            </div>
+          </li>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">/etc/pam.d/su</code> 파일에서 다음 줄 주석 해제:</p>
+
+            <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> auth required pam_wheel.so use_uid
+            
+</code></pre></div>            </div>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li><strong>사용자 전환 로그 확인</strong>:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">su</code> 사용 기록은 <code class="language-plaintext highlighter-rouge">/var/log/auth.log</code> 또는 <code class="language-plaintext highlighter-rouge">/var/log/secure</code>에 저장됩니다.</li>
+      <li>
+        <p>로그 확인 명령:</p>
+
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo cat</span> /var/log/auth.log | <span class="nb">grep</span> <span class="s1">'su'</span>
+        
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li><strong>루트 비밀번호 관리</strong>:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">su</code>로 루트 계정에 접근하려면 루트 비밀번호가 필요하므로 비밀번호 관리가 중요합니다.</li>
+      <li>
+        <p>루트 계정 비밀번호 변경:</p>
+
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>passwd root
+        
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="su-명령-사용-흐름"><strong><code class="language-plaintext highlighter-rouge">su</code> 명령 사용 흐름</strong></h3>
+
+<p>Mermaid 다이어그램으로 <code class="language-plaintext highlighter-rouge">su</code> 사용 흐름을 시각화해 보겠습니다.</p>
+
+<pre><code class="language-mermaid">graph TD
+    A["현재 사용자"] --&gt;|su| B["다른 사용자"]
+    B --&gt; C["권한 획득 후 작업 수행"]
+    C --&gt;|exit| A
+
+</code></pre>
+
+<hr />
+
+<h3 id="su-명령-사용-시-주의점"><strong><code class="language-plaintext highlighter-rouge">su</code> 명령 사용 시 주의점</strong></h3>
+
+<ol>
+  <li><strong>루트 권한 남용 금지</strong>:
+    <ul>
+      <li>루트 계정으로 작업 중 실수로 시스템을 손상시킬 수 있으므로 주의.</li>
+      <li>꼭 필요한 경우에만 사용.</li>
+    </ul>
+  </li>
+  <li><strong><code class="language-plaintext highlighter-rouge">su</code> 사용 로그 확인</strong>:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">su</code> 사용 흔적을 주기적으로 확인하여 시스템 보안을 강화.</li>
+    </ul>
+  </li>
+  <li><strong><code class="language-plaintext highlighter-rouge">sudo</code> 대체 검토</strong>:
+    <ul>
+      <li>일반 사용자는 <code class="language-plaintext highlighter-rouge">sudo</code>를 통해 필요한 명령만 제한적으로 실행하도록 설정하는 것이 보안상 더 적합.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="sudo와-su의-차이점"><strong><code class="language-plaintext highlighter-rouge">sudo</code>와 <code class="language-plaintext highlighter-rouge">su</code>의 차이점</strong></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th><strong>구분</strong></th>
+      <th><strong>sudo</strong></th>
+      <th><strong>su</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>목적</strong></td>
+      <td>특정 명령만 관리자 권한으로 실행.</td>
+      <td>사용자 계정을 전환하여 셸 전체에서 작업.</td>
+    </tr>
+    <tr>
+      <td><strong>비밀번호</strong></td>
+      <td>현재 사용자 비밀번호 사용.</td>
+      <td>전환할 사용자의 비밀번호 필요.</td>
+    </tr>
+    <tr>
+      <td><strong>보안</strong></td>
+      <td>명령 로그 기록으로 추적 가능.</td>
+      <td>기본적으로 활동 기록이 없음.</td>
+    </tr>
+    <tr>
+      <td><strong>권한 제어</strong></td>
+      <td>sudoers 파일로 세부 설정 가능.</td>
+      <td>특정 사용자 제한이 어려움.</td>
+    </tr>
+    <tr>
+      <td><strong>범위</strong></td>
+      <td>명령 실행 시에만 권한 부여.</td>
+      <td>셸 전체에서 권한 유지.</td>
+    </tr>
+    <tr>
+      <td><strong>로그 기록</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">/var/log/auth.log</code>에 명령 기록.</td>
+      <td>기본적으로 활동 기록 없음.</td>
+    </tr>
+  </tbody>
+</table>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#linux" class="page__taxonomy-item" rel="tag">Linux</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2025-02-03">February 3, 2025</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/linux/5" class="pagination--pager" title="사용자 권한 (chmod, chown, chgrp)
+">Prev</a>
+    
+    
+      <a href="/linux/7" class="pagination--pager" title="리눅스 패키지(apt)과 압축(tar, gz)
+">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/spring/1" rel="permalink">Spring 프레임워크 들어가기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-29T00:00:00+09:00">March 29, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Spring 프레임워크
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/docker/2" rel="permalink">Docker 기본 명령어
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-16T00:00:00+09:00">March 16, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Docker 기본 명령어
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/docker/1" rel="permalink">포트 포워딩의 개념과 도커에서의 포트 포워딩 방법
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-03-15T00:00:00+09:00">March 15, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">포트 포워딩의 개념과 도커에서의 포트 포워딩 방법
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/kotlin/5" rel="permalink">Kotlin - 마이그레이션
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2025-02-25T00:00:00+09:00">February 25, 2025</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Java Spring에서 Kotlin Spring으로의 전환 핵심 요약
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/Bin-Choi" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 dev.Choi. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'github-account/repo-name');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>
